@@ -77,6 +77,14 @@
         display: flex;
     }
 
+    #Random-Repo-Name{
+        display: inline;
+    }
+    
+    #verRandom-Repo-Name{
+        display: inline;
+    }
+
     #Musica{
         display: inline;
     }
@@ -92,4 +100,21 @@
 
     #verLabirinto{
         display: inline;
+    }
+    
+    .home {
+        position: absolute;
+        left: 10px;
+        top: 40%;
+        display: flex;
+    }
+    
+    #casa {
+        border: 10px;
+        border-radius: 5px;
+        color: #ffffff;
+        background-color: #1e45af;
+        width: 70px;
+        justify-content: center;
+        display: flex;
     }
