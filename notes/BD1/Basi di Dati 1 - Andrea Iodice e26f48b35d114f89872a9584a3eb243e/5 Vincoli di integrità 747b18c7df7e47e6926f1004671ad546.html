@@ -1,0 +1,683 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>5. Vincoli di integrità</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="747b18c7-df7e-47e6-926f-1004671ad546" class="page sans"><header><h1 class="page-title">5. Vincoli di integrità</h1></header><div class="page-body"><p id="13ed22e4-8ee5-489e-9de4-aca3ffd60723" class="">Le relazioni che hanno ogni tupla che contiene valori atomici sono in prima forma normale.</p><p id="72ec1048-c8e0-44eb-9076-fd2a6b861468" class="">
+</p><h3 id="dc2f44c3-c2b4-4b84-a427-23fe12694b8c" class="block-color-red">Vincoli di integrità</h3><p id="7272661a-10cd-4747-a801-d95b7a12dfcb" class="">Sono proprietà che devono essere soddisfatte dalle istanze che rappresentano informazioni corrette.</p><p id="3a9b856e-bfbe-458d-bd24-a17445c39f3c" class="">Ogni vincolo può essere visto come una funzione booleana (o un predicato) che associa ad ogni istanza il valore <strong>vero </strong>o <strong>falso</strong>.</p><p id="76000153-860e-4270-a436-88246fdfd770" class="">Tipi di vincoli:</p><ul id="61bbf435-334c-44d8-a827-c50115f4bb7c" class="bulleted-list"><li style="list-style-type:disc">vincoli intra-relazionali<ul id="f51fb637-4a35-466d-8413-611b6d7163a3" class="bulleted-list"><li style="list-style-type:circle">vincoli su valori (o di dominio)</li></ul><ul id="68a8470b-441d-4539-840a-79b6905b4d2a" class="bulleted-list"><li style="list-style-type:circle">vincoli di tupla</li></ul></li></ul><ul id="41ac5cb8-a8e1-4ea6-bc8f-d0b9885b34c0" class="bulleted-list"><li style="list-style-type:disc">vincoli inter-relazionali</li></ul><p id="5e74b9f6-5a25-41be-98cc-27ded846d871" class="">
+</p><h3 id="a9f30c15-4c3c-4a9d-9729-5b9cf9476e2f" class="block-color-red">Vincoli di tupla</h3><p id="094c2838-89a5-4ea5-b159-9dc73c1a61c6" class="">Esprimono condizioni sui valori di ciascuna tupla. 
+Una possibile sintassi: espressione booleana (con AND, OR e NOT) di atomi che confrontano valori di attributo o espressioni aritmetiche su di essi.
+Un vincolo di tupla è un vincolo di dominio se coinvolge un solo attributo.</p><p id="6f5bb11e-73a0-4449-90d2-9de2f9668525" class=""><em><em><em><em><em><em><em><em><em>Esempio: </em></em></em></em></em></em></em></em></em>(VOTO ≥ 18) AND (VOTO ≤30)
+</p><h3 id="5b0dfd9e-29a3-4fdf-a5ed-a353b75ba58f" class="block-color-red">Chiavi e valori nulli</h3><p id="79037f80-f177-47b8-aebe-25206825e365" class="">In presenza di valori nulli, i valori degli attributi che formano la chiave:</p><ul id="d1c9d9b1-00ea-40d1-b1da-086f590d7f36" class="bulleted-list"><li style="list-style-type:disc">non permettono di identificare le tuple come desiderato</li></ul><ul id="42706b7a-218d-4bac-9bdb-d8d1bc404380" class="bulleted-list"><li style="list-style-type:disc">né permettono di realizzare facilmente i riferimenti da altre relazioni</li></ul><p id="1b7e718e-dd81-4811-845b-85e448ac69fd" class="">Per questo motivo le chiavi primarie non possono assumere valori nulli.</p><p id="9e8abc0c-dc84-452c-952d-22e1d1d864f6" class="">
+</p><h3 id="432b949e-733a-4a83-b349-b254901ac9b9" class="block-color-red">Vincolo di integrità referenziale (foreign key)</h3><p id="7cb3d592-de71-46b6-9653-8cd73d6f8058" class="">Informazioni in relazioni diverse sono correlate attraverso valori comuni: in particolare, valori delle chiavi (primarie, di solito).</p><p id="e33d2f99-5c30-4249-a541-96e8ea8da0a3" class="">Un vincolo di integrità referenziale fra un insieme di attributi X di una relazione R1 e un’altra relazione R2 impone ai valori su X di ciascuna tupla dell’istanza di R1 di comparire come valori della chiave (primaria) dell’istanza di R2.</p><p id="f1d3cba9-73fd-47d1-a887-e596a46300c9" class="">
+</p><h3 id="a68bf7d6-8419-4e59-a8ee-72cd97619463" class="block-color-red">Dipendenze funzionali</h3><p id="9e80407f-47e2-4575-b529-c7a0516b028c" class="">I vincoli di chiave sono dei particolari tipi di vincoli, parte di una categoria di vincoli più vasta: le dipendenze funzionali.</p><p id="9fc19d5a-1081-4b31-be04-21ae10145bec" class="">Dati due insiemi di attributi X e Y, si dice che “X determina Y” ( o che Y dipende funzionalmente da X), e si scrive X —&gt; Y, sse, date due tuple distinte <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">t_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76508em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> e <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">t_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76508em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, se <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">[</mo><mi>X</mi><mo stretchy="false">]</mo><mo>=</mo><msub><mi>t</mi><mn>2</mn></msub><mo stretchy="false">[</mo><mi>X</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">t_1[X]=t_2[X]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span> allora <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">[</mo><mi>Y</mi><mo stretchy="false">]</mo><mo>=</mo><msub><mi>t</mi><mn>2</mn></msub><mo stretchy="false">[</mo><mi>Y</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">t_1[Y]=t_2[Y]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span>.</p><p id="b9904bf6-4fea-4b37-8119-1b10cd59e3f5" class="">Si dice che una dipendenza funzionale Y—&gt;Z è <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>non banale</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> se nessun attributo di Z compare come attributo in Y</p><p id="21b44b8d-caf3-4bfe-934c-a9f83bb36577" class="">
+</p><h3 id="37c889b6-e462-402a-869e-9c0c27b4c2cd" class="block-color-red">Ridondanze e anomalie</h3><p id="8f17e04c-58a4-4adb-bf47-f092f87d153e" class="">Si ha una ridondanza quando un valore è ripetuto più volte all’interno di tuple di tabelle differenti, o in generale nella stessa base di dati.</p><p id="e7c69b07-89c4-4479-8742-9bd2cd35ea2c" class="">Questo può creare delle anomalie, cioè situazioni nelle quali è necessario cambiare tutti i campi che fanno riferimento allo stesso valore.</p><p id="e3f1c6ed-c8f5-4726-bc48-1646a427caf3" class="">Le anomalie possono essere di tre tipi:</p><ul id="5d2afaf4-3e8e-487b-909e-3e4772f7e813" class="bulleted-list"><li style="list-style-type:disc">di aggiornamento: si verificano quando la ridondanza crea difficoltà nell’aggiornare il valore di un campo di una tupla</li></ul><ul id="81f81311-2e58-4154-8fdb-7c66a29ffe9d" class="bulleted-list"><li style="list-style-type:disc">di cancellazione: si verifica quando si vuole cancellare una tupla con un campo affetto da ridondanza</li></ul><ul id="e8ea0575-d170-44de-82f0-03d26080e337" class="bulleted-list"><li style="list-style-type:disc">di inserimento: come prima, ma con l’inserimento.</li></ul><p id="4ff5b421-4dbd-4be9-8a78-107263a75307" class="">
+</p><h3 id="de69ae3d-26e1-480a-906d-20cafc24c0c6" class="block-color-red">Forma normale di Boyce Codd</h3><p id="6d1bd50d-306f-4748-a9d2-4ea45c8c0334" class="">Una relazione R è in forma normale di Boyce e Codd (BCNF) se, per ogni dipendenza X —&gt; Y in R, X contiene la chiave K di R (X è superchiave).</p><p id="b1d9bdbc-847e-4d77-9fc3-b83fdf3b53eb" class="">Questa forma normale richiede che i concetti in una relazione siano omogenei (solo proprietà direttamente associate alla chiave).</p><p id="a99446e9-fff5-4d61-a1b2-352990acf6df" class="">È possibile che una relazione non in forma normale venga decomposta in due o più relazioni in forma normale: la decomposizione si può attuare effettuando proiezioni
+in modo tale da ottenere che ciascuna dipendenza funzionale definisca la chiave di una relazione separata.</p><p id="a50178c9-f2ac-425e-b5db-f53a271dd1e1" class="">Quando la relazione originale è ricostruibile mediante join la decomposizione è corretta e si dice essere senza perdita.</p><p id="7991c04a-0f8e-4ebe-8818-034092fcc64c" class="">Formalmente, una relazione r si decompone senza perdita su X1e X2 se il join delle proiezioni di r su X1 e X2 è uguale a r stessa (cioè non vengono prodotte tuple spurie).</p><p id="35ae9548-9606-4e17-96f4-ad119d7255b8" class="">La decomposizione senza perdita è garantita se gli attributi comuni contengono una chiave per almeno una delle relazioni decomposte.</p><p id="8abff2a7-8ea1-4375-b4b1-8a7126368c53" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>NB: la forma normale di Boyce Codd non è sempre raggiungibile.</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><p id="f3115748-f476-41a3-872c-0d76460f3199" class="">
+</p><h3 id="19f7c0f1-9bca-4cf5-be32-ebaad0209584" class="block-color-red">Conservazione delle dipendenze</h3><p id="4cd46384-7ef8-4911-8089-9285feed0a2b" class="">Quando si effettua una decomposizione, le dipendenze vanno conservate.</p><p id="a3b4f5b5-2d6e-47e3-88c7-3c2c83206cc8" class="">Una decomposizione conserva le dipendenze se ogni dipendenza funzionale dello schema originale coinvolge attributi che compaiono assieme negli schemi decomposti.</p><p id="ada229e6-beb7-4fd7-a530-4fc733c5b749" class="">La decomposizione dovrebbe conservare le dipendenze in modo da garantire che sullo schema decomposto valgano gli stessi vincoli dello schema originale.</p><p id="ad857a85-b0e2-43aa-a2d7-480b02879d8c" class="">Le decomposizioni dovrebbero sempre soddisfare le proprietà di decomposizione senza perdita e conservazione delle dipendenze:</p><ul id="4aefc363-34d4-4da2-b864-ca403cb66169" class="bulleted-list"><li style="list-style-type:disc">La decomposizione senza perdita assicura che l’informazione della relazione originale possa essere ricostruita a partire dall’informazione contenuta nelle relazioni decomposte.</li></ul><ul id="ecbe7c2b-3c4e-460f-b38b-c37857b5764c" class="bulleted-list"><li style="list-style-type:disc">La conservazione delle dipendenze garantisce che le relazioni decomposte abbiano la stessa capacità di rappresentare i vincoli di integrità della relazione originale e quindi di impedire gli update illegali.</li></ul><p id="7d047c17-e746-47d1-94e2-39947db82a2f" class="">
+</p><h3 id="4d39a6b2-cba5-403d-a68e-6becc12c978f" class="block-color-red">Terza forma normale</h3><p id="1b124def-c860-41a4-88c3-118eee2a7b34" class="">Una relazione r è in terza forma normale se, per ogni dipendenza funzionale (non banale) X —&gt; Y definita su di essa, almeno una delle seguenti condizioni è verificata:</p><ul id="9e7d1979-267a-4ba7-ab54-db726eec5d2d" class="bulleted-list"><li style="list-style-type:disc">X contiene una chiave K di r;</li></ul><ul id="0cfdae5c-a976-435c-86f5-bc1edbd09c98" class="bulleted-list"><li style="list-style-type:disc">Y è contenuto in almeno una chiave di r.</li></ul><p id="861d1b01-5860-44d4-abd9-d8fc7a1ab274" class="">La decomposizione di una relazione che non soddisfa la terza forma normale avviene, come per la BCNF, per proiezione sugli attributi coinvolti nella dipendenza funzionale.</p><p id="96d0632c-f75b-4481-8334-07c6836dd817" class="">La sola condizione da rispettare in questo processo è che tra le relazioni risultanti ce ne sia una che contiene la chiave della relazione di partenza. Questo ci permetterà di mantenere il legame definito da quella dipendenza.</p><p id="0a80ffae-d610-4c62-90a1-0802e5ef5e94" class="">
+</p><h3 id="0b468e32-a92d-4691-ab6c-b45ff88b5f17" class="block-color-red">Forme normali più note</h3><p id="ea5a59d0-a1f7-4e83-b34f-a228a7419b48" class="">Prima forma normale: una relazione è in 1NF se e solo se ciascun attributo è definito su un dominio con valori atomici (già visto).</p><p id="782efcd1-30d4-4d93-a9e2-29836762b633" class="">Seconda forma normale: una relazione è in 2NF se è in 1NF e inoltre tutti gli attributi non chiave dipendono funzionalmente dall&#x27;intera chiave. Tale normalizzazione
+elimina le dipendenze parziali.</p><p id="a62412c4-9c51-420a-8d21-c35b3b5bde4f" class="">Terza forma normale (definizione equivalente alla  precedente): una relazione è in 3NF se è in 2NF e inoltre non contiene dipendenze transitive dalla chiave, cioè, tutti gli attributi non-chiave dipendono direttamente dalla chiave.</p></div></article></body></html>

@@ -1,0 +1,686 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4. Datalog</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="abddb26c-9ad7-4ee9-bfda-a23ab190997c" class="page sans"><header><h1 class="page-title">4. Datalog</h1></header><div class="page-body"><p id="dcad7902-afc4-4150-8c45-cbe8595d757e" class="">Un programma datalog è un insieme di regole.</p><p id="575ed0aa-b3e7-49eb-b768-7db033c96de1" class="">Ogni regola ha la seguente struttura <code>p :- p1, p2, ..., pn</code>, dove p (LHS, Right Hand Side) si chiama testa e p1,…pn vanno a comporre il corpo (RHS, Left Hand Side) della regola.</p><p id="43a7814f-6d72-4c47-96a0-12d96aa2df52" class="">Ogni p si chiama letterale ed è un’istanza di un predicato, così formato:</p><ul id="e6c11197-02fc-493e-bc95-c039dd161b46" class="bulleted-list"><li style="list-style-type:disc">Nome</li></ul><ul id="4879f8c1-a319-4994-9d5f-697dfcb777fd" class="bulleted-list"><li style="list-style-type:disc">Lista di argomenti tra parentesi tonde:<ul id="93597c9e-cd88-475e-8a6d-b8c68b75ff64" class="bulleted-list"><li style="list-style-type:circle">costanti</li></ul><ul id="87c0c915-3e98-40b1-9e91-22ec88bdf6c0" class="bulleted-list"><li style="list-style-type:circle">variabili</li></ul><ul id="65e72028-e549-40ba-8a53-d41ee1b3ffee" class="bulleted-list"><li style="list-style-type:circle">simbolo “don’t care” (_), che non può comparire nella testa di una regola</li></ul></li></ul><p id="cfdaa65d-3bd5-4d64-8d27-9fe76e737cae" class=""><strong><strong><strong>Regola di safety n.1:</strong></strong></strong> le variabili del LHS devono comparire in un letterale del RHS.</p><p id="c19a2ac5-631e-4034-86dd-34ea467ceaee" class="">
+</p><div id="42cf5a5c-3e2b-4fa2-9ea0-7c4e51a91c46" class="column-list"><div id="0fd74179-8d9d-46ca-93ea-8b8b1e07f099" style="width:50%" class="column"><h3 id="3bcd0570-d438-4f7c-babf-811077c7dc45" class="block-color-red">Esempio di regola in datalog</h3><pre id="62f23952-070d-4c4c-a2ed-6eb0607a4a46" class="code"><code>StudenteMat(M) :- Studente(M, N, C, CL), Esame(M, CC, D, V), 
+                  Corso(CC, &quot;Matematica&quot;, DOC)</code></pre><p id="b74d825f-e27e-404a-b107-e49e4def4556" class="">
+</p></div><div id="c369be9d-2198-4f3f-ada0-9d4f7432c290" style="width:50%" class="column"><figure id="e6f7dc21-a3f6-4dc0-a0ea-f9b9f22d7a1f" class="image" style="text-align:right"><a href="4%20Datalog%20abddb26c9ad74ee9bfdaa23ab190997c/Screenshot_2022-11-25_alle_12.04.58_PM.png"><img style="width:576px" src="4%20Datalog%20abddb26c9ad74ee9bfdaa23ab190997c/Screenshot_2022-11-25_alle_12.04.58_PM.png"/></a></figure></div></div><h3 id="fa05a849-9029-4e99-a3e3-06021f897ae9" class="block-color-red">Fatti</h3><p id="765cf145-7929-489c-8af9-e9f677d78255" class="">Una regola può essere formata solo dalla testa (LHS), ma in tal caso può avere solo costanti al suo interno (vedi regola 1 della safety).</p><p id="d3c82d35-e048-4fb1-926a-f56a01b04b47" class="">Queste regole particolari si chiamano fatti.</p><p id="a57b2738-2143-4eae-b1a2-8b61a8351934" class=""><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>Esempio: Parte_di(a,b)</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></p><p id="60ecd1ce-5e62-43aa-81c1-055aeb6bc95e" class="">
+</p><div id="7da528fc-3fa9-45c3-8668-f5ab6ccd481b" class="column-list"><div id="0c7716c7-7ea5-405a-81de-503720fe6e32" style="width:50%" class="column"><h3 id="34b80226-c433-4ce8-8332-e8d46c94bc9d" class="block-color-red">Regole datalog e basi di dati</h3><p id="490605a4-8ece-49db-bfb5-ca7a31eef618" class="">D’ora in poi useremo il seguente DB per i prossimi esempi.</p><p id="bd7bca22-d32b-4e67-a635-338770d00933" class="">Ogni tupla corrisponde a un fatto di base (o letterale ground). <em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em> <code>Genitori(”Carlo”, “Antonio”)</code></p><p id="d079c19f-a3cd-4061-a683-c5eda50f1382" class="">
+</p></div><div id="49ac3ef0-9ffa-4ac7-8c9b-0faef08c3066" style="width:50%" class="column"><figure id="0446d61b-fadc-4adb-a5d1-5ecc42dbf76a" class="image" style="text-align:right"><a href="4%20Datalog%20abddb26c9ad74ee9bfdaa23ab190997c/Screenshot_2022-11-25_alle_12.05.27_PM.png"><img style="width:480px" src="4%20Datalog%20abddb26c9ad74ee9bfdaa23ab190997c/Screenshot_2022-11-25_alle_12.05.27_PM.png"/></a></figure></div></div><h3 id="e438150d-de88-4cf5-80e1-d3f16d48ae98" class="block-color-red">Unificazione</h3><p id="dde2e16a-6714-4516-8680-380135ea11af" class="">Una regola ha un’interpretazione:</p><ul id="ee8156c6-2ffe-439c-b563-b7153f854054" class="bulleted-list"><li style="list-style-type:disc">Il LHS è vero se il RHS è vero</li></ul><ul id="aebbeee2-b03d-405e-8e7b-187b86374b8c" class="bulleted-list"><li style="list-style-type:disc">Il RHS è vero se per ogni letterale presente tutte le variabili sono unificabili, ovvero sostituibili con valori costanti che rendono vero il letterale.</li></ul><p id="8fb7e172-ed84-4d96-95e7-d72939eb2d6f" class=""><em><em><em><em><em><em><em><em><em>Esempio: </em></em></em></em></em></em></em></em></em><code>Genitori(X,Y)</code> ha come unificazioni possibili tutte le tuple della tabella genitori.</p><p id="29a412d5-c2a7-4211-ae22-039940e775cd" class="">
+</p><p id="6635133b-7aa0-49e6-8216-59e57ca08025" class="">Si definisce DB Intensionale l’insieme dei predicati che sono a sinistra di una regola.</p><p id="0e90d5ab-977b-46e8-a068-6b51a136552b" class="">Si definisce DB Estensionale l’insieme delle tabelle presenti nel DB.</p><p id="9a708227-7bde-4725-918d-887a14ff0a8b" class="">Di solito si impone che essi abbiano intersezione vuota.</p><p id="f185904a-f412-43c6-a9fc-3f266e252890" class="">
+</p><h3 id="82ef5ad9-6316-4b86-9488-59d4a85bb18f" class="block-color-red">Query in datalog</h3><p id="cce776e4-d248-4117-94ae-7ef8a67a9fcc" class="">La sintassi è <code>? - p(v1,...vn)</code>, dove p è un letterale e v1,…vn sono variabili del letterale.</p><p id="61665438-22d6-462d-87ce-41101113d73a" class=""><em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em> <code>? - Genitori(&quot;Anna&quot;,X)</code>.</p><p id="e19ea34c-4e8a-4ebe-8e56-56bfc8963f6a" class="">Una query viene anche chiamate goal.</p><p id="4f71c276-4ea6-4782-ad8d-361dedb31e9d" class="">Un goal con solo costanti restituisce true o false.</p><p id="76349d89-f1cb-4adc-950e-6f9eeac95d9f" class="">
+</p><h3 id="2c47c99d-898c-4d31-8713-7298b1214166" class="block-color-red">Negazione in datalog</h3><p id="4e1e2ea8-b538-433e-8ddc-54c8b3383704" class="">Alcuni letterali del corpo possono essere negati.</p><p id="75640dc6-ac86-4cfe-9ed7-ab13d19fcf96" class="">L’uso della negazione in Datalog aumenta il potere espressivo del linguaggio, ma il suo uso richiede cautela: </p><p id="9878a905-1d7c-4a42-9f26-cfdaa4d265d0" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">¬</mi></mrow><annotation encoding="application/x-tex">\lnot</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord">¬</span></span></span></span></span><span>﻿</span></span> (\lnot)</p><pre id="9e2cf18e-37d7-4f58-9842-f6dc15d1b137" class="code"><code>q(X) :- \lnot p(X)
+p(0)
+? - q(X)</code></pre><p id="00dd9cc3-89ad-4cd9-a1d3-f963c7cffea8" class="">Questa query produce un risultato potenzialmente infinito!</p><p id="58cb1274-b9ad-47b0-9116-cb224630e18d" class="">
+</p><h3 id="09070bd8-7d6b-4e30-828b-128f5f18a2fb" class="block-color-red">Query ricorsive</h3><p id="56055c89-d6ed-4f05-9f1b-b64483b934d0" class="">In datalog è possibile effettuare delle query ricorsive.</p><p id="02fc5630-295e-4d1c-b3c1-7e8d140a81a3" class="">Una query ricorsiva (immediata) presenta il letterale della testa all’interno del corpo della regola:</p><pre id="e70c6a04-c638-4a2f-92f4-fed754e4ffa6" class="code"><code>Antenato(X,Y) :- Genitore(X,Y)
+Antenato(X,Y) :- Antenato(X,Z),Genitore(Z,Y)</code></pre><p id="4948352e-ee30-45bc-8f71-74bde8de9b0d" class="">
+</p><h3 id="2db59367-6c72-43b9-9d33-668675780786" class="block-color-red">Valutazione delle query ricorsive</h3><p id="46da4358-82d6-43db-a351-dfa856446729" class="">Viene eseguito il seguente processo iterativo: parto dall’insieme vuoto, e ad ogni iterazione applico le regole e unisco il risultato al risultato precedente.</p><p id="f02133c7-5009-461a-b152-1864005d0976" class="">
+</p><h3 id="1d1b8cd7-d9a9-4248-8666-eb2247c95a7e" class="block-color-red">Predicati e funzioni</h3><p id="e20217b5-8397-4447-8040-0a960db536d8" class="">Nella definizione delle regole è possibile usare predicati speciali:</p><ul id="230754ef-78c2-46f0-8cfa-af8a0e645a9b" class="bulleted-list"><li style="list-style-type:disc">Operatori di confronto: =, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">≠</mo></mrow><annotation encoding="application/x-tex">\neq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span></span></span></span></span><span>﻿</span></span>, &gt;, ≥, &lt;, ≤</li></ul><ul id="2fceea75-5d5f-4c8f-ae95-73afcc05f418" class="bulleted-list"><li style="list-style-type:disc">Funzioni aritmetiche: +, -, *, /</li></ul><p id="5d4daafb-055b-41e1-a391-11f24c467c38" class="">
+</p><h3 id="4609c8ed-48d6-40f6-b598-e7eaa00562d2" class="block-color-red">Regole ben formate</h3><p id="d6e0beb1-1262-4cb3-a160-6c462f85bb28" class="">La negazione deve essere safe: tutte le variabili di un letterale negato (o di un letterale con predicati built-in) devono comparire anche in un letterale positivo del corpo della regola.</p><p id="47598162-d921-4976-9375-586c48219a25" class=""><em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em> <code>S(X) :- </code><code><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">¬</mi></mrow><annotation encoding="application/x-tex">\lnot</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord">¬</span></span></span></span></span><span>﻿</span></span></code><code>R(X)</code> non va bene.</p><div id="b881d733-ab66-4fc4-aa31-6962fc543e9e" class="column-list"><div id="5546797f-0a22-49a0-ad7e-f709f1c13257" style="width:75%" class="column"><p id="4c2fee79-f450-466a-936a-6895a9debb7b" class="">La negazione deve essere stratificata: non ci devono essere cicli di dipendenza tra letterali negati.</p><p id="33b54f0b-0cf5-4c15-8ece-940173a0a1ac" class=""><em><em><em><em><em><em><em><em><em>Esempio: </em></em></em></em></em></em></em></em></em><code>P(X) :- R(X),S(Y,X)</code></p><p id="6040d8eb-ae4f-42ed-8e34-7a96e6f8936f" class=""><code>R(Y) :- T(X,Y),¬ P(Y).</code></p><p id="6c93f540-671a-4089-82c5-58f46e2bd011" class="">Non va bene!</p><p id="9c016dc6-d908-4dcf-98cc-d91767438b63" class="">
+</p></div><div id="4800b2c8-615d-4249-86e2-6ad2e4dd1abb" style="width:24.999999999999996%" class="column"><figure id="173e70d4-c13d-4e46-9133-084d116e8c94" class="image" style="text-align:right"><a href="4%20Datalog%20abddb26c9ad74ee9bfdaa23ab190997c/Screenshot_2022-11-25_alle_12.06.53_PM.png"><img style="width:192px" src="4%20Datalog%20abddb26c9ad74ee9bfdaa23ab190997c/Screenshot_2022-11-25_alle_12.06.53_PM.png"/></a></figure></div></div><p id="873363a1-44bd-4899-b3e0-b6d691931aa6" class="">
+</p></div></article></body></html>

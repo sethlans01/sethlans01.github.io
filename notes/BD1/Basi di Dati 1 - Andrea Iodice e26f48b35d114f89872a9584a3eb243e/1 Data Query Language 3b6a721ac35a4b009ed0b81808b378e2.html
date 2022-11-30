@@ -1,0 +1,720 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1. Data Query Language</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3b6a721a-c35a-4b00-9ed0-b81808b378e2" class="page sans"><header><h1 class="page-title">1. Data Query Language</h1></header><div class="page-body"><p id="d4014342-f684-4be9-a0ef-aa216b528687" class="">Permette di fare interrogazioni (query).</p><p id="26e3224d-16fc-4f66-9edc-4a43bc17c60f" class="">Ogni query ha la seguente struttura di base:</p><pre id="619966ce-42ac-4726-aa37-c7e66c91e7f7" class="code"><code>SELECT Attributo {{AS alias}, Attributo {AS alias}}
+FROM Tabella
+[WHERE Condizione]</code></pre><p id="374f28c4-d0d1-4624-94f0-dbd41636018b" class="">La clausola <code>SELECT</code> indica gli attributi da includere nel risultato.</p><p id="948eccee-549f-4a3c-88f7-7367fd37d9e5" class="">La clausola <code>FROM</code> indica i nomi di relazioni dalle quali si estraggono i dati.</p><p id="3de697d6-073e-4821-8ac6-efe059b9494e" class="">La clausola <code>WHERE</code> indica una condizione booleana che i dati devono soddisfare.</p><p id="5a72711b-e610-4c98-bbb4-6d2567027ceb" class="">
+</p><p id="b9ba06b3-cc4d-4ad1-96c8-5a26f740717a" class="">Il DBMS esegue il prodotto cartesiano delle relazioni indicate nella <code>FROM</code>, valuta la <code>WHERE</code> riga per riga e seleziona gli attributi indicati dalla <code>SELECT</code>.</p><p id="b92ec106-d8ec-4607-bc26-1f7b933da65a" class="">
+</p><h3 id="0958a1ea-2bb8-42c8-aa73-777d6de173dd" class="block-color-red">WHERE</h3><p id="2cd102ab-be1c-48d8-a933-bbf053444ef3" class="">La <code>WHERE</code> è un’espressione booleana di predicati semplici:</p><ul id="dceec724-b529-437a-bc71-0862819c4ae4" class="bulleted-list"><li style="list-style-type:disc"><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>attributo OP attributo</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></li></ul><ul id="b8d4e625-763f-4a62-997c-8698838cf440" class="bulleted-list"><li style="list-style-type:disc"><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>attributo OP costante</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></li></ul><ul id="5dd17f1f-0d30-4974-a3f8-ed023edd12e7" class="bulleted-list"><li style="list-style-type:disc">connettivi logici</li></ul><ul id="01722df9-664d-4a3b-9eda-5c73b4d9f116" class="bulleted-list"><li style="list-style-type:disc">alcuni predicati ed operatori logici aggiuntivi (es. <code>BETWEEN</code>, <code>LIKE</code>, …)</li></ul><p id="411faa8a-72a7-4d89-93d1-6e982b9abe1b" class="">OP può essere uno dei seguenti: &lt;, &lt; =, &gt;, &gt; =, =, &lt; &gt; (vuol dire <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">≠</mo></mrow><annotation encoding="application/x-tex">\neq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span></span></span></span></span><span>﻿</span></span>).</p><p id="04e5ceda-f56d-4cf2-9ecc-533a85e72c6d" class="">
+</p><h3 id="1ee912bb-197e-401f-98dd-189cebc64d55" class="block-color-red">BETWEEN</h3><pre id="6e489b00-b979-42d4-b4d0-7aff8a43803a" class="code"><code>SELECT Matricola
+FROM Studente
+WHERE Età BETWEEN 19 AND 22</code></pre><p id="aba4d601-d398-4f14-b17d-7c92dffeda00" class="">
+</p><h3 id="604a7a85-6d87-4cb5-8f47-b112cc277959" class="block-color-red">Stringhe</h3><p id="ffc9fe2e-ad63-4052-84e1-220412a8211d" class="">In SQL le stringhe vanno sempre racchiuse tra due ‘ o tra due “.</p><pre id="c6778b88-88bc-49d8-af52-ca9032a69084" class="code"><code>Ex.
+WHERE nome = &quot;Aldo&quot; OR nome = &#x27;Giulio&#x27;</code></pre><p id="783aed84-5961-4668-9c30-4f69cd62f370" class="">
+</p><h3 id="fea71dd6-fc6c-4aa9-8493-a0393fcacbed" class="block-color-red">Valori Duplicati</h3><p id="58dccfc2-1510-4219-a331-554e3877986b" class="">Quando si fa una query, SQL non rimuove automaticamente i valori duplicati: tocca specificarlo con la clausola <code>DISTINCT</code>.</p><p id="79477830-7d96-43b3-93dd-6e6958e9e432" class="">Questa clausola può essere inserita anche all’interno dell’operatore aggregato <code>COUNT(...)</code>. </p><pre id="149c6c85-c893-4139-b38e-3fb1a415d734" class="code"><code>SELECT DISTINCT Nome
+FROM Insegnante
+WHERE Città = &#x27;Bologna&#x27;</code></pre><p id="03deed12-5052-431b-a373-100a6a43727b" class="">
+</p><h3 id="67cd6a37-50cb-433d-9c96-210a0a5298f9" class="block-color-red">ORDER BY</h3><p id="c14bdda7-c9c7-424a-a85f-679157134f80" class="">Questa clausola, che compare alla fine dell’interrogazione, ordina le righe del risultato.</p><p id="a55d5d08-32c2-479b-ad38-3e6250e7da18" class="">La sintassi è: <code>ORDER BY </code><em><code><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>Attributo [ASC|DESC|] {, Attributo [ASC|DESC]}</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></code></em></p><p id="ee5742e5-a954-438f-a35c-d1cf5927a13c" class="">Le condizioni vengono valutate in ordine: a pari valore del primo, si considera il secondo, e così via.</p><pre id="48ec14e6-4f6e-4291-8862-2fc6b38dd3c2" class="code"><code>Ex.
+SELECT *
+FROM Insegnante
+WHERE Città = &quot;Milano&quot;
+ORDER BY Nome ASC, Cognome DESC</code></pre><p id="b2481514-8b26-4d69-a606-2a978f576749" class="">
+</p><h3 id="3310276c-b360-4423-8f55-2463ec6c10e6" class="block-color-red">Funzioni Aggregate</h3><p id="e3b84218-93c3-4989-9311-5e8e14bc0c5d" class="">Il risultato di una query con funzioni aggregate dipende dalla valutazione del contenuto di un insieme di tuple.</p><p id="348d84d4-997b-4ee7-bead-74c6b26e8411" class="">I principali operatori aggregati sono: COUNT(….), SUM(….), MAX(…), MIN(…), AVG(…).</p><pre id="bb3be225-38d9-4bde-8504-5580dfa4d62b" class="code"><code>SELECT SUM(Stipendio)
+FROM Insegnante
+WHERE Stipendio &gt;= 2000</code></pre><p id="362a6db8-a7e1-4d27-8d29-3335850ea311" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Attenzione:</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> attributi e funzioni aggregate non possono essere nella stesa target list di una select.</p><pre id="8dab8e5c-7733-429d-bb56-e9c357229c68" class="code"><code>// La seguente query è SBAGLIATA
+SELECT Nome, SUM(Stipendio)
+FROM Insegnante
+WHERE Stipendio &gt;= 2000</code></pre><p id="feff4b3f-1c50-42a7-b585-2d8d1873d90c" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Attenzione:</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> si ricorda che la <code>WHERE</code> viene valutata riga per riga.</p><pre id="41c6edec-a8f4-4992-8972-d4a9af084528" class="code"><code>// La seguente query è SBAGLIATA
+SELECT Matricola
+FROM Studente
+WHERE MAX(Voto)</code></pre><p id="610d4832-d27c-490e-9a44-0212df09dcbe" class="">
+</p><h3 id="1285069f-5c52-4574-a2cf-fcbf0cf189f5" class="block-color-red">LIKE</h3><p id="b6e82f0c-e47a-491f-bfe7-8ba8dc5591c2" class="">Questo operatore permette, all’interno di una <code>WHERE</code>, di effettuare confronti parziali, usando due caratteri speciali:</p><ul id="f8f05a76-4cf3-4830-81fa-1df122067dfe" class="bulleted-list"><li style="list-style-type:disc">_ (underscore) = un carattere qualsiasi</li></ul><ul id="8e517481-7716-4bf3-a448-fb1433302112" class="bulleted-list"><li style="list-style-type:disc">% (percentuale) = una stringa qualsiasi, anche vuota</li></ul><pre id="252d248b-eba1-47e8-bbac-2e3b2df7ed8e" class="code"><code>WHERE Nome LIKE &quot;A_%&quot;</code></pre><p id="2e141800-873b-461c-8917-b259de701fa4" class="">
+</p><h3 id="d406641e-3923-4958-bcab-21e664dfd47e" class="block-color-red">Date</h3><p id="958c7271-a8f7-4a9e-b1d6-93d3a7bd1f0f" class="">Le date vengono specificate con formato YYYY-MM-DD.</p><p id="a662e93b-0d19-4d2f-af17-2285ac4525da" class="">È possibile fare confronti tra di esse con gli operatori &lt;, &lt; =, &gt;, &gt; =, =, &lt;&gt;, <code>BETWEEN ... AND</code>, <code>LIKE</code>.</p><p id="3e092a04-f944-425b-adf3-42c8734424c3" class="">Inoltre si possono anche usare gli operatori <code>DAY(...)</code>, <code>MONTH(...)</code>, <code>YEAR(...)</code>.</p><p id="d93a2b7d-fbe3-4f73-b72d-9e0412e1c98b" class="">
+</p><h3 id="2c1c2af3-01c3-4755-baa2-226e66133c33" class="block-color-red">Raggruppamento</h3><p id="14ce2331-bdeb-45bb-8ecd-a9c35862fef0" class="">È possibile applicare operatori aggregati a sottoinsiemi di tuple, utilizzando:</p><ul id="39513ea7-6754-4170-adb9-edfd9f92925d" class="bulleted-list"><li style="list-style-type:disc"><code>GROUP BY </code><code><em><em><em><em>raggruppamento</em></em></em></em></code></li></ul><ul id="b2c85866-23d8-4e30-953c-a74756ae9a01" class="bulleted-list"><li style="list-style-type:disc"><code>HAVING </code><code><em><em><em><em><em><em><em>condizione di filtro dei gruppi</em></em></em></em></em></em></em></code></li></ul><pre id="a3efc4a7-cc10-44be-ace2-4c73478915be" class="code"><code>SELECT Matricola, AVG(Voto) AS VotoMedio, COUNT(*)
+FROM Esame
+GROUP BY Matricola
+HAVING VotoMedio &gt; 25</code></pre><p id="f8fabcbe-8260-46bd-a545-26e39e8da128" class="">In presenza di un raggruppamento, nella target list di una <code>SELECT</code> si possono inserire solo:</p><ul id="ff1d436f-077d-47f6-b8be-99016db5074f" class="bulleted-list"><li style="list-style-type:disc">funzioni aggregate</li></ul><ul id="736ee65f-4df1-4950-b9ea-5084842ed6d2" class="bulleted-list"><li style="list-style-type:disc">attributi sui quali si sta raggruppando</li></ul><p id="03ed874d-6d6a-48e8-b49f-3e6740e1b33d" class="">
+</p><h3 id="8ffac140-de81-4c47-b2c8-62d689130848" class="block-color-red">Join</h3><p id="b0d729ed-1180-4700-a723-3a7bc58a1de6" class="">La sintassi è:</p><pre id="89fe333d-6589-493a-823a-d99724553952" class="code"><code>SELECT Attr
+FROM Tab [[AS Alias]] {[TipoJoin] JOIN Tab [[AS] Alias] ON JoinCondition}
+[WHERE ...]</code></pre><p id="6f5b3b78-9b28-4db3-ad95-482d51cf7abc" class="">TipoJoin può valere:</p><ul id="95e2ebbf-d9ff-40d4-bfe5-1b95a21824c5" class="bulleted-list"><li style="list-style-type:disc">[INNER]</li></ul><ul id="50d3eb39-44d9-4f4d-869f-ae65c84bee3c" class="bulleted-list"><li style="list-style-type:disc">RIGHT [OUTER]</li></ul><ul id="f9be9c3a-2a67-46b2-9b85-bfa5130bf178" class="bulleted-list"><li style="list-style-type:disc">LEFT [OUTER]</li></ul><ul id="f13b789e-8523-4769-ad77-57f31fe5bae4" class="bulleted-list"><li style="list-style-type:disc">FULL [OUTER]<figure id="d4fc9a6a-0ac5-470c-b838-b1e439379ac4" class="image"><a href="1%20Data%20Query%20Language%203b6a721ac35a4b009ed0b81808b378e2/Screenshot_2022-11-25_alle_12.08.44_PM.png"><img style="width:672px" src="1%20Data%20Query%20Language%203b6a721ac35a4b009ed0b81808b378e2/Screenshot_2022-11-25_alle_12.08.44_PM.png"/></a></figure></li></ul><p id="9953fb49-cbfa-4740-91b0-211b0710e17a" class="">
+</p><h3 id="a99210df-4a42-4645-abd9-3ede33b2fe76" class="block-color-red">NULL</h3><p id="cb8176ae-6641-47d4-bcf5-8a5cdd813b97" class="">Per fare una verifica sugli attributi che accettano valori nulli, si utilizza nella clausola <code>WHERE</code><strong> </strong>il costrutto:</p><pre id="bfcbc3a3-03b6-4ba0-8d77-6750f53f1bc7" class="code"><code>Attributo IS NULL
+// Oppure
+Attributo IS NOT NULL</code></pre><p id="53e06578-0738-4be1-b7d8-26d45129df5b" class=""><strong>Attenzione!</strong> SQL utilizza una logica a tre valori: TRUE (T), FALSE (F), UNKNOWN (U).</p><ul id="0106ccba-5396-47a8-97aa-87929f8f195f" class="bulleted-list"><li style="list-style-type:disc">T and U = U </li></ul><ul id="e9348555-3eaf-4c51-8ae2-14e81f776afd" class="bulleted-list"><li style="list-style-type:disc">T or U = T </li></ul><ul id="01329ba6-0ec0-4997-89c3-f70120ff3ccd" class="bulleted-list"><li style="list-style-type:disc">F and U = F </li></ul><ul id="3f18cdba-c0b0-4eb8-9a28-797c2dd48788" class="bulleted-list"><li style="list-style-type:disc">F or U = U</li></ul><ul id="dcc47fc8-8fa3-41b5-b5ea-6e8f4aa0fc3a" class="bulleted-list"><li style="list-style-type:disc">U and U = U</li></ul><ul id="fad12cc8-3331-4471-bea1-a21af926f4dd" class="bulleted-list"><li style="list-style-type:disc">U or U = U</li></ul><ul id="d21bb258-4d8c-472a-941e-db9b6f87bff4" class="bulleted-list"><li style="list-style-type:disc">not U = U</li></ul><p id="81b2ab3f-eedd-4020-9b2b-3addfd40f5dd" class="block-color-yellow">[Inserire qui immagine slide 48]</p><p id="2298b411-2143-454b-ac55-0f41a71f2abe" class="">
+</p><h3 id="6f551ab7-e615-478a-a340-39c8947faf1b" class="block-color-red">Operazioni Insiemistiche tra Query</h3><p id="3d7a3306-2d3e-4e18-af00-d6eb93cbcc2b" class="">Si possono concatenare più query tra loro usando gli operatori insiemistici: <em><code><em><em><em><em>Query</em></em></em></em></code></em><code> OP </code><em><code><em><em><em><em>Query</em></em></em></em></code></em>.</p><p id="c70344b4-abb2-4a66-a0ba-7f56b7791330" class="">OP può essere <code>UNION, INTERSECT, EXCEPT, ALL</code> e di default vale <code>ALL</code>.</p><p id="f965006e-902f-4093-acf7-f6b525516f86" class="">I duplicati vengono eliminati, a meno che non venga specificata l’opzione <code>ALL</code>.</p><p id="c9fb7a1c-838c-4228-847f-a30f6621234f" class="">I risultati delle query devono essere tra loro compatibili, ovvero:</p><ul id="a3f90be5-901e-4864-a26c-4ad4c237b79c" class="bulleted-list"><li style="list-style-type:disc">stesso numero di colonne</li></ul><ul id="333c14ea-3d01-48dc-83ae-0c79fae69fd9" class="bulleted-list"><li style="list-style-type:disc">a parità posizionale delle colonne, stesso dominio</li></ul><p id="a04b1003-55e6-4c4c-a0f7-7306c7f6e210" class="">
+</p><h3 id="295e3bdb-79f1-4cf5-984a-0e2a1b826cbe" class="block-color-red">Query Nidificate</h3><p id="44241eef-7ece-4fcc-ba5c-b409faec654b" class="">Nelle clausole <code>WHERE</code><strong> </strong>e <code>HAVING</code><strong> </strong>possono comparire predicati che confrontano un attributo (o un’espressione di attributi) con il risultato di una intera query SQL:</p><p id="3d23b31f-1fef-4a30-9964-68fe4613b9ec" class=""><em><code><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>AttrEspr </em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></code></em><code>OP &lt; ANY | ALL&gt;</code><code><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em> QuerySQL</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></code></p><p id="9578468d-cf6a-4cd1-84b9-f88872ea3f0c" class="">OP è un operatore qualsiasi tra &gt;, &gt; =, &lt;, &lt; =, = , &lt;&gt;.</p><p id="e78305a7-0330-4229-ad8a-50c510464ea3" class=""><code>ANY</code>: il predicato è vero se almeno una riga restituita dalla query <em>QuerySQL </em>soddisfa il confronto</p><p id="786e6443-7d71-4031-bf44-3a1d205a505a" class=""><code>ALL</code>: il predicato è vero se tutte le righe restituite dalla query <em>QuerySQL </em>soddisfano il confronto</p><p id="df3d1ea7-dc01-46a9-94d1-ee5bda175371" class="">Al pari delle set-query, la target list delle sub-query devono essere compatibili<strong> </strong>con l’attributo (o gli attributi, vedremo tra poco) della query a loro più esterna, ovvero:</p><ul id="c08a3a43-986d-449d-8691-6007e26ce245" class="bulleted-list"><li style="list-style-type:disc">stesso numero di colonne</li></ul><ul id="69107dae-6926-439d-bc5b-2c8c1b6f0beb" class="bulleted-list"><li style="list-style-type:disc">a parità posizionale delle colonne, stesso dominio</li></ul><p id="f9cf5077-8121-4214-8811-6fd7de0cfde6" class="">I nomi dei campi delle tabelle (e gli alias che andiamo a definire) nelle query SQL a più livelli sono utilizzabili nel livello in cui vengono definiti e in tutti i livelli inferiori.</p><p id="93f9d5b9-6c20-4879-929a-dda116b8c551" class="">
+</p><h3 id="f94f7267-0241-413b-a7da-a4a02e7aaeb7" class="block-color-red">IN e NOT IN</h3><p id="8da3a406-c39c-447d-9ec3-8ec60c96acc5" class="">L’operatore <code>IN</code><strong> </strong>è equivalente a <code>= ANY</code><strong>.
+</strong>L’operatore <code>NOT IN</code><strong> </strong>è equivalente a <code>&lt;&gt; ALL</code><strong>.
+</strong></p><h3 id="674f33f1-0ccb-4081-8ed9-46980a236e3d" class="block-color-red">EXISTS</h3><p id="765fc425-7273-423e-b0b1-3a591dcc7ad0" class="">È possibile utilizzare il quantificatore esistenziale sul risultato di una query SQL:</p><pre id="ed3a7018-5c80-423d-8e6a-bf60853a6525" class="code"><code>WHERE EXISTS (QuerySQL)
+// Oppure
+WHERE NOT EXISTS (QuerySQL)</code></pre><p id="b48ce89f-dbf0-409a-bdd1-74ae68867904" class="">
+</p><h3 id="459c5f1d-431c-4fab-9a22-ae11bf1ea5ea" class="block-color-red">Costruttore di Tupla</h3><p id="af8fab26-67dc-46ec-b4f8-a2bd3ff43ea3" class="">Il confronto con la query nidificata può coinvolgere più di un attributo.Gli attributi devono essere racchiusi da un paio di parentesi tonde, chiamate costruttore di tupla.</p><pre id="69b3cd11-e54d-4c14-8e54-f437e2c637d7" class="code"><code>SELECT *
+FROM Insegnante I1
+WHERE (Nome, Cognome) IN (
+	SELECT I2.Nome, I2.Cognome
+	FROM Insegnante I2
+	WHERE I1.Matricola &lt;&gt; I2.Matricola)</code></pre></div></article></body></html>

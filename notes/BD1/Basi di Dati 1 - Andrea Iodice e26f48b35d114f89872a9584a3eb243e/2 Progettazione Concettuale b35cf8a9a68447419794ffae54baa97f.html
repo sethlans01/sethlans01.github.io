@@ -1,0 +1,680 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>2. Progettazione Concettuale</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b35cf8a9-a684-4741-9794-ffae54baa97f" class="page sans"><header><h1 class="page-title">2. Progettazione Concettuale</h1></header><div class="page-body"><p id="25db3012-67e8-4dde-a181-e788c4e672fc" class="">La progettazione concettuale traduce i requisiti di un qualsiasi sistema informatico in una descrizione:</p><ul id="347ae2e7-4938-426b-94c1-1adf4a84d545" class="bulleted-list"><li style="list-style-type:disc">Formale: espressa in modo non ambiguo ma adeguato a catturare le caratteristiche fondamentali del mondo da descrivere</li></ul><ul id="af3e8318-9d06-4cb0-b613-6b3b321ff780" class="bulleted-list"><li style="list-style-type:disc">Integrata: la descrizione si riferisce alla totalità dell’ambiente (non settoriale)</li></ul><ul id="b82035c5-3946-4f8e-9256-18506269e0b1" class="bulleted-list"><li style="list-style-type:disc">Indipendente dalla realizzazione fisica</li></ul><p id="4ef5fcae-c987-4be3-8815-13afb3d02202" class="">La descrizione formale fa riferimento ad un modello concettuale, che permette di produrre uno schema concettuale, cioè una rappresentazione semplificata che dovrà contenere tutti e soli gli aspetti interessanti per la gestione dell’azienda.</p><p id="765b33e7-8ff8-45db-a2c4-f311a619e383" class="">Noi utilizzeremo il modello entità-relazione per la fase di progettazione concettuale.</p><p id="55a8e2ee-ed23-46e3-8090-05abc76832e6" class="">
+</p><h3 id="4534f82e-a156-4977-b2b7-a5ed306f0a7e" class="block-color-red">Il modello entità relazione</h3><p id="a1a045eb-dd14-491c-9355-14b15602bdeb" class="">Il modello entità relazione è formato principalmente da tre oggetti:</p><ul id="47daa094-ef9e-49b0-9606-7326d415eb2c" class="bulleted-list"><li style="list-style-type:disc">Entità</li></ul><ul id="e6046bf1-00a9-4d00-a2d7-0f16b1298591" class="bulleted-list"><li style="list-style-type:disc">Relazioni</li></ul><ul id="3bd08bd2-fc44-4d11-a357-d95af26d5b3f" class="bulleted-list"><li style="list-style-type:disc">Attributi</li></ul><p id="2484e522-eec3-422e-a97b-53a9551605e8" class="">
+</p><h3 id="76edbea8-9ab2-4690-9901-ef35f38c0fd2" class="block-color-red">Entità</h3><div id="d2c2e226-5578-47a9-b676-3310ca2d9193" class="column-list"><div id="07f0f27e-bf52-421c-b36c-1c1f0150670a" style="width:75%" class="column"><p id="1a052129-2c6a-4d05-b0a1-77e22027a514" class="">Rappresenta una classe di oggetti del mondo reale di interesse per l’applicazione.</p><p id="4ff15c20-de7e-43a0-a7da-ec4663d87ecc" class="">Gli oggetti possono essere materiali (macchine, studenti, …) o immateriali (conti corrente, corsi, …).</p><p id="e4d0a561-6c09-4446-8346-8340b3cfec09" class="">Ogni entità ha un nome.</p></div><div id="d9f33cf2-0f3d-4cae-b1ae-e6246f3d3874" style="width:25%" class="column"><figure id="a2c3333f-e4a0-497a-8cc2-7863dd373972" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.11.33_PM.png"><img style="width:240px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.11.33_PM.png"/></a></figure></div></div><p id="05311f84-f4a3-41fd-ae07-7b10f30920e8" class="">
+</p><h3 id="6fa421ef-7710-4602-95a1-7a44116a7607" class="block-color-red">Relazione</h3><div id="a48d55ec-516b-4a1d-b9f2-aba4f425e991" class="column-list"><div id="bae3963a-f945-4226-9f89-d810edfbe1b3" style="width:68.75%" class="column"><p id="26746a8a-373b-44d5-9b42-0ff7741e2db9" class="">Rappresenta un legame logico tra entità di interesse per l’applicazione.</p><p id="beb3e727-629c-498e-b54c-58a612a403fa" class="">Ogni istanza di una relazione è un’ n-pla tra le singole istanze delle entità coinvolte nella relazione.</p><p id="92186623-3655-42c2-bf6e-2498418d5e49" class="">Ogni relazione è caratterizzata da un nome.</p><p id="b1709b44-a7d0-49e0-b68f-710c89460335" class="">Ci possono essere relazioni diverse tra le stesse entità.</p></div><div id="0847fb99-2d62-44fc-a443-54bda5c382fe" style="width:31.250000000000007%" class="column"><figure id="921d52da-e154-46ff-a6c2-eeb850fa6a57" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.12.12_PM.png"><img style="width:192px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.12.12_PM.png"/></a></figure></div></div><p id="0d48d32b-d63e-4039-9412-edd2fd52a3da" class="">Le relazioni possono anche essere ternarie, ma di solito vengono usate poco.</p><figure id="34005915-9e0f-4db8-9ee7-0844953ab80e" class="image" style="text-align:left"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.12.59_PM.png"><img style="width:240px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.12.59_PM.png"/></a></figure><p id="82815196-b9e6-4716-bd87-887b725f9dbf" class="">
+</p><h3 id="d4b7fcaa-5150-42e1-bbd0-93c8f6c1ddf9" class="block-color-red">Attributi</h3><div id="b7f5bd14-f2b2-400c-b941-fee090866088" class="column-list"><div id="361e3978-9802-4ae3-a752-c3c11bb8a15e" style="width:62.5%" class="column"><p id="22e04e4c-7b4b-478c-944a-a184b15be673" class="">Rappresentano caratteristiche delle entità e delle relazioni di interesse per l’applicazione.</p><p id="c3483b51-b358-49bb-a22e-b4e32b3a97eb" class="">Ogni istanza di entità e di relazione possiede un valore per ciascun attributo.</p><p id="c3f4acfc-00c5-4433-aa8c-bbd397fb82c1" class="">Ogni attributo è caratterizzato da un nome.</p></div><div id="909acaf8-0fb1-463a-b5ed-41b2f792b3af" style="width:37.5%" class="column"><figure id="9a9c3fb2-7f57-4504-85c8-b520035e3a41" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.13.25_PM.png"><img style="width:192px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.13.25_PM.png"/></a></figure></div></div><p id="940e8c1a-ca78-409b-8a47-32e69f7ce0d1" class="">
+</p><h3 id="46f440bf-6491-43c4-b73e-1ce8d5fd4b89" class="block-color-red">Esempio di attributi di relazioni                                                                                 Esempio di schema entità relazione</h3><div id="809f422c-1236-45b6-8ae9-11cd14826f31" class="column-list"><div id="b10a94ce-f3b1-402a-a940-24c8868510c3" style="width:50%" class="column"><figure id="e359548d-d473-4c3b-a58c-d6ea85c3cda5" class="image" style="text-align:left"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.14.01_PM.png"><img style="width:432px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.14.01_PM.png"/></a></figure></div><div id="edb4738d-4f73-494f-9072-b93787a78fc2" style="width:50%" class="column"><figure id="bf547427-3a5d-427a-abe9-14da2f8e1db0" class="image" style="text-align:left"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.14.33_PM.png"><img style="width:480px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.14.33_PM.png"/></a></figure></div></div><h3 id="d0c05297-ab2c-4474-9fe2-63ac17a4fdff" class="block-color-red">Cardinalità</h3><p id="c65c324e-ea04-467b-9779-3b77e0caa20c" class="">È il numero di volte che una data istanza di entità deve e può partecipare ad una relazione.</p><ul id="4c2bd9d7-57ab-40fe-9926-48b2f48bf800" class="bulleted-list"><li style="list-style-type:disc">(1, 1): obbligatoria, una sola volta</li></ul><ul id="43d73113-1144-4168-bbf7-f0442a1b2d03" class="bulleted-list"><li style="list-style-type:disc">(1, n): obbligatoria, almeno una volta</li></ul><ul id="376b3ef8-8590-412b-9833-8d27d7743898" class="bulleted-list"><li style="list-style-type:disc">(0, 1); opzionale, una sola volta</li></ul><ul id="5ffdefea-cc0e-4863-9b37-792ab592ca71" class="bulleted-list"><li style="list-style-type:disc">(0, n): opzionale, fino ad n volte</li></ul><p id="6b47038b-dbf8-477c-9c80-a05822a51363" class="">
+</p><h3 id="772ee860-5a3c-49ae-bbaa-2151794c0693" class="block-color-red">Cardinalità degli attributi</h3><div id="b3bc3eaf-4b7a-4b99-9007-4623e65199af" class="column-list"><div id="430b2766-2113-4010-9c7a-51483ae0df9a" style="width:33.33333333333333%" class="column"><p id="94eee2e0-e395-4a42-af5d-3b10f053209b" class="">Scalare: un solo valore.</p><p id="dda8aa98-88ca-4de9-8883-e776c0a2b205" class="">Multivalore: sono ammessi n valori.</p></div><div id="14e9ffea-c9c9-4bcd-bc35-0c2dd14a5991" style="width:54.16666666666667%" class="column"><figure id="cfbf4adf-33f1-493a-84b8-2e6b99a3df97" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.15.45_PM.png"><img style="width:132px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.15.45_PM.png"/></a></figure></div><div id="fbfb58da-d239-4bd8-b7ec-06d8e0403752" style="width:12.5%" class="column"><figure id="10a6910b-fb12-4d91-b577-d6d85f4d3812" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.15.57_PM.png"><img style="width:120px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.15.57_PM.png"/></a></figure></div></div><figure id="ca03de4c-baec-41c2-b9cb-4c9ec406ec66" class="image" style="text-align:left"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.16.12_PM.png"><img style="width:384px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.16.12_PM.png"/></a></figure><p id="3259e8ab-18ed-4725-91ee-cc23b996c81c" class="">
+</p><h3 id="ce0318ed-6ac4-4fd7-82ae-165d7a381bd3" class="block-color-red">Entità o attributo?</h3><p id="8775cd52-8b7e-48ad-81c7-d754a437ea58" class="">Come si sceglie se definire una nuova entità o un nuovo attributo?</p><p id="ac02a417-334b-49fc-97cd-24ed6b08b5b7" class="">Se il concetto è significativo per il contesto applicativo: entità.</p><p id="e0173c5b-be19-4ffe-a4d9-2f2153dbf9d3" class="">Se il concetto è marginale e descrivibile in modo semplice: attributo.</p><p id="f2f96541-6d9d-4e68-8716-8fc9c47eedba" class="">Se il concetto esprime un legame tra entità: relazione.</p><p id="026b57b0-3c9d-4653-be0b-31ab29bb0f47" class="">
+</p><h3 id="74b583af-4c5b-496f-b420-20c8d2545642" class="block-color-red">Identificatore</h3><div id="1915f1ae-b815-4902-b169-11d3fc665d4b" class="column-list"><div id="6e9a9568-7fd0-451c-ba5e-f6d5ba3ed8ec" style="width:47.058823529411775%" class="column"><p id="58f0cc5e-fcc4-4f10-8269-893b558b77b3" class="">Identifica in modo univoco la singola istanza di un’entità:</p><ul id="e66d2476-fcb1-4ccd-a785-a4889f1194c8" class="bulleted-list"><li style="list-style-type:disc">è totale, obbligatorio, unico ed esplicito</li></ul><ul id="51ed789f-b44e-4894-a9bc-e34a4af72e2e" class="bulleted-list"><li style="list-style-type:disc">può essere composto, ma non può assumere valori nulli</li></ul><ul id="a7f77d91-6ead-4573-8810-cd52db1904e5" class="bulleted-list"><li style="list-style-type:disc">non è generalmente modificabile</li></ul></div><div id="69ef7ab5-667b-43c2-8cee-f0631122ca18" style="width:47.058823529411775%" class="column"><figure id="ca04ad47-3e6f-4beb-ab83-cb94140d9df9" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.17.31_PM.png"><img style="width:144px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.17.31_PM.png"/></a></figure></div><div id="f01b2faf-2658-4b15-9199-9077857f8ffc" style="width:5.882352941176476%" class="column"><figure id="946d0332-d14c-43ef-812a-fb2dc5a37a51" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.17.53_PM.png"><img style="width:96px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.17.53_PM.png"/></a></figure></div></div><p id="6521be75-33ed-4157-a487-f50bf6feb00e" class="">
+</p><h3 id="5b0f7b98-0f01-4536-90b2-4365e72b8279" class="block-color-red">Entità deboli</h3><div id="026829a2-ea45-403f-a20b-952368912d69" class="column-list"><div id="2ce7fe66-b39e-4df0-b0b2-91a83a75d14c" style="width:50%" class="column"><p id="c5140d31-3de9-43da-8f10-96d003db6ca1" class="">Sono entità i cui attributi non sono sufficienti ad identificarle.</p><p id="55b04cfc-29e6-40c4-b200-03e28f150394" class="">Contengono istanze la cui presenza nel sistema è accettata solo se presenti determinate istanze di altre entità da cui queste dipendono:</p><ul id="da6a5333-81eb-4c34-8e67-849fbee8e202" class="bulleted-list"><li style="list-style-type:disc">In caso di eliminazione dell’istanza di riferimento le istanze deboli collegate devono essere eliminate</li></ul><ul id="ee8b50a2-17dc-4772-b6b8-b9645867b951" class="bulleted-list"><li style="list-style-type:disc">L’identificatore dell’entità debole conterrà l’identificatore dell’entità da cui dipende</li></ul></div><div id="64dc4618-2645-40aa-9e1b-fe9047fc2354" style="width:50%" class="column"><figure id="d4809c15-7ea6-4394-bf89-ad157b99d803" class="image" style="text-align:right"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.19.17_PM.png"><img style="width:192px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.19.17_PM.png"/></a></figure></div></div><p id="94686907-2a90-4963-8a66-2192786b66a7" class="">
+</p><div id="ab8a7aa2-5cb5-4862-9fdf-6e13e233128d" class="column-list"><div id="adf7eff5-42a0-478e-812a-a0583dc644ad" style="width:75%" class="column"><h3 id="1ad853d1-244d-4d0a-b751-69748b2c522b" class="block-color-red">Generalizzazione</h3><p id="7b540486-8c11-4e17-8b7a-69af89811b8b" class="">Una gerarchia di generalizzazione è il legame logico tra un’entità padre E ed alcune entità figlie <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>E</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>E</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">E_1, E_2, ..., E_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, dove:</p><ul id="a003a7f5-2d2c-4043-95db-3bb38099c711" class="bulleted-list"><li style="list-style-type:disc">E è la generalizzazione di <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>E</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>E</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">E_1, E_2, ..., E_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></li></ul><ul id="d278009b-9b80-40a2-a371-5566521b984b" class="bulleted-list"><li style="list-style-type:disc"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>E</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>E</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">E_1, E_2, ..., E_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> sono le specializzazioni di E</li></ul><ul id="a591991b-d36c-4cf6-818b-f3ad05082790" class="bulleted-list"><li style="list-style-type:disc">Ogni istanza di <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">E_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> è anche istanza di E (e di tutte le sue generalizzazioni)</li></ul><ul id="94f4681d-9e8a-42f0-aea8-7b7e8562182b" class="bulleted-list"><li style="list-style-type:disc">Una istanza di E può essere istanza di una o più <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">E_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></li></ul><ul id="c05a2389-8b57-4edf-8f4f-7a562af969a7" class="bulleted-list"><li style="list-style-type:disc">Gli attributi dell’entità E non devono essere replicati nelle sue specializzazioni, in quanto esse li ereditano (come in Java).</li></ul></div><div id="7233a6c5-cd49-45f3-bc81-7be15a6e4000" style="width:25%" class="column"><figure id="ecbb8f2c-461f-4e07-854e-e00b58e92440" class="image"><a href="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.20.11_PM.png"><img style="width:432px" src="2%20Progettazione%20Concettuale%20b35cf8a9a68447419794ffae54baa97f/Screenshot_2022-11-25_alle_12.20.11_PM.png"/></a></figure></div></div><p id="ba14e7ab-b830-466c-bed5-9e4da77ec3dc" class="">Nell’immagine sopra ci sono delle lettere: di seguito se ne trova il significato.</p><ul id="f87ca5a1-e3ea-46f9-8366-044b8a2c5e33" class="bulleted-list"><li style="list-style-type:disc"><strong>t</strong> sta per <em><em><em><em><em><em>totale</em></em></em></em></em></em>: ogni istanza dell’entità padre deve far parte di una delle entità figlie</li></ul><ul id="c2e3bb57-8f33-4c63-96f5-de85ee5b4512" class="bulleted-list"><li style="list-style-type:disc"><strong>p</strong> sta per <em><em><em><em><em><em><em><em>parziale</em></em></em></em></em></em></em></em>: ogni istanza dell’entità padre può far parte o no di una delle entità figlie</li></ul><ul id="b74142b5-5a42-42b4-97b0-5da770d7d725" class="bulleted-list"><li style="list-style-type:disc"><strong>e</strong> sta per <em><em><em><em><em><em><em><em><em>esclusiva</em></em></em></em></em></em></em></em></em>: ogni istanza dell’entità padre deve far parte di una sola delle entità figlie</li></ul><ul id="b6435f24-5e4f-43b5-9a1b-557d5b5b7915" class="bulleted-list"><li style="list-style-type:disc"><strong>o</strong> sta per <em><em><em><em><em><em><em><em><em><em><em>overlapping</em></em></em></em></em></em></em></em></em></em></em>: ogni istanza dell’entità padre può far parte di una o più sola delle entità figlie contemporaneamente </li></ul><p id="941d194b-d96f-4a97-a6ee-7f9b4b5f9f63" class="">
+</p></div></article></body></html>

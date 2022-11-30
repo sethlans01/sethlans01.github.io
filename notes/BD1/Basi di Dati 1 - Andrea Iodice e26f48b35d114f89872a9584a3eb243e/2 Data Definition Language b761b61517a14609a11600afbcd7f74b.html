@@ -1,0 +1,700 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>2. Data Definition Language</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b761b615-17a1-4609-a116-00afbcd7f74b" class="page sans"><header><h1 class="page-title">2. Data Definition Language</h1></header><div class="page-body"><h3 id="f58ff3f5-833d-4aa4-a25c-c4aa360ba3cd" class="block-color-red">Viste</h3><p id="97513094-9699-44c1-90d4-144604a88c48" class="">Tramite le viste possiamo creare delle «tabelle virtuali»</p><ul id="1b5790f9-b810-4902-a1c5-912f80aaee1d" class="bulleted-list"><li style="list-style-type:disc">ogni volta che lo riteniamo utile, per semplificare una query complessa</li></ul><ul id="2a56aed5-59a4-47c6-a645-c85585cffa69" class="bulleted-list"><li style="list-style-type:disc">obbligatoriamente, se dobbiamo calcolare aggregati di aggregati</li></ul><p id="09229ecb-9f6c-4ee3-b1b5-883e00749064" class="">Sintassi: </p><pre id="7bee7b26-e421-4ca0-bb49-bea36e5a9c2f" class="code"><code>CREATE VIEW NomeVista(ListaAttributi) AS QuerySQL</code></pre><p id="28157e66-798b-4cb2-852c-3e8c322d3b48" class="">
+</p><h3 id="a701b13e-4e24-4874-ac1a-16cce47ca56c" class="block-color-red">Creazione di Tabelle</h3><div id="4b67c02a-7fe0-40fd-9bf5-3eadd561e5ce" class="column-list"><div id="9dbf9455-2367-461c-84c2-a18e6c80f624" style="width:37.5%" class="column"><pre id="832d6279-0d98-436f-9dd6-545376d4bc7a" class="code"><code>Ex.
+CREATE TABLE Impiegato (
+	Matricola CHAR(6),
+	Nome VARCHAR(20) NOT NULL,
+	Cognome VARCHAR(20) NOT NULL,
+	CF CHAT(16),
+	Qualifica VARCHAR(20) DEFAULT &quot;Impiegato&quot;,
+	Stipendio FLOAT
+)</code></pre></div><div id="1294992a-fc4f-4641-abb5-4376b6b8294c" style="width:62.5%" class="column"><figure id="cd981610-6be6-4fcb-bf9d-613db904abcd" class="image" style="text-align:right"><a href="2%20Data%20Definition%20Language%20b761b61517a14609a11600afbcd7f74b/Screenshot_2022-11-25_alle_12.09.35_PM.png"><img style="width:528px" src="2%20Data%20Definition%20Language%20b761b61517a14609a11600afbcd7f74b/Screenshot_2022-11-25_alle_12.09.35_PM.png"/></a></figure></div></div><p id="47b368b6-5db5-4a15-9327-1e2e3b84bf5a" class="">Per le colonne che non accettano valori nulli è necessario specificare <code>NOT NULL</code><strong>.</strong></p><p id="618589b1-fcfb-4155-8690-4a5c2ecc1239" class="">E’ possibile indicare un valore di default per ogni colonna, utilizzando il costrutto <code>DEFAULT </code><em><code>valore</code></em>.</p><p id="47287c1e-4979-46ac-9b53-e35916b7cd7d" class="">Oltre al nome e al dominio degli attributi, si possono specificare altri vincoli che vanno a dettagliare ulteriormente le relazioni.</p><p id="55468f56-d254-420b-bc5a-fccc8cfc0f96" class="">I vincoli possono essere:</p><ul id="c3abfa70-0d2c-4e37-97e7-61d58927ba49" class="bulleted-list"><li style="list-style-type:disc">intra-relazionali se coinvolgono una sola <strong>relazione </strong>(es. chiave primaria)</li></ul><ul id="c03642db-1b2d-42a4-ac8c-7ef518e28127" class="bulleted-list"><li style="list-style-type:disc">inter-relazionali se coinvolgono due o più <strong>relazioni </strong>(es. integrità referenziale)</li></ul><p id="bb7246a8-e522-47b5-ac19-9a3a590225e1" class="">I vincoli si indicano con specifici costrutti posizionati:</p><ul id="ee6cd2f1-11c2-429d-8ea3-6ec433674c24" class="bulleted-list"><li style="list-style-type:disc">se coinvolgono un solo <strong>attributo </strong>di seguito al relativo dominio oppure in coda alla <code>CREATE TABLE</code></li></ul><ul id="6bc54f5c-823e-491e-a810-959d3c34b02f" class="bulleted-list"><li style="list-style-type:disc">se coinvolgono due o più <strong>attributi </strong>in coda alla <code>CREATE TABLE</code></li></ul><p id="db77abfb-808a-4fac-b4da-5a8e6de60e15" class="">
+</p><h3 id="0a6a3803-6f3c-4d6e-8b97-d553ad8188b3" class="block-color-red">Vincoli Intra-Relazionali</h3><p id="17380560-3a77-4049-a927-8f3b35526dbc" class="">I principali vincoli intra-relazionali (relativi a singole tabelle) sono:</p><ul id="356e6a16-7a52-49de-96df-43e40e72344c" class="bulleted-list"><li style="list-style-type:disc"><code>PRIMARY KEY</code>: chiave primaria (implica <code>UNIQUE</code> + <code>NOT NULL</code>)</li></ul><ul id="324f8770-0fca-48d5-842e-cd4c8008d74d" class="bulleted-list"><li style="list-style-type:disc"><code>UNIQUE</code>: non ammette valori duplicati nella tabella</li></ul><ul id="84503de2-3263-4e8a-894f-70f922f2d7cf" class="bulleted-list"><li style="list-style-type:disc"><code>CHECK</code>: limita il range di valori utilizzabili in una colonna</li></ul><pre id="7f688760-fb08-4391-8ea2-d46affebc804" class="code"><code>CREATE TABLE Impiegato (
+	Matricola CHAR(6) PRIMARY KEY,
+	Nome VARCHAR(20) NOT NULL,
+	Cognome VARCHAR(20) NOT NULL,
+	CF CHAT(16) UNIQUE,
+	Qualifica VARCHAR(20) DEFAULT &quot;Impiegato&quot;,
+	Stipendio FLOAT CHECK(Stipendio&gt;0)
+)</code></pre><p id="3aae8bcc-38e7-40b6-bcc5-515c5d0c6c92" class="">
+</p><h3 id="65c6cca3-b93e-4640-a984-588dcd1c2bce" class="block-color-red">Vincoli Inter-Relazionali</h3><p id="569771e2-4120-4135-b798-20ef848c2298" class="">I vincoli inter-relazionali più significativi sono i vincoli di <strong>integrità referenziale </strong>(o vincoli di <strong>chiave esterna</strong>).</p><p id="9c908383-c3e2-4da3-9d88-692ed84bd6c6" class="">Questi vincoli creano un legame tra i valori di un attributo della tabella che stiamo creando (<em>interna</em>) e i valori di un attributo di un’altra tabella (<em>esterna</em>).</p><figure id="b8f05d5c-27d3-4c1e-a4ef-364aa1cfda80" class="image"><a href="2%20Data%20Definition%20Language%20b761b61517a14609a11600afbcd7f74b/Screenshot_2022-11-25_alle_12.10.26_PM.png"><img style="width:672px" src="2%20Data%20Definition%20Language%20b761b61517a14609a11600afbcd7f74b/Screenshot_2022-11-25_alle_12.10.26_PM.png"/></a></figure><p id="0e4e0063-b9d0-411d-91de-52658fdd218e" class="">I vincoli di integrità referenziale si possono indicare:</p><ul id="93c07f3b-4497-48f2-836b-33da072f55c9" class="bulleted-list"><li style="list-style-type:disc">se coinvolgono un solo <strong>attributo </strong>delle tabelle<ul id="17e4f271-498c-4dac-9888-cc4824c825d3" class="bulleted-list"><li style="list-style-type:circle">di seguito al dominio dell’attributo, con il costrutto<code> REFERENCES</code></li></ul><ul id="1eb3145d-b374-426b-816f-23f05b68f20e" class="bulleted-list"><li style="list-style-type:circle">in coda alla <code>CREATE TABLE</code><strong>, </strong>con il costrutto <code>FOREIGN KEY</code></li></ul></li></ul><ul id="560d7363-4abd-4b10-a52a-1c3e7291c239" class="bulleted-list"><li style="list-style-type:disc">se coinvolgono due o più <strong>attributi </strong>delle tabelle<ul id="f3ab0d31-5a42-4974-98c3-4a3b1d236ae4" class="bulleted-list"><li style="list-style-type:circle">in coda alla <code>CREATE TABLE</code><strong>, </strong>con il costrutto <code>FOREIGN KEY</code></li></ul></li></ul><p id="b07e329e-e507-4602-aec7-fa65aa1c78df" class=""><strong>Attenzione</strong>:</p><ul id="6b6f79f7-910e-490c-8986-81715e29e9eb" class="bulleted-list"><li style="list-style-type:disc">le due colonne interessate dal vincolo di integrità referenziale devono avere lo
+stesso identico domino (compresa la dimensione)</li></ul><ul id="c852cd4a-0808-4af0-b8c1-ba2ce0cd85ce" class="bulleted-list"><li style="list-style-type:disc">l’attributo della tabella esterna a cui si fa riferimento deve essere soggetto a
+vincolo <code>UNIQUE</code><strong> </strong>o <code>PRIMARY KEY</code></li></ul><p id="0765f940-b7b5-4ffc-b080-691d56f86877" class="">
+</p><p id="20936f95-52a1-4e81-9f7a-354eae89d490" class="">Si devono definire (nella tabella interna) le politiche <code>ON UPDATE</code><strong> </strong>e <code>ON DELETE</code><strong> </strong>per specificare i comportamenti da seguire a seguito di modifiche o eliminazioni di tuple nella tabella esterna.</p><p id="105440af-0fbb-4dbd-aae2-14b0dc66987f" class="">Possibili valori (<code>ON UPDATE</code><strong> </strong>... , <code>ON DELETE</code><strong> </strong>... ):</p><ul id="59b8db1b-655c-4e34-9603-71047608eb58" class="bulleted-list"><li style="list-style-type:disc">CASCADE: aggiorna il valore (o cancella la tupla) anche nella tabella interna</li></ul><ul id="ae7f10a5-ad25-463e-bdb5-5ac050ec77de" class="bulleted-list"><li style="list-style-type:disc">SET NULL: il valore viene impostato a NULL (se accettabile!)</li></ul><ul id="d8900fc6-82e5-4423-ab5c-69cdebbd3309" class="bulleted-list"><li style="list-style-type:disc">SET DEFAULT: il valore viene aggiornato al valore di default (se indicato!)</li></ul><ul id="15d098b5-5ffe-4e1a-9f3a-dbeb4eec463a" class="bulleted-list"><li style="list-style-type:disc">NO ACTION: viene impedita l’operazione di modifica o cancellazione nella tabella esterna, se i valori interessati sono già utilizzati nella tabella interna</li></ul><pre id="b8686f4b-cd10-4839-821e-7562063dda56" class="code"><code>CREATE TABLE Studente(
+	Matricola INT(3) PRIMARY KEY,
+	Nome VARCHAR(32) NOT NULL,
+	Cognome VARCHAR(32) NOT NULL,
+	Comune CHAR(5) REFERENCES Comune(Codice) ON UPDATE CASCADE ON DELETE NO ACTION
+)</code></pre><p id="d2d3c703-410c-4877-b7f6-70968d1c1586" class="">
+</p><h3 id="78693f8d-5ea9-4759-956f-311dc3c9a706" class="block-color-red">Asserzioni</h3><p id="a870164e-eed8-4004-b42c-24b805b4e310" class="">Le asserzioni permettono di creare vincoli generici e di disaccoppiare la definizione di vincoli dalla creazione delle tabelle. I vincoli espressi con il costrutto <code>CREATE ASSERTION ... CHECK</code> possono essere sia intra-relazionali che inter-relazionali.</p><p id="b2fd6417-817c-4599-b48f-e560648131c0" class=""><em>Esempio: la tabella PAZIENTIINCURA deve contenere al massimo 20 tuple.</em>
+</p><pre id="08b2899b-2969-4b31-88ce-283ffb36daed" class="code"><code>CREATE ASSERTION MaxPazienti CHECK(
+	20 &lt;= ( SELECT COUNT(*) 
+					FROM PazientiInCura)
+)</code></pre></div></article></body></html>

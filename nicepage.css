@@ -36179,6 +36179,18 @@ a.u-button-style.u-button-style.active > .u-text-active-grey-90[class*="u-border
 a.u-link.u-text-hover-grey-90:hover {
   color: #1a1a1a !important;
 }
+.u-palette-iodi-1{
+  color: #292e33 !important;
+  background-color: #b8dbd9 !important;
+}
+.u-palette-iodi-2{
+  color: #292e33 !important;
+  background-color: #978897 !important;
+}
+.u-palette-iodi-3{
+  color: #1b1f24 !important;
+  background-color: #786a78 !important;
+}
 /*end-variables colors*/
 
 /*begin-variables sitestylecss*/
