@@ -1,0 +1,726 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1. Programmazione concorrente</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="62d75f2b-4c06-4df6-bcdf-76c0267a1955" class="page sans"><header><h1 class="page-title">1. Programmazione concorrente</h1></header><div class="page-body"><p id="fa66e09c-4206-41b8-b590-31bd598e2568" class="">Un processo è un programma eseguibile caricato in memoria, con il suo spazio di indirizzamento. Ogni processo esegue un programma diverso e può contenere più threads.</p><p id="f79f7bc8-16c5-484a-bef3-b08bee148b56" class="">
+</p><h3 id="a17e8be2-a0fb-42e1-8737-a00cb26c3d13" class="block-color-red">Programma con dei threads</h3><p id="7438752c-5645-4422-a6df-cde9ffc5cf53" class="">La procedura da seguire è:</p><ol type="1" id="8bdad0d6-8e8d-4155-b298-05b726fcfeba" class="numbered-list" start="1"><li>Definire una classe che eredita dalla classe <code>Thread</code> e che contiene il metodo <code>run()</code><pre id="3b046b92-d17f-44e6-b1c6-bf0c032822ad" class="code"><code>class ListSorter extends Thread{
+	...
+	public void run() { //Inserire qui il codice che esegue il thread }
+}</code></pre></li></ol><ol type="1" id="8ab5ef00-837c-4609-97f5-c0524181df75" class="numbered-list" start="2"><li>Creare un’istanza della classe<pre id="78181ebc-e1db-44fa-ac98-01a33dac8364" class="code"><code>ListSorter concSorter = new ListSorter(list1);</code></pre></li></ol><ol type="1" id="5a418d91-1397-49a6-a64d-9937a88640be" class="numbered-list" start="3"><li>Invocare il metodo <code>start()</code>, che a sua volta chiamerà il metodo <code>run()</code><pre id="214ed837-6d40-4db7-a756-460373d6ec9d" class="code"><code>concSorter.start(); // Il metodo start() non viene definito dal programmatore</code></pre></li></ol><p id="2843e03d-b5b1-450a-a7c3-f516c6312b21" class="">
+</p><h3 id="a311b0dd-8d27-4b55-963e-edac27633c9e" class="block-color-red">Interfaccia Runnable</h3><p id="c2c06b84-8755-4719-b87a-013a11b728f5" class="">La classe <code>Thread</code> implementa l’interfaccia chiamata <code>Runnable</code>, che definisce un singolo metodo <code>run()</code>, che contiene il codice eseguito dal thread. Questo offre un’altra possibilità di creare un programma con dei threads.</p><ol type="1" id="8370ae18-e049-4722-af02-7e36c4fae2d3" class="numbered-list" start="1"><li>Definire una classe che implementa l’interfaccia <code>Runnable</code> e implementare il metodo <code>run()</code>.</li></ol><pre id="972ac88b-c7e1-47ee-a94a-e2b93b7f5045" class="code"><code>class ListSorter implements Runnable{
+	...
+	public void run(){ //Inserire qui il codice che esegue il thread }
+}</code></pre><ol type="1" id="fc39e319-4e29-47d1-965f-0d60603685cd" class="numbered-list" start="2"><li>Creare un’istanza della classe</li></ol><pre id="924fe2e8-3b71-4018-9281-5761154c72ab" class="code"><code>ListSorter concSorter = new ListSorter(list1);</code></pre><ol type="1" id="d4ac25e8-cfb1-47b3-97ca-a76495119a6b" class="numbered-list" start="3"><li>Creare il thread</li></ol><pre id="601e8af0-cf35-4c8b-9e7c-0deb319218f2" class="code"><code>Thread myThread = new Thread(concSorter);</code></pre><ol type="1" id="4076b811-0b28-4bdc-bdad-a7d96cbb68f8" class="numbered-list" start="4"><li>Attivare il metodo <code>start()</code></li></ol><pre id="87670205-4dad-4ddb-b8fe-a92a04d49457" class="code"><code>myThread.start();</code></pre><p id="01409274-494c-49a9-9771-2706cab76603" class="">
+</p><h3 id="5a307438-4893-4422-a0cb-16dde158fcfe" class="block-color-red">Nozioni varie</h3><p id="66fd72cf-7415-4b99-ac5d-5525c3d90da3" class="">La classe <code>Thread</code> offre varie funzioni di controllo, come <code>sleep(x)</code>, <code>interrupt()</code>, <code>join</code>, <code>yield</code>, <code>isalive</code>...</p><p id="f4b2715a-cc7c-4ef7-8a12-93cca35a9956" class="">Ogni thread ha una priorità, compresa tra <code>Thread.Min_Priority</code> e <code>Thread.Max_Priority</code>, impostata di default a <code>Thread.Norm_Priority</code>.</p><p id="fa2b633a-1a46-414f-8218-2b245da0b103" class="">
+</p><h3 id="e910a6e3-297e-4102-9450-40ea425cb6a9" class="block-color-red">Dati condivisi e interferenza</h3><p id="f850347c-aff1-47f2-9f31-7e3be15e8486" class="">Quando thread diversi eseguono operazioni in mutua esclusione su dati condivisi si potrebbero generare interferenze sui dati.</p><p id="bc81cedb-cffd-4d4c-920f-6eacc6aa9f78" class="">Per questo motivo, in certi casi si vorrebbe avere la possibilità di eseguire serie di istruzioni, come se fossero atomiche: facendo così le istruzioni vengono eseguite tutte insieme, prima che il processore cambi il contesto a favore di un altro thread.</p><p id="3f82ff88-8161-4264-a2f3-73e199ca9e10" class="">In Java nessuna istruzione è di per sé atomica: occorre specificare se una serie di istruzioni deve essere trattata come se fosse atomica: per fare ciò si usa la parola chiave <code>synchronized</code>.</p><p id="b0b268f6-6085-4dd4-9a69-38606168ba77" class="">
+</p><h3 id="9d1404d0-293c-4651-8961-8d838ff09b3b" class="block-color-red">Metodi synchronized</h3><pre id="ddd6e6f6-f9f0-46a3-b736-9030e3d88ca4" class="code"><code>public class SynchronizedCounter{
+	private int c = 0;
+	public synchronized void increment() { c++;}
+	public synchronized void decrement() { c--;}
+	public synchronized int value() {return c;}
+}</code></pre><p id="b56a5faf-471b-4cb9-838e-61c56e4ea39e" class="">Il Java associa un <em><em><em><em>lock</em></em></em></em> intrinseco a ciascun oggetto.</p><p id="86334e4f-2e07-4c42-b2f6-c752d958732a" class="">Quando un metodo <code>synchronnized</code> viene invocato:</p><ul id="74172682-49a3-45f0-b2d2-a94fdee00ea8" class="bulleted-list"><li style="list-style-type:disc">Se nessun metodo <code>synchronized</code> è in esecuzione, l’oggetto viene bloccato e viene eseguito il metodo</li></ul><ul id="142d3b2a-9d5c-47cb-8c13-005201d2e952" class="bulleted-list"><li style="list-style-type:disc">Se c’è già un metodo <code>synchronized</code> in esecuzione, il thread chiamante viene sospeso fino a quando il lock dell’oggetto non viene liberato, e in seguito esegue il metodo.</li></ul><p id="c3aa8bad-3f5c-4d7d-9a38-543bcafbbfa9" class="">
+</p><h3 id="86bba0f6-5cf5-4408-ae7e-480486337fc8" class="block-color-red">Metodi static synchronized</h3><p id="e59b38a2-4153-458e-8ebb-ed3f9d901c09" class="">Quando un metodo <code>static</code> e <code>synchronized</code> viene invocato il thread acquisisce il lock intrinseco per l’oggetto associato alla classe: per questo motivo l’accesso ad attributi statici è controllato da un lock speciale, diverso da quello associato ad ogni istanza della classe.</p><p id="8c4f6f7b-1d0e-4e67-8b77-54e23e4bf6f7" class="">
+</p><h3 id="e5777086-9616-4810-9c4d-a0c8010b3608" class="block-color-red">Note su metodi synchronized</h3><ul id="6f940774-626b-4b80-990f-714a70e44cea" class="bulleted-list"><li style="list-style-type:disc">I costruttori NON possono essere <code>synchronized</code>. </li></ul><ul id="d96ed64e-fcf8-427c-81c7-cdb5879c57f2" class="bulleted-list"><li style="list-style-type:disc">Inoltre tutti i dati dichiarati come <code>final</code> possono essere letti da metodi NON <code>synchronized</code>.</li></ul><ul id="04976c87-97d0-49cf-b462-1ce33c6a421b" class="bulleted-list"><li style="list-style-type:disc">La parola chiave <code>synchronized</code> è un dettaglio di implementazione di un metodo e non viene ereditata: in una sottoclasse abbiamo quindi la possibilità di scegliere se il metodo re-implementato (caso in cui faccio l’override del metodo della super-classe) sia <code>synchronized</code> o no.</li></ul><p id="0b22a94e-a514-483e-ba2d-bf44049ce735" class="">
+</p><h3 id="4768ae28-1f77-4475-a6b7-cdb1ef6e912c" class="block-color-red">Operazioni di read e parola chiave volatile</h3><p id="e1677e26-f6c9-416f-a437-6f46c4b2ebe0" class="">Anche se eseguiamo operazioni di read su variabili, è necessario metterle in blocchi <code>synchronized</code>, poiché la JVM tende a modificare l’ordine di esecuzione di certe operazioni, per motivi di ottimizzazione.</p><p id="bfd66776-6082-4918-bd1a-749f3a88a3b0" class="">Nel caso in cui non si volesse, ad esempio, creare un metodo <code>synchronized</code> per fare operazioni di lettura su una variabile, è possibile dichiarare la variabile come <code>volatile</code>, ad esempio <code>public volatile int x = 0;</code>.</p><p id="bf8d64d4-0934-4535-9722-206c7cc3be78" class="">Questo è utile quando ci sono threads che leggono e basta la variabile, senza scriverla, poiché se vengono eseguite operazioni di scrittura su variabili <code>volatile</code>, queste non verranno riorganizzate come vuole la JVM, incorrendo quindi in possibili peggioramenti delle prestazioni.</p><p id="c3309d58-1f66-42ba-9a0e-7d83cf7ca4a5" class="">
+</p><h3 id="d39c1380-4172-43bc-9c93-c66b93be86f7" class="block-color-red">Blocchi di codice synchronized</h3><p id="43e6ed5c-dd4d-4152-8118-31120f7066a5" class="">È possibile dichiarare blocchi di codice di un metodo come <code>synchronized</code>.</p><pre id="df900935-3371-485d-a466-94a7f0f5bf2f" class="code"><code>public void AddName(String name){
+	synchronized(this){
+		lastName = name;
+		nameCount++;
+	}
+	nameList.add(name);
+}</code></pre><p id="65afaadd-c0c3-47e9-b22e-b677680682b9" class="">Per fare ciò, è necessario specificare l’oggetto del quale si intende acquisire il lock (in questo esempio è l’oggetto stesso).</p><p id="9c292ad8-89c9-412b-b287-ad14c8628fa5" class="">
+</p><h3 id="ee50d1d1-4845-4ec1-9a2e-8ca83eca1df0" class="block-color-red">Situazioni pericolose</h3><p id="9d96f97b-c0ba-4b9c-a458-3f86c2f7d36a" class=""><em>Deadlock</em>: È una situazione nella quale duo o più thread sono bloccati per sempre, perché sono in attesa di lock bloccati da altri thread.</p><p id="c593bbaa-85be-4221-a70d-c71986685e60" class=""><em>Starvation</em>: È una situazione dove un thread ha difficoltà ad accedere ad una risorsa condivisa.</p><p id="1ac8a1c2-f088-4523-a94b-31a32d8aaeec" class=""><em>Livelock</em>: Errore di design che genera una sequenza ciclica di operazioni inutili per il vero scopo computazionale.</p><p id="8360a7bb-a7e6-470d-8ad3-deba7fe7ae42" class=""> </p><h3 id="acba9c28-2e2c-447b-9148-c1377474165b" class="block-color-red">Wait</h3><p id="57ea6942-b79a-4a2e-bd76-3a2d7b9c4d7d" class="">Di seguito viene riportato un pezzo di codice che mostra come scrivere bene il codice per fare andare il thread in wait.</p><pre id="c943b0c9-5ddc-4970-b1e4-01be2c98a860" class="code"><code>class Account{
+	private float balance;
+	...
+	synchronized public void withdraw(float money){
+		while (balance-money&lt;0){
+			wait();
+		}
+		balance -= money;
+	}
+}</code></pre><p id="0158568f-41a1-4409-bd89-67caecc6f29b" class="">
+</p><h3 id="7b18ae05-1f3c-4ea1-86f5-c626324853a3" class="block-color-red">Ciclo di vita di un thread</h3><div id="3b051880-abb7-4d29-9a12-92db873832fd" class="column-list"><div id="3e3d1fb6-0dde-4a78-a2eb-ddab02269cc4" style="width:50%" class="column"><p id="b2423e03-162a-4376-9ca3-e3998770bf05" class="">Un thread che è in stato di wait può essere svegliato solo da una <code>notify()</code> o da una <code>notifyAll()</code>.</p><p id="5b2d911a-d2cf-45e3-a7ab-1c5acbf47dc5" class="">La <code>notify()</code> sveglia solo un thread e in modo casuale, quindi di solito si usa la <code>notifyAll()</code> per svegliare un thread.</p><p id="a36b29e9-be0b-45d2-b9b2-0343368ab942" class="">Quando in un thread si esegue la chiamata di una <code>wait()</code> è necessario avere la possibilità di catturare <code>InterruptedException</code>, che può essere lanciata da un altro thread che esegue una <code>interrupt()</code>, che termina il processo.</p></div><div id="1215622f-5aaa-4289-827c-eeead12c7f31" style="width:50%" class="column"><figure id="2408c9a2-5d1f-40e6-ba76-e1f6f19b36d1" class="image" style="text-align:right"><a href="Schermata_2022-11-06_alle_7.26.37_PM.png"><img style="width:480px" src="Schermata_2022-11-06_alle_7.26.37_PM.png"/></a></figure></div></div><p id="8447dd54-4cc0-40e7-907e-2019254bf3df" class="">Il metodo più semplice per fare ciò è aggiungere la clausola <code>throws InterruptedException</code> al metodo che chiama la <code>wait()</code>, cosicché se qualcuno invoca una <code>interrupt()</code>, il metodo in wait non si deve preoccupare di gestire l’eccezione, visto che la passa in alto.</p><p id="cc4c8575-500c-4286-bdd1-248fe397a134" class="">
+</p><h3 id="d0565ae6-c1f6-4fc2-9ac4-8d8ae57ecd68" class="block-color-red">Oggetti di tipo lock</h3><p id="f5b596d7-ad88-4c8a-8cbf-ddbe749d95a0" class="">I metodi <code>synchronized</code> offrono dei lock impliciti negli oggetti. Tuttavia, il package <code>java.util.concurrent.locks</code> offre la possibilità di usare dei lock espliciti.</p><p id="1d1809fd-2e42-4b5f-858b-29a6438a842b" class="">Un lock definito con l’interfaccia <code>Lock</code> può essere acquisito solo da un thread, come nel caso dell’acquisizione di un lock intrinseco di un oggetto.</p><p id="8dab1ed2-aeae-4891-b189-14acaee68f98" class="">Però è anche possibile usare dei metodi riguardanti i lock:</p><ul id="f13a23f5-60da-4bf9-9b15-936d47ab7856" class="bulleted-list"><li style="list-style-type:disc"><code>trylock</code>: il thread prova ad acquisire il lock e, nel caso in cui non fosse possibile, il thread non va in attesa della liberazione del lock</li></ul><ul id="2530afc7-8e75-4c1d-81a9-52f9c6524b1f" class="bulleted-list"><li style="list-style-type:disc"><code>lockInterruptibly</code>: permette di ritirarsi dall’acquisizione del lock, se un altri thread manda un interrupt prima che il lock venga acquisito</li></ul><p id="6e0711c6-f3a4-4fe1-887b-23b6f5fdc5fe" class="">
+</p><h3 id="55c63f4f-dca6-4846-a53d-4ee05d1ef405" class="block-color-red">Esecutori</h3><p id="5243041d-d630-44fd-98e7-c263024cbba8" class="">Introducono un nuovo metodo per creare un programma con threads.</p><p id="4ce8ccc4-e8e2-4469-998f-f6e4c806341d" class="">Se <code>r</code> è un Runnable ed <code>e</code> è un Executor, invece di scrivere <code>(new Thread(r)).start();</code> possiamo scrivere <code>e.execute(r);</code>.</p><p id="50aebb5e-4a57-4322-9661-f0db30e293db" class="">Le implementazioni dell’interfaccia <code>Executors</code> usano le thread pools, che sono insiemi di Thread che esistono fuori da Runnable.</p><p id="9176641b-4078-467b-a76b-0d02dc8fef29" class="">
+</p><h3 id="21a0ecc1-13c9-4db8-a240-99bc1b135b1b" class="block-color-red">Collezioni concorrenti</h3><p id="e16fad99-f662-4041-af7d-bafa6dae2d66" class=""><code>java.util.concurrent</code> offre delle versioni concorrenti delle collezioni, come <code>BlockingQueue</code>, che è una coda FIFO che non permette di inserire se la coda è piena e di rimuovere se la coda è vuota, e <code>ConcurrentMap</code>.</p><p id="8711d91b-fd36-40be-9c94-c0e854d21a10" class="">
+</p><h3 id="32419742-3753-45bf-b34b-6387337b8d4d" class="block-color-red">Variabili e array atomici</h3><p id="bd07d601-e4c9-4bbd-a2bd-1cf54330911c" class=""><code>java.util.atomic</code> definisce classi che supportano operazioni atomiche su variabili singole: ognuna di esse possiede getter e setter, insieme ad un metodo <code>compareAndSet</code>.</p><pre id="1e2b2ac6-9bf1-4e0d-8490-bb4211f18cb9" class="code"><code>import java.util.concurrent.atomic.AtomicInteger;
+public class AtomicCounter {
+	private AtomicInteger c = new AtomicInteger(0); 
+
+	public void increment() {
+		c.incrementAndGet(); 
+	}
+
+	public void decrement() { 
+		c.decrementAndGet();
+	}
+	
+	public int value() {
+		return c.get(); 
+	}
+}</code></pre><p id="1f0a0ad5-c52c-49f0-af9d-ebe7b8ecd00a" class="">
+</p><h3 id="9a10dc07-64f9-4fca-af6e-8a147bd80302" class="block-color-red">Note varie</h3><ul id="1c248f66-bc53-481f-87a5-1f25c8210d9f" class="bulleted-list"><li style="list-style-type:disc">Se un attributo può essere scritto solo dal costruttore, non occorre necessariamente mettere le operazioni di lettura in un blocco synchronized.</li></ul><ul id="94665893-750f-4915-9f98-a38f6de0ca7a" class="bulleted-list"><li style="list-style-type:disc">L’assegnamento non è di per sé un’operazione atomica</li></ul><ul id="0c42b712-bb12-4bfa-9915-ce493689d836" class="bulleted-list"></ul></div></article></body></html>

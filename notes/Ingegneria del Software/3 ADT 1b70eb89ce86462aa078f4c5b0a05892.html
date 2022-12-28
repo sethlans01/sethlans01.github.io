@@ -1,0 +1,773 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>3. ADT</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1b70eb89-ce86-462a-a078-f4c5b0a05892" class="page sans"><header><h1 class="page-title">3. ADT</h1></header><div class="page-body"><p id="59f1c047-9a40-4db1-aac5-40ad83c35893" class="">Solo gli elementi pubblici di un metodo o di una classe possono comparire nella specifica JML di un metodo pubblico e non statico: in particolare possono comparire parametri formali del metodo, <code>\result</code>, attributi pubblici e metodi puri pubblici.</p><p id="7dacaf3d-657f-457c-8425-192f48c457b1" class="">NB: i metodi pubblici che non sono stati dichiarati come puri NON possono essere inclusi nella specifica.</p><p id="7cf682cc-e782-423b-b6b3-a7edbf81246f" class="">I metodi puri sono metodi non statici dichiarati con la parola chiave JML <code>pure</code>. Questi sono metodi che non hanno effetti collaterali.</p><ul id="c3db0daa-50e0-403e-b9a7-8861ae962068" class="bulleted-list"><li style="list-style-type:disc">Si applica <code>assignable \nothing</code>, ma ciò richiede che non ci sia un cambiamento di stato</li></ul><ul id="df1b359a-0207-4693-8a55-04d4c562f782" class="bulleted-list"><li style="list-style-type:disc">Un metodo puro può chiamare solo metodi puri</li></ul><ul id="fbc38003-e93a-4c22-9500-2ff03f6383ea" class="bulleted-list"><li style="list-style-type:disc">Anche i costruttori possono essere puri: possono inizializzare attributi dichiarati nella classe, ma non possono modificare nient’altro.</li></ul><p id="4623315d-b143-47e9-85f3-e9200687afcd" class=""><em><em><em>Esempio di metodo puro:</em></em></em></p><pre id="b0596ae5-de0a-4119-921c-15faa13c6a60" class="code"><code>//@ ensures (*\result is cardinality of this *) 
+public int /* @ pure */ size(){}</code></pre><p id="2abbef74-adc6-4f9f-9358-05c162ded7bd" class="">I metodi puri permettono di osservare lo stato di un oggetto.</p><p id="d8ca1fe5-256f-498c-9874-23cae6c3bfb5" class="">
+</p><h3 id="6fb39bfa-ebc3-4b5c-851e-b8ec431a5d49" class="block-color-red">Specificazione dell’astrazione dei dati</h3><p id="1c85a4df-0fcf-44c6-8061-5556c2ac39de" class=""><em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em> si vuole realizzare un insieme di interi (IntSet).</p><p id="931fce15-04d7-4779-8633-cce7a927b0b9" class="">I valori possibili sono tutti i possibili insiemi di interi, con una qualsiasi cardinalità, senza elementi ripetuti.</p><pre id="4988b0ae-ff7a-40f5-b3d1-93c931a67b40" class="code"><code>public class IntSet {
+// OVERVIEW: unlimited and modifiable sets of integers; //e.g.: {1, 2, 10, -55}
+
+//observers:
+//@ ensures result == (*x is among the elements of this*);
+public /*@ pure @*/ boolean isIn (int x){} 
+
+//@ ensures (*\result is cardinality of this *);
+public /*@ pure @*/ int size(){}
+
+//@ ensures this.isIn(\result) &amp;&amp; this.size()&gt;0; 
+//@ signals (EmptyException) this.size()==0;}
+public /*@ pure @*/ int choose() throws EmptyException {}
+
+//constructors:
+//@ensures this.size()==0;
+public IntSet(){// initialize this as an empty set }
+
+//mutators:
+//@ ensures this.isIn(x) &amp;&amp; size()=\old(size() + \old(isIn(x) ? 0 : 1) &amp;&amp; 
+//@ (\forall int y; x!=y; \old(isIn(y)) &lt;==&gt; isIn(y));
+public void insert(int x){ //inserts x into this }
+
+//@ ensures !this.isIn(x) &amp;&amp; size()=\old(size() - \old(isIn(x) ? 1 : 0) &amp;&amp;
+//@ (\forall int y; x!=y; \old(isIn(y)) &lt;==&gt; isIn(y));
+public void remove(int x){//removes x from this
+}</code></pre><p id="faa875d7-a1ab-4960-9d23-d994afac30c4" class="">In questo esempio vengono definiti metodi appartenenti a 3 categorie:</p><ul id="d2a9954e-edcf-466b-9b1d-8e72cf613851" class="bulleted-list"><li style="list-style-type:disc">Observers: sono metodi puri, che ritornano lo stato di un oggetto</li></ul><ul id="3c341530-8c00-41bf-98e0-a605c085db7c" class="bulleted-list"><li style="list-style-type:disc">Constructors</li></ul><ul id="0520108d-f08c-4591-b7af-bf4ad29da5d3" class="bulleted-list"><li style="list-style-type:disc">Mutators: metodi che modificano l’oggetto </li></ul><p id="5a718f49-4e17-4d16-90dc-27836e1bcdab" class="">
+</p><h3 id="261090cd-a031-48cb-9bfe-4e774bc9a9aa" class="block-color-red">Uso di Abstract Data Types</h3><p id="89854eee-7316-4d0d-afca-16face174800" class="">La specifica deve essere sufficiente a permettere l’uso dell’astrazione, senza saperne l’implementazione.</p><p id="6088691f-0275-49c9-b992-8ee2a3097606" class="">
+</p><h3 id="031920e3-ea75-4506-9b53-c8fbd8d719c9" class="block-color-red">Classe pura</h3><p id="89edb82e-82f6-42b7-8e11-ce2d38b14a1e" class="">Tutti i suoi metodi non statici e i costruttori vengono definiti come puri.</p><p id="10cdaad2-958b-4813-908d-b6602d381409" class="">
+</p><h3 id="124aff51-8eec-45d9-9b12-c92079e23db3" class="block-color-red">Specifica formale delle collezioni</h3><p id="d695a01e-0853-4bbb-b310-52e5650fcb64" class="">In generale, lo stato concreto di un oggetto appartenente ad una classe non è visibile (spesso gli attributi sono privati): per questo motivo lo stato di un oggetto non deve essere usato nelle specifiche.</p><p id="ba720abe-40af-4ac2-b2dc-16b50fd5707d" class="">Dall’altra parte, lo stato astratto può essere osservato mediante i metodi observer, e quindi può essere usato nelle specifiche.</p><p id="18efc655-a479-461d-ac93-0e8015f6ae77" class="">Però i metodi observer spesso non sono sufficienti a descrivere le condizioni delle specifiche, siccome non catturano completamente lo stato di un oggetto… questo spesso accade con le collezioni.</p><p id="a3e6d563-ac38-4817-961d-bcc66a1025a9" class="">Per questo motivo si usano nelle specifiche gli OAT (Typical Abstract Object): generalmente è una List, String o Set.</p><pre id="3dd0b965-d8fc-4820-aaec-17fc68c91788" class="code"><code>// Esempio
+public class Stack&lt;T&gt; {
+
+//@public List&lt;T&gt; oat;
+//@ Typical object oat is [x_0, x_1, ..., x_n], n&gt;=0, x_i in T, x_n is the top
+
+//@ensures \result == oat.size(); 
+public /*@ pure @*/ int size(){ ... }
+
+//@requires size()&gt;0;
+//@ ensures \result== oat.get(size()-1);
+public /*@ pure @*/ T top() throw EmptyException;
+
+//@ ensures size()==0; 
+public Stack() { ... }
+
+//@ensures size()==\old(size()+1)&amp;&amp;top()==x &amp;&amp;
+//@ \old(oat.sublist(0,size())).equals(oat.sublist(0,size()-1)); 
+public void push(T x) {...}
+
+//@requires size()&gt;0;
+//@@ensures size()===\old(size()-1)&amp;&amp; oat.equals(\old(oat.sublist(0, size()-1)) 
+public void pop(){...}
+}</code></pre><p id="5bc7f539-6a09-45c6-95b9-fcd193683ddf" class="">
+</p><h3 id="2f81d7b5-f2de-4f29-9955-ddbf228cdbb3" class="block-color-red">Categorie di operazioni</h3><p id="1e172fca-d15c-4f86-98fe-7ced09cc5b37" class="">Creators: producono un nuovo oggetto.</p><ul id="deba6c24-fcd4-477b-860d-b613bf66820e" class="bulleted-list"><li style="list-style-type:disc">Sono generalmente costruttori.</li></ul><ul id="d5b79f8d-d3cf-4348-ae57-fd66777e8404" class="bulleted-list"><li style="list-style-type:disc">Ma non tutti i costruttori sono creators: quando hanno come argomenti oggetti del proprio tipo sono dei producer</li></ul><ul id="2b6140a0-91a9-4084-865e-a2bc763b642a" class="bulleted-list"><li style="list-style-type:disc">Di solito sono puri</li></ul><p id="a24ecb08-c3fb-4602-8acc-b18b32fc31dd" class="">Producers: dati in input oggetti del proprio tipo, creano oggetti del proprio tipo.</p><ul id="24865619-5cfb-40b1-a63b-3baaf2159c99" class="bulleted-list"><li style="list-style-type:disc">Di solito sono puri.</li></ul><ul id="36d35005-1cf5-4058-a658-89cc28beb02f" class="bulleted-list"><li style="list-style-type:disc"><em><em><em><em><em><em><em><em><em><em><em>Esempio: </em></em></em></em></em></em></em></em></em></em></em>metodo add() nella classe Polinomio: p.add(q) ritorna l’oggetto Polinomio dato da this+q</li></ul><p id="0302a177-3182-4a12-8698-9c5f9cba5981" class="">Modifiers ( o Mutators): modificano un oggetto del proprio tipo</p><ul id="18816a87-de2b-45ee-a7ca-73cc2f592a9d" class="bulleted-list"><li style="list-style-type:disc">Non hanno clausole <code>assignable</code></li></ul><ul id="8b992376-46b6-4a44-bda5-75aa6c71cf18" class="bulleted-list"><li style="list-style-type:disc">Non sono mai puri</li></ul><ul id="587f328c-ed4f-43a8-ba58-e9b23bdd6077" class="bulleted-list"><li style="list-style-type:disc"><em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em> <code>insert()</code> e <code>remove()</code> in IntSet</li></ul><p id="5dd0653f-5e0b-4b5a-9cdb-0987e3b14857" class="">Observers: dati in input oggetti del proprio tipo, ritornano cose di altri tipi</p><ul id="b27fa397-e433-478e-9093-ebc7b11b92f7" class="bulleted-list"><li style="list-style-type:disc">Di solito sono puri</li></ul><ul id="5edf5fd7-4b8a-4846-8179-f63fcbfeb600" class="bulleted-list"><li style="list-style-type:disc">A volte vengono combinati con producers o mutators</li></ul><ul id="04537c4c-266f-4d15-819f-96dfb08aee66" class="bulleted-list"><li style="list-style-type:disc"><em><em><em><em><em><em><em><em><em>Esempio: </em></em></em></em></em></em></em></em></em><code>getSize()</code></li></ul><p id="4db31d90-ac3e-4376-8cdd-e85583da3f3f" class="">
+</p><h3 id="28c799ef-6316-424b-8f45-3e067790327e" class="block-color-red">Adeguatezza di un tipo</h3><p id="7fdc210d-50c6-47be-8d3b-462fa87ee4fb" class="">Un tipo è adeguato se fornisce un numero sufficiente di operazioni per il tipo, in modo tale da farne uso in modo semplice ed efficiente.</p><p id="5d45bc83-447b-4f75-97f5-3b6a11e3d2b8" class="">Condizioni di verifica:</p><ul id="18912435-af5f-4240-ae6f-05e9151e78d3" class="bulleted-list"><li style="list-style-type:disc">Se il tipo è mutabile, deve avere creators, observers e mutators</li></ul><ul id="be2b768e-742e-4278-8b32-a64a100ba23a" class="bulleted-list"><li style="list-style-type:disc">Se il tipo è immutabile, deve avere creators, observers e producers</li></ul><ul id="9955f1ce-f075-4c44-9379-39a1f4faea6c" class="bulleted-list"><li style="list-style-type:disc">Il tipo deve essere completamente popolato: usando creators, producers e mutators dobbiamo poter avere la possibilità di ottenere tutti gli stati astratti possibili</li></ul><p id="40c4ffe8-7367-4ade-a25e-deea5853d0f4" class="">
+</p><h3 id="a51e8649-78b1-4ae6-9b30-e71a9b87f50a" class="block-color-red">Proprietà astratte</h3><p id="5dba03c3-88aa-4bfe-b3d4-d5c64ba3ab40" class="">Sono osservabili con metodi pubblici.</p><p id="f01e0af3-a080-4436-8819-bc561716956a" class="">Ci sono due categorie:</p><ul id="04750881-cd7e-4dc3-94f5-4c3fdf3c5c6c" class="bulleted-list"><li style="list-style-type:disc">Proprietà evolutive: relazione tra uno stato astratto osservabile e il prossimo stato astratto osservabile</li></ul><ul id="2be5d269-eecc-438a-870a-75f2a975458a" class="bulleted-list"><li style="list-style-type:disc">Proprietà invarianti: proprietà di uno stato astratto osservabile</li></ul><p id="bf6a7ccf-e0bd-400e-b469-f8820a1b8f4f" class="">Solo le proprietà invarianti sono rappresentabili in JML.</p><p id="5d1c4e45-0da8-4822-b3c4-24b115d6814d" class="">
+</p><h3 id="9fdd69bc-76c0-43a7-a753-aab4594a1428" class="block-color-red">Invarianti </h3><p id="a1d926ae-968d-42a8-b8d8-24a7112fc925" class="">Ignoriamo l’implementazione ed usiamo solo la specifica per descrivere gli invarianti, che sono formalizzazioni di una proprietà astratta.</p><p id="fe270cca-ed0f-40bc-a0d4-4eeda17076f2" class="">Un invariante è una condizione che deve essere sempre verificata da ogni oggetto astratto.</p><p id="2f366832-3c88-444d-82d6-5e576f92c234" class="">Devono essere derivabili dalla specifica dei motodi di una classe.</p><p id="6c14a8dd-1ea6-428f-b0fe-b0b864874898" class="">In JML vengono scritti come <code>public invariant</code>e possono solo utilizzare attributi e metodi pubblici di una classe.</p><pre id="a33b9088-2046-4640-ad16-794b233361b5" class="code"><code>//@ public invariant this.size()&gt;=0
+//@ public invariant this.degree()&gt;=0;</code></pre><p id="b074b5da-f0ef-4b06-91e8-288d8f873fe5" class="">Gli utilizzatori di una classe possono sfruttare le proprietà come assunzioni riguardo al comportamento di una classe.</p><p id="40e67275-7066-4e6c-ae85-91ec222ced65" class="">Affinché esse siano utili, è necessario essere sicuri che gli invarianti vengano verificati: scrivere un invariante non è sufficiente a garantire che esso sia vero… deve essere una conseguenza di una specifica di un metodo.</p><p id="04cbdf6c-366c-436e-bbd1-60337a8a4431" class="">
+</p><h3 id="43052c21-cca7-4e8f-9072-5e3cfe46820d" class="block-color-red">Oggetti astratti vs. oggetti concreti</h3><p id="62f06e44-d895-4003-9712-4a505888d5b3" class="">La specifica di un’astrazione definisce oggetti astratti.</p><p id="911d9d1c-d112-443a-950f-c7eb7ad42373" class="">L’implementazione della specifica definisce oggetti concreti.</p><p id="1d10666f-22fd-40dc-b8fc-c0fe7e1b7a4e" class=""><em><em><em><em><em><em><em>Esempio: </em></em></em></em></em></em></em>nel caso di prima l’insieme di interi è l’oggetto astratto, IntSet è l’oggetto concreto.</p><p id="c6816bcc-4fd9-4aad-8c5b-be9854db4f20" class="">Ogni cambiamento al codice può modificare l’oggetto concreto, ma deve lasciare intatto l’oggetto astratto.<strong>
+</strong></p><h3 id="150eb8ed-29b4-45fa-b528-79fa0986bedf" class="block-color-red">Implementazione di un’Abstract Data Type</h3><p id="cd164c41-8f92-44d8-b39e-bd04cd8b2309" class="">L’implementazione di un tipo deve fornire:</p><ul id="ae84c549-c082-4948-8b65-27db2a817c4f" class="bulleted-list"><li style="list-style-type:disc">Una rappresentazione (rep) per gli oggetti di quel tipo, cioè una struttura dati per rappresentare dei valori.</li></ul><ul id="1e14386d-1626-4ff5-8da1-7c1490b93c5c" class="bulleted-list"><li style="list-style-type:disc">L’implementazione di tutte le operazioni (metodi e costruttori)</li></ul><p id="1f96b833-8ab4-449f-8306-c03a64de927d" class="">Data la stessa struttura dati, la scelta della rappresentazione usata aper contenere i dati può avere effetti sull’efficienza.</p><p id="ade32f81-8dca-4947-b32c-50db39e7f1d6" class="">Lo stato astratto viene definito dalla specifica, quello concreto viene definito dalla rappresentazione scelta per immagazzinare i dati.</p><p id="ad369916-8d0f-4f68-aaef-5fed62c74888" class="">
+</p><h3 id="68e10efd-556c-4445-9a0c-a2bda24047ce" class="block-color-red">Funzione di Astrazione (AF)</h3><p id="cdd73a9c-1de2-482f-a767-0809cdea293c" class="">Associa ogni stato concreto ad al più uno stato astratto: definisce il significato della rappresentazione scelta in fase di implementazione.</p><p id="679b5040-457a-4bf5-8e22-a72be2357b96" class="">Come si definisce quindi un’AF? Con un invariante:</p><ul id="5e90915d-0796-418f-82be-6fba8aec41f7" class="bulleted-list"><li style="list-style-type:disc">Un invariante dichiarato come <code>private</code> può usare anche metodi e attributi privati di una classe.</li></ul><ul id="f8de6c60-65c1-47c8-bec3-9e9ee2f0ae37" class="bulleted-list"><li style="list-style-type:disc">Un invariante può essere usato per descrivere una relazione tra le parti private di una classe e i suo metodi observer.</li></ul><p id="87037a6a-84aa-4097-a9f2-b6426418963e" class="">Una funzione di astrazione descrive come l’oggetto concreto memorizza l’informazione di un oggetto astratto.</p><p id="832c7c38-ef55-4cff-b928-bad8cf8a4159" class="">Si può specificare con un invariante privato, che mette in relazione attributi privati e observers pubblici.</p><p id="6b7c71df-4125-4d7e-809f-6b215dbc10fd" class="">Di solito viene implementate con la funzione <code>toString()</code>, che non è definita per gli oggetti “illegali”.</p><p id="d6424cf6-c162-41fa-bc7d-c823c7f584cc" class="">
+</p><h3 id="1bded967-f892-472e-9b99-b1d7cff31078" class="block-color-red">Oggetti Legali e Illegali</h3><p id="4f0b7802-d6e3-43d7-8d86-8877a9c36cfc" class="">Non tutti gli oggetti concreti sono legali: come faccio a sapere se un oggetto lo è o no?</p><p id="b8fd46e3-2721-4775-a65b-53249c631008" class="">Rappresentazioni legali di un oggetti sono quelle per le quali tutte le assunzioni fatte a riguardo dell’implementazione sono verificate.</p><p id="ee0d8c2a-abaa-4e7b-ada1-e76757c67fc3" class="">
+</p><h3 id="6808acde-1287-49d2-8827-9c69ca584f11" class="block-color-red">Invariante di rappresentazione (RI)</h3><p id="2b29e795-f2d7-43aa-b766-3f55cddb874f" class="">È un predicato vero solo per le rappresentazioni legali di un oggetto.</p><p id="a3667daf-266a-461e-bce1-b89e861d3bbc" class=""><em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em> un RI per un oggetto concreto di IntSet è:</p><ul id="12257ee8-61d8-4ae0-a016-df07ca56ce9c" class="bulleted-list"><li style="list-style-type:disc">c.els è sempre diverso da NULL</li></ul><ul id="2ed669c7-879a-4188-a030-b10bb3b63631" class="bulleted-list"><li style="list-style-type:disc">c.els contiene sempre elementi diversi da NULL</li></ul><ul id="9d2f13da-5a5a-4dad-9fc8-f806bba2ae3f" class="bulleted-list"><li style="list-style-type:disc">in c.els non ci sono mai due interi con lo stesso valore</li></ul><p id="d07ce741-5027-4b1b-98dd-8355005677cf" class="">In JML:</p><pre id="0e812887-3092-4cde-90bd-d800fc2ded54" class="code"><code>//@ private invariant els != null &amp;&amp; 
+//@ !.els.contains(null) &amp;&amp;
+//@ (\forall int i; 0 &lt;= i &amp;&amp; i&lt;els.size(); 
+//@ (\forall int j; i &lt;j &amp;&amp; j&lt;els.size(); 
+//@ !(els.get(i).equals(els.get(j))));</code></pre><p id="66ad2657-9cc0-43a5-aacc-5fd7f34a2051" class="">Gli RI fanno riferimento SOLO ad attributi privati di una classe: il rapporto tra oggetti astratti (public) e concreti (private) vengono definiti dalle AF.
+</p><h3 id="e051647a-93f7-4de7-a9a4-fcb7caa1b33a" class="block-color-red">Validità di RI</h3><p id="eb229f16-9143-4bea-9d71-8e173cda9035" class="">Se un metodo è observer, allora non può modificare il RI.</p><p id="a02ace43-afe5-4c91-945a-9cf59000f53e" class="">Un RI deve essere valido negli stati osservabili da un utilizzatore della classe:</p><ul id="d874319b-f9a3-4501-91b6-4921fa9ea16e" class="bulleted-list"><li style="list-style-type:disc">Costruttore: un RI deve sempre essere valido all’uscita da un costruttore, a meno che il costruttore lanci un’eccezione</li></ul><ul id="255fb5fd-50d9-45c6-961b-0b9e7645aedc" class="bulleted-list"><li style="list-style-type:disc">Per ogni metodo <code>m</code>, se RI è verificato al momento della chiamata di <code>m</code>, allora il RI deve valere anche al momento dell’uscita da <code>m</code>.</li></ul><ul id="29c72c85-99f6-464e-a74a-9da07f357649" class="bulleted-list"><li style="list-style-type:disc">Se RI non vale all’entrata di un metodo <code>m</code>, allora non si può garantire nulla</li></ul><ul id="91b2a6c6-6211-40c9-87f7-d7c3590d9bdb" class="bulleted-list"><li style="list-style-type:disc">Durante l’esecuzione di un metodo, RI può diventare falso: deve essere verificato solo quando si torna al chiamante</li></ul><p id="f2419dab-8058-427c-9dd1-5544934c9841" class="">
+</p><h3 id="2e53289c-2384-46d3-b92c-55bd805212e3" class="block-color-red">Quando scrivere e verificare gli invarianti</h3><p id="a899f7a4-3a98-4a36-b85b-851b8d4e0398" class="">Quando si scrive codice: l’implementazione deve essere scritta in un modo che preserva gli RI.</p><p id="129e2dd8-8926-4826-828c-a80fdb7e0541" class="">Durante la fase di testing: i programmi di test possono usare gli RI per verificare se un’implementazione è corretta rispetto alla rappresentazione scelta.</p><p id="736a95bc-ac57-4c52-aa19-87a45d014a97" class="">
+</p><h3 id="4a048b75-0c64-4331-bf82-890f16f480c6" class="block-color-red">Implementazione dei RI</h3><p id="1bec827c-7483-42a2-9539-6760d0164c6b" class="">Gli RI definiscono tutte le assunzioni fatte riguardo a un tipo di implementazione:</p><ul id="627c9c34-5ce8-4450-8991-f7ea5549f34b" class="bulleted-list"><li style="list-style-type:disc">Definiscono quale rappresentazione è legale, cioè per quali AF è definita</li></ul><ul id="20cea036-f10f-40a1-ba48-3de8808690ae" class="bulleted-list"><li style="list-style-type:disc">Devono essere verificati per tutti gli stati osservabili da un utente</li></ul><ul id="02c606be-7f8a-438f-a110-9595758893c7" class="bulleted-list"><li style="list-style-type:disc">Vengono implementati con il metodo ad-hoc <code>repOK()</code></li></ul><pre id="ca6cbd07-48a2-4787-9bea-fb2de97ddb8c" class="code"><code>public boolean repOk() {
+// ensures: returns true if rep invariant holds for this,
+// otherwise returns false
+}</code></pre><p id="7e1e3cc4-68ea-4325-8487-263b318c49f4" class="">
+</p><h3 id="65dbac35-2734-4da0-a81b-542a7cc842f9" class="block-color-red">Come verificare RI con repOK</h3><p id="5ce9ccd3-63d7-4d3b-8bfe-0de8ba201ac7" class="">Nel codice si inserisce il controllo di <code>repOK</code> nei mutators e nei constructors, tramite il meccanismo delle asserzioni:</p><ul id="b17e19fb-15cb-4cd3-9835-b0eae491774e" class="bulleted-list"><li style="list-style-type:disc">Si chiama <code>assert repOK();</code> al termine del metodo o del costruttore</li></ul><ul id="e5ad600c-647b-4731-ab31-c676d15f9db0" class="bulleted-list"><li style="list-style-type:disc">Se il risultato è <code>true</code> si continua, altrimenti viene lanciata l’eccezione <code>AssertionError</code></li></ul><pre id="0a91fa51-c4e2-41d0-94ca-1be83c95b2e7" class="code"><code>// Esempio
+public void insert(int x) {
+//@ensures this.isIn(x) &amp;&amp; (*this includes the elements in \old(this)*)
+... //code inserting into this.els
+assert repOk() : &quot;insert(int) does not keep RI: &quot; + x;
+assert isIn(x) : this + &quot;insert (int) does not hold postcond:&quot; + x; return;
+}</code></pre><p id="6581bcd1-baff-41df-b320-0eeb1f8868d5" class="">
+</p><h3 id="5b8fe8f2-18f0-4aa8-a63b-7904fb6a93fa" class="block-color-red">Validità di un’ADT</h3><p id="cf8ba77d-4cc8-49f3-861d-f9a91dbdef75" class="">Per verificare se l’implementazione di un’ADT è corretta si:</p><ol type="1" id="bfc37681-b54b-4526-8dc0-e02204ba8b20" class="numbered-list" start="1"><li>Si mostra che l’implementazione rispetta i RI</li></ol><ol type="1" id="4158176b-60d2-4abd-823f-84d90bf9c423" class="numbered-list" start="2"><li>Si mostra che tutte le operazioni sono corrette rispetto alle specifiche astratte</li></ol><p id="95e3d119-21d6-4d53-b550-63079e25b138" class="">
+</p><h3 id="30d09aeb-bbac-4a90-b872-6373b288abba" class="block-color-red">Validità di un RI</h3><ol type="1" id="d7f5b98f-b59c-4433-93ae-75a1bd43884e" class="numbered-list" start="1"><li>Mostrare che i costruttori ritornano oggetti che rendono veri gli RI, cioè verificare che i costruttori producano oggetti legali</li></ol><ol type="1" id="42b4ce0a-ac71-4cd3-8d20-2bb4c54fa0b4" class="numbered-list" start="2"><li>Mostrare che i metodi non helper mantengano vero l’invariante</li></ol><p id="eeab5654-000a-470a-812f-3cc68faa2173" class="">
+</p><h3 id="5b8185bb-641b-4555-a4ad-351ea5c69bc3" class="block-color-red">Esposizione del rep</h3><p id="7c272a97-8373-407f-96a7-d1a41dfd5b7a" class="">Un’astrazione mutabile deve avere un rep mutabile: è possibile che il rep cambi anche se l’oggetto astratto non cambia.</p><p id="9c8e529e-8de6-4875-ad8d-df74c16625d6" class="">Un’implementazione espone il rep quando fornisce agli utenti degli oggetti un modo per accedere a parti mutabili del rep: questo è un grave errore.</p><p id="a1c9663c-6886-455e-8215-0e799a7bd0fd" class="">Ciò avviene in due modi:</p><ul id="b16112b3-4795-4ef9-960b-94a76c8d3225" class="bulleted-list"><li style="list-style-type:disc">Restituendo ad un metodo chiamante un riferimento ad una componente mutabile del rep</li></ul><ul id="38069a53-6d07-400f-be9a-c6dd7f403149" class="bulleted-list"><li style="list-style-type:disc">Inglobando nel rep un componente mutabile per cui esiste un riferimento all’esterno dell’oggetto</li></ul><p id="582a82f4-a75f-4cd7-8332-8d55457b9662" class="">
+</p><h3 id="96216fbb-f97f-4c28-9344-1e824e7ceae8" class="block-color-red">Esposizione del rep con return</h3><p id="6c26fea1-f966-432a-94d1-0ffcbf17a3ca" class=""><em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em></p><pre id="6059ab63-9cc4-4936-94dd-c8f4e1ce8dbb" class="code"><code>// Sia dato il metodo della classe IntSet
+//@ ensures (* resituisce un ArrayList con tutti gli elementi in this senza ripetizioni e in ordine arbitrario*)
+public ArrayList&lt;Integer&gt; allEls(){
+	...
+	return els
+}</code></pre><p id="69ea1931-2eaa-493d-83e8-1b322130e254" class="">Facendo così gli utenti possono chiamare <code>allEls()</code> e accedere all’implementazione: possono ad esempio inserire elementi duplicati e distruggere il RI. </p><pre id="97cdd5b6-8a68-4bf3-9757-f03dc878310f" class="code"><code>// Codice che potrebbe essere usato dall&#x27;utente, che andrebbe a distruggere il RI
+ArrayList&lt;Integer&gt; v = o.allEls();
+v.add(new Integer(4));
+v.add(new Integer(4));
+
+// Così ho inserito due copie di 4</code></pre><p id="e72086c3-9b5c-42c9-98a3-008eb2f044bd" class="">In questo caso la soluzione corretta è restituire una copia di <code>els</code>:  <code>return els.clone();</code>.</p><p id="2d77bb22-b0a5-498d-8371-8386cafd0b90" class="">
+</p><h3 id="163b2409-fd4a-411f-85e5-1ab0f969fc98" class="block-color-red">Esposizione del rep da parametro in input</h3><p id="492565a8-f79a-46a3-a6a5-bfad277b8527" class=""><em><em><em><em><em><em><em><em>Esempio:</em></em></em></em></em></em></em></em></p><pre id="8cf540f3-4068-4830-a266-51f6c078c780" class="code"><code>//@ ensures (* this è l&#x27;insieme di tutti gli Integer in elms*)
+//@ signals (NullPointerException e) elms == null;
+public IntSet(Arraylist elms) throws NullPointerException{
+	if(elms == null) {
+		throw new NullPointerException(&quot;Intset 1 argum. contructor&quot;);
+	}
+	els = elms; // ERRATO!!
+}</code></pre><p id="7cb5dc8e-996f-4a84-a647-add560fd8fc9" class="">Nel rep viene memorizzato un riferimento ad un oggetto esterno, esponendo il rep.</p><p id="643e5348-cfc7-44d9-b3fb-e9ca2cd5ee5a" class="">Così facendo è possibile chiamare il costruttore fornendogli come parametro un ArrayList che contiene duplicati, distruggendo così il RI della classe IntSet, che non prevede elementi duplicati al suo interno.</p><p id="4db218f0-aa1c-422e-b27b-4eb29961c271" class="">
+</p><h3 id="2fcf6fe7-ada9-44cc-bf4a-64d3ab55030f" class="block-color-red">Come non esporre il rep</h3><ul id="091cec68-a8f9-4e4e-8921-29f42778b117" class="bulleted-list"><li style="list-style-type:disc">Dichiarare tutti gli attributi <code>private</code>, <code>protected</code> o friendly</li></ul><ul id="4a7cf99d-e79a-44a1-b8c1-d83a849a0a28" class="bulleted-list"><li style="list-style-type:disc">Se gli attributi riferiscono oggetti mutabili<ul id="fb67d679-fb33-4bb0-8fe3-8d0831908c08" class="bulleted-list"><li style="list-style-type:circle">Non restituire reference ad oggetti mutabili, ma creare delle copie nel caso in cui fosse necessario</li></ul><ul id="830b3b1a-9e59-4c3a-8c43-08502c8e3548" class="bulleted-list"><li style="list-style-type:circle">Non salvare riferimenti ad oggetti esterni mutabili, passati al costruttore<ul id="28db3b12-5eb8-48f5-87dc-526ae38f1b10" class="bulleted-list"><li style="list-style-type:square">Se necessario fare delle copie e salvare i riferimenti alle copie</li></ul></li></ul></li></ul></div></article></body></html>

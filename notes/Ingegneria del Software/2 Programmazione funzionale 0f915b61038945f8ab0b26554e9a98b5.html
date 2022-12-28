@@ -1,0 +1,788 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>2. Programmazione funzionale</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0f915b61-0389-45f8-ab0b-26554e9a98b5" class="page sans"><header><h1 class="page-title">2. Programmazione funzionale</h1></header><div class="page-body"><h3 id="ad3bde91-06f0-4bf4-9907-e46eccc4d52f" class="block-color-red">Interfacce Funzionali</h3><p id="89e025b7-6076-4c7d-9d5b-25de7dbf2d74" class="">Partiamo con un esempio:</p><pre id="675d2715-d476-4b94-a330-f616be78726f" class="code"><code>class Person{
+	private String name;
+	private int age;
+	...
+	int getAge(){
+		return age;
+	}
+}
+
+
+List&lt;Person&gt; list = ...
+list.add(...);</code></pre><p id="a8e8a3bc-46c4-4f08-9a74-5c428913ba7a" class="">Ho una lista di persone: come posso ordinarla in modo tale da avere le persone ordinate in base alla data di nascita?</p><p id="17df83f7-d0d0-43c3-9d7e-6cc4ba5cf07e" class="">Posso usare il metodo <code>Collections.sort()</code>, che è definito come <code>public static &lt;T&gt; void sort(List &lt;T&gt; list, Comparator &lt;? super T&gt; c)</code>.</p><p id="bc19fc0d-16a9-4ea3-aefe-03de3f27dc00" class="">A questo punto la lista ce l’ho, devo solo definire il comparator:</p><pre id="4bfebe18-be7b-42d3-9676-bb75b73705a0" class="code"><code>MyComparator c = new MyComparator(); 
+Collections.sort(list, c);
+
+
+class MyComparator implements Comparator&lt;Person&gt; { 
+	@Override
+	public int compare(Person p1, Person p2) {
+	if (p1.getEta() &lt; p2.getEta()) return -1; 
+	else if (p1.getEta() &gt; p2.getEta()) return 1; 
+	else return 0;
+	}
+}</code></pre><p id="669d7c3d-e879-4ed0-9273-0a982dec6850" class="">La classe <code>MyComparator</code> implementa una singola funzione che codifica il significato di fare il confronto tra due elementi: possiamo dire che il metodo <code>sort()</code> è parametrico rispetto alla funzione di confronto e che <code>MyComparator</code> rappresenta questa funzione.</p><p id="a8452d6e-fe6c-478e-b4f3-1b16052d59c1" class="">Possiamo usare anche una classe anonima, invece di definire la classe <code>MyComparator</code>.</p><pre id="d138cbcd-d89e-44ba-8eee-1807eb0d0324" class="code"><code>Collections.sort(list, new Comparator&lt;Person&gt;()) {//Anonymous class: 
+	@Override
+	public int compare(Person p1, Person p2) {
+		if (p1.getEta() &lt; p2.getEta()) return -1; 
+		else if (p1.getEta() &gt; p2.getEta()) return 1; 
+		return 0;
+	}
+}</code></pre><p id="28cda589-ab92-47e9-b1a9-e6692e4f74de" class="">Le interfacce con un solo metodo, come Comparator, vengono dette interfacce funzionali.</p><p id="2f9d03f3-b19e-4742-ba5f-0f900d937c57" class="">
+</p><h3 id="89b3fb88-a24e-426c-8159-0706048bd4bd" class="block-color-red">Espressioni Lambda</h3><p id="820ea0a7-6c93-456e-9f53-43b7e910e6ec" class="">In Java è anche possibile usare le espressioni lambda per definire il metodo di un’interfaccia funzionale.</p><p id="7922979c-ea6c-4d30-b2f9-2c289ad6efe6" class="">Riprendendo l’esempio di prima, posso direttamente passare una funzione lambda al metodo <code>Collections.sort()</code>.</p><pre id="b615ec18-8ec5-4fb0-bc08-ad36b6918691" class="code"><code>Collections.sort(list, (p1, p2) -&gt; {
+	if (p1.getEta() &lt; p2.getEta()) return -1; 
+	else if (p1.getEta() &gt; p2.getEta()) return 1; 
+	else return 0;
+});</code></pre><p id="88e64a6a-3f33-412b-9db7-9deff439552a" class="">
+</p><h3 id="86a4fb14-2f50-4f94-bcd9-8d42221afea6" class="block-color-red">Sintassi delle espressioni lambda</h3><p id="b385dcb5-7902-46b0-a975-6da7146e46f8" class="">Le espressioni lambda possono essere scritte specificando il tipo di dato dei parametri della funzione, ad esempio:</p><pre id="86063b19-b8fd-43d1-9529-a72047100167" class="code"><code>obj.method(String name -&gt; name.doSomething());
+// Oppure
+obj.methos(final String name -&gt; name.doSomething());</code></pre><p id="25673ed6-4bbe-419f-93fa-1d9083549b6a" class="">Oppure possono essere scritte senza il tipo, lasciando l’operazione di inferenza di tipo al compilatore:</p><pre id="a8a92a6b-21c5-4530-b910-b33b78b6b779" class="code"><code>obj.method(name -&gt; name.doSomething());
+obg.method(final name -&gt; name.doSomething()); // NO!! Questo è illegale</code></pre><p id="4c26f528-2d23-4057-a835-3a5bc97a5dbb" class="">Comunque venga scritta l’espressione lambda, l’input è immutabile.</p><p id="0217816b-c992-415c-a592-1589e4c33e98" class="">
+</p><p id="85faf569-e23f-4dc6-911d-4a6af28f0368" class="">I valori di ritorno possono essere impliciti nel caso in cui la funzione esegua solo un’operazione:</p><pre id="b6d69d73-750c-40c5-a234-7af4db6a4b8a" class="code"><code>obj.method((par1, par2) -&gt; par1.foo(par2)); // È come se ci fosse scritto return par1.foo(par2)</code></pre><p id="9fe9f0fa-e2dc-4b4b-86f0-03e81aee2cfb" class="">Nel caso in cui la funzione esegua più di un’operazione è necessario specificare il valore di ritorno.</p><pre id="c3daec03-f30d-4b3b-aabe-b2b34e29cb32" class="code"><code>obj.doSomething(final String name -&gt; { 
+	if (name.equals(&quot;Boo&quot;))
+		return &quot;Foo&quot;; 
+	else
+	return name; });</code></pre><p id="d7584a55-817d-4a71-84cc-209aeb380634" class="">
+</p><h3 id="de5c8ed7-b3a0-4f0d-88f2-3fba6d243346" class="block-color-red">Thread in programmazione funzionale</h3><pre id="6c70bf46-d5ef-4226-95f5-560333376b79" class="code"><code>// Versione con la classe anonima
+Runnable r = new Runnable(){
+	@Override
+	public void run(){
+		doSomething();
+	}
+}
+
+Thread t = new Thread(r);
+t.start();</code></pre><pre id="7318eee0-30e2-4e8a-a8c6-6453e506c019" class="code"><code>// Versione con l&#x27;espressione lambda
+Runnable r = () -&gt; doSomething();
+Thread t = new Thread(r);
+t.start();
+// Oppure
+Thread t = new Thread(() -&gt; doSomething());
+t.start();</code></pre><p id="8d1c7682-f45e-46f9-b28b-38cb12dc1c92" class="">
+</p><h3 id="9bdad6f8-bf43-43ef-babc-719978756109" class="block-color-red">Optional&lt;T&gt;</h3><p id="bb82506b-83d9-43ce-af52-841b1e5aa57a" class="">Il tipo Optional&lt;T&gt; permette di fare operazioni su dati, ignorando il fatto che alcuni dati potrebbero essere assenti (<strong><strong><strong><strong>null</strong></strong></strong></strong>).</p><p id="9f05e8fc-3118-4930-8e87-875fd7c997ba" class="">Per creare un opzionale si può usare uno dei seguenti metodi:</p><ul id="b9998a3b-0584-4968-9afc-1139bb62a352" class="bulleted-list"><li style="list-style-type:disc"><code>Optional.of(&lt;value&gt;)</code>, crea un opzionale con il valore specificato da value.</li></ul><ul id="26b30b53-cba6-44cb-821b-2a6e26f00a83" class="bulleted-list"><li style="list-style-type:disc"><code>Optional.empty()</code>, crea un opzionale vuoto</li></ul><pre id="a0236e99-3139-4404-948a-bb2b3407ef4f" class="code"><code>public class Address {
+	final String via;
+	final Optional&lt;String&gt; comments;
+
+	public Address(String street, String comments) {
+		this.via = street;
+		this.comments = Optional.of(comments); //creates an Optional with the value of comments
+	}
+
+	public Address(String via) {
+		this.via = via;
+		this.comments = Optional.empty(); //creates an empty Optional. i.e., replaces comments=null;
+	}
+
+	...
+	public Optional&lt;String&gt; getComments() {
+		return comments; 
+	}
+}</code></pre><p id="3ef66f6a-4fcd-4c5e-bd0b-99311ec68cd4" class="">Come accedo al valore di un opzionale <code>Optional&lt;T&gt; o</code>?</p><ul id="78f124a8-99cc-44e1-88b4-098deb7c82c1" class="bulleted-list"><li style="list-style-type:disc"><code>o.get()</code></li></ul><ul id="d0d18b36-aeed-4081-9c6f-8a285f6813af" class="bulleted-list"><li style="list-style-type:disc"><code>o.ifPresent(&lt;lambda_expression&gt;)</code>: prende in input una funzione che accetta il tipo T. La funzione viene invocata solo se l’opzionale non è vuoto.</li></ul><ul id="5b474d8c-9a82-4e0d-986c-f6d2f5e9a375" class="bulleted-list"><li style="list-style-type:disc"><code>o.flatMap(&lt;lambda_expression&gt;)</code>: prende in input una funzione che accetta il tipo T e che ritorna un Optional&lt;U&gt;. Se <code>o</code> è vuoto la funzione ritorna <em><em><em><em><em>empty</em></em></em></em></em>, sennò viene invocata la funzione.</li></ul><ul id="c64bd58c-0916-4bc9-999b-5e08e11ddbd5" class="bulleted-list"><li style="list-style-type:disc"><code>o.orElse(T val)</code>: se <code>o</code> non è vuoto ritorna il suo valore, sennò ritorna <code>val</code>.</li></ul><p id="e9047733-6d77-4cdb-bd25-8aa18c2bf0cd" class="">
+</p><h3 id="8345e7b8-60dc-4496-9e6c-d995f6560f77" class="block-color-red">Stream&lt;T&gt;</h3><p id="f4011174-185c-4681-87b1-584ac706fb9b" class="">Le stream permettono di concatenare funzioni che agiscono su collezioni.</p><p id="6a7381c7-8413-48a2-b513-258cc14b0492" class="">A partire da una <code>Collection&lt;T&gt;</code>, il metodo <code>stream()</code> ritorna una <code>Stream&lt;T&gt;</code>.</p><p id="429f0305-33f5-4f14-a16d-ada57a524057" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo count():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> conta gli elementi dello stream.</p><p id="f017557d-1613-4bd2-99da-f2416516a9a8" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo forEach():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> prende in input una funzione che fa qualcosa con ogni elemento dello stream. Generalmente si usa per stampare le stream.</p><pre id="e48045b7-467f-467b-96b9-0eedb4edd440" class="code"><code>List&lt;String&gt; list = ...
+list.stream()
+		.forEach(x -&gt; System.out.println(x));
+// Oppure
+list.stream()
+    .forEach(System.out::println);</code></pre><p id="f08d7995-36ff-47a0-8c7b-0f2bc970b331" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo filter():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> prende in input un predicato e ritorna una stream che contiene solo gli elementi per i quali il predicato è vero.</p><pre id="f733d1cb-27c0-425e-be0b-bf254051f879" class="code"><code>List&lt;Integer&gt; list = ...
+list.stream()
+    .filter(x -&gt; x%2 == 0)
+		.forEach(x -&gt; System.out.println(x));</code></pre><p id="01bcc902-454d-45d6-abd5-9c9cb9c66478" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo map():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> prende in input una funzione che accetta il tipo <code>T</code> e la applica ad ogni elemento, ritornando una <code>Stream&lt;U&gt;</code>.</p><pre id="39043876-746a-4087-9cdc-469a39937c91" class="code"><code>List&lt;String&gt; list = ...
+list.stream()
+    .map(x -&gt; x.size())
+    .forEach(x -&gt; System.out.println(x));</code></pre><p id="4c6858f0-eadd-4ff7-9fd5-0f86ca726921" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo distinct():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> elimina i duplicati da uno stream</p><p id="b49576ea-dd96-4058-98a6-5df133c81497" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo sort():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> ordina gli elementi di uno stream; usa l’ordine naturale per variabili intere e stringhe, ha bisogno di un Comparator negli altri casi.</p><p id="f669cb13-46fa-46df-8def-bb9e8692a46e" class=""><em><strong><em><strong><em><strong>Metodo flatMap():</strong></em></strong></em></strong></em> prende in input una funzione che accetta il tipo <code>T</code>, la applica a tutti gli elementi dello stream, producendo una <code>Stream&lt;U&gt;</code> per ogni elemento, e infine unisce tutte le <code>Steam&lt;U&gt;</code>.</p><p id="cd7258ac-1453-471a-8687-096f3fc17d1f" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo limit():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> prende in input un numero e ritorna una stream formata da i primi x elementi della stream originale.</p><p id="f2a74a9f-9724-49ce-8b22-e4b6a3fe857b" class=""><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em>Metodo sum(): </em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong>fa la somma di tutti gli elementi di una stream di interi</p><p id="62a01f8c-e691-4f5f-b2ea-31639748d2d4" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo average(): </strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em>fa la media di tutti gli elementi di una stream di interi</p><p id="f9492744-3bf3-4c09-b6bb-5e880f468fbb" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo reduce():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> permette di operare una riduzione, cioè un’operazione che raccoglie un valore unico da una stream. I metodi per ricavare la somma e la media sono esempi di riduzione. È possibile creare metodi di riduzione custom, fornendo alla funzione un punto di partenza e l’operazione da eseguire ad ogni step.<div class="indented"><pre id="00454fa9-2ff4-46b5-958f-da501506ae55" class="code"><code>Integer sum = list
+	.stream()
+	.flatMap(x -&gt; x.size())
+	.reduce(0, (a, b) -&gt; a + b);
+					</code></pre></div></p><p id="7da36bf0-e16b-498a-a303-a5ba598b6f01" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo collect(): </strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em>simile a reduce, prende in input tre funzioni: supplier, accumulatore e combinatore. </p><pre id="bb0080c1-a26f-4945-837a-4f7e0a30c0a2" class="code"><code>List&lt; String&gt; sentence = ... 
+List&lt;String&gt; wordsConA =
+	sentence.stream()
+					.filter(word -&gt; word.startsWith(&quot;a&quot;)) 
+					.collect(ArrayList::new,
+									 ArrayList::add, 
+									 ArrayList::addAll);</code></pre><p id="15809e06-5dc3-468e-9cd5-6632a15a1697" class=""><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong><em><strong>Metodo parallel():</strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em></strong></em> consente di far eseguire le operazioni sulle stream in parallelo.</p><p id="5635df45-86b2-489f-87ff-050e39ec246f" class="">
+</p><h3 id="dd36ab1c-8eff-42b3-bacd-1e56d4c0ce0c" class="block-color-red">java.utils.function</h3><p id="526bc682-53f6-4207-9c05-3f20a526d427" class=""><code>Function&lt;T,R&gt;</code>: funzione che ha come parametro il tipo T e come ritorno il tipo R</p><p id="83545381-b643-4f50-b054-df9f370d15b4" class=""><code>BiFunction&lt;T, U, R&gt;</code>: funzione che ha come parametri i tipi T ed U e come ritorno il tipo R</p><p id="83b6e2c2-bd5e-4fbb-b26c-99967484577e" class=""><code>Consumer&lt;T&gt;</code>: funzione che ha come parametro il tipo T e non ha valori di ritorno</p><p id="ecdc8b37-539f-4b69-b005-fe6dd07f9e12" class=""><code>Predicate&lt;T&gt;</code>: funzione che ha come parametro il tipo T e ha un booleano come valore di ritorno</p><p id="9ca95e91-6e4c-4cc0-9785-957123eccf7f" class="">
+</p><h3 id="dc2e96f3-fc92-4127-98cf-4429f347444b" class="block-color-red">Chiusure</h3><p id="9c95a3ce-45e8-41c7-a596-d4bf71caa8b2" class="">Supponiamo di voler usare un’espressione lambda più volte: è possibile usare un <code>Predicate&lt;T&gt;</code>, ad esempio:</p><pre id="02d7fe8e-4119-4f85-8417-c31347b4f2a9" class="code"><code>Predicate&lt;String&gt; pred = s -&gt; s.startsWith(&quot;L&quot;);
+...
+list.stream()
+    .filter(pred)
+		.forEach(x -&gt; System.out.println(x));</code></pre><p id="c62df998-c46b-477b-a161-0cca863684b4" class="">Ma se volessi generalizzare l’esempio in modo tale che il predicato ci dica quali sono le stringhe che iniziano con un generico prefisso?</p><p id="33251801-6451-447d-8f10-265d7d59dfc3" class="">Posso creare un metodo che ritorna un’espressione lambda parametrizzata:</p><pre id="5d031718-fdb7-4ac5-a1a9-1f39d602a748" class="code"><code>public static Predicate&lt;String&gt; pred(String prefix){
+	return s -&gt; s.startsWith(prefix);
+}
+...
+list.stream()
+		.filter(pred(&quot;X&quot;))
+		.forEach(x -&gt; System.out.println(x));</code></pre><p id="cba4886f-c526-431b-ad62-5406d034dd11" class="">L’espressione lambda in questo caso viene detta chiusura.</p><p id="993c0fcf-6588-4617-b18f-d908bcea1952" class="">
+</p><h3 id="636c3c02-0a99-4abb-b631-235444473472" class="block-color-red">Esempi di codici con le stream</h3><p id="15d13812-9ac8-4769-8dd6-409bf108ab66" class="">1) Codice per trovare il valore massimo di una lista di interi.</p><pre id="cf06166f-c45a-4024-a56a-d9f246f4121e" class="code"><code>int max = prices.stream()
+								.reduce(0, Math:max)</code></pre><p id="313a5622-e482-4909-802b-b072e2bfad9b" class="">2) Codice che ritorna una lista formata da tutti i nomi che non erano completamente in maiuscolo, in maiuscolo. (Focalizzarsi sulla <code>collect</code>)</p><pre id="e0f814ff-0325-4543-9932-b20e046e377d" class="code"><code>public static List&lt;String&gt; inUpperCase(List&lt;String&gt; people) { 
+	return people.stream()
+							 .filter(x -&gt; !(x.equals(x.toUpperCase())))
+							 .map(x -&gt; x.toUpperCase())
+							 .collect(Collectors.toList());
+}</code></pre></div></article></body></html>

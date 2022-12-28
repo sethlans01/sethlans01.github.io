@@ -1,0 +1,716 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>2. JML</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a894735f-5f5d-48d0-947e-233c10e2f037" class="page sans"><header><h1 class="page-title">2. JML</h1></header><div class="page-body"><p id="57ea02a8-d956-4529-89c7-c413f3368092" class="">Le specifiche in JML vanno racchiuse in commenti in uno dei seguenti modi:</p><pre id="fadd9128-76e7-4057-b3a3-1f230510e18f" class="code"><code>// @ ...
+
+oppure
+
+/* @ ...
+@ ...
+@ ...
+@*/</code></pre><p id="884bd5fc-9e9f-4e1e-8538-541f88f24494" class="">
+</p><h3 id="9e1c4749-c859-4a0b-bd7d-3512d1b706cd" class="block-color-red">Asserzioni</h3><p id="2b7a14ce-7554-45c9-96e9-bde394303e74" class="">Sono delle espressioni booleane.</p><table id="fe00d882-3332-4ad0-987d-538489b0577c" class="simple-table"><tbody><tr id="a4c3938f-cc5e-4fde-9e65-6c513a90a6d7"><td id="s]zo" class="">Sintassi</td><td id="KbHZ" class="">Semantica</td></tr><tr id="ff7d53a0-b36c-4242-a6e4-4a49aa98cbb3"><td id="s]zo" class="">a == &gt; b </td><td id="KbHZ" class="">a implica b</td></tr><tr id="26127ef6-68c8-4180-ae5e-bd150fc47661"><td id="s]zo" class="">a &lt; = = b</td><td id="KbHZ" class="">b implica a </td></tr><tr id="e51ee170-7b20-4a3c-9f1a-5d955d46b8c3"><td id="s]zo" class="">a &lt; = = &gt; b</td><td id="KbHZ" class="">a sse b</td></tr><tr id="834a1f63-3c38-4b57-82b4-60498a890613"><td id="s]zo" class="">a &lt; = ! = &gt; b </td><td id="KbHZ" class="">!(a sse b)</td></tr><tr id="c09b38fa-ded3-4d58-8cd1-32515d4961d6"><td id="s]zo" class="">\old(E)</td><td id="KbHZ" class="">valore di E nello stato precedente alla chiamata del metodo</td></tr></tbody></table><p id="cf2eee68-d509-43ad-a8f6-d220d45a843d" class="">
+</p><h3 id="1e965ca3-1d5a-4013-bf95-f1461c88ecf2" class="block-color-red">Requires e Ensures</h3><pre id="682b8178-e6b4-4826-8841-38a465e2ffbe" class="code"><code>//@ requires in &gt;= 0;
+//@ ensures Math.abs(\result * \result-in)&lt;0.0001;
+public static float sqrt (float in);</code></pre><p id="ee1ce603-bc3d-44cf-add0-10277f6e7d28" class=""><code>requires</code> specifica le precondizioni, <code>ensures</code> specifica le postcondizioni, <code>\result</code> indica il valore prodotto alla fine dell’esecuzione del metodo.</p><p id="6201963f-0f7a-4520-b4dc-8060d97d64f8" class="">
+</p><h3 id="73611e9b-41db-44c2-bad4-8317a4627c81" class="block-color-red">Commenti</h3><pre id="c1e4c190-2166-4513-8aaa-2c1abb955741" class="code"><code>(* questo è un commento *)</code></pre><p id="2d216cbe-1712-49bd-8dfc-22c44ee89857" class="">
+</p><h3 id="51218800-3b90-45a2-aa0a-f1772825304c" class="block-color-red">Assignable</h3><p id="4690eaf7-de62-481b-acf7-c1c70390223f" class="">Permette di specificare quale parametro può essere modificato dal metodo.</p><pre id="8ad206f6-6cfb-48e6-9b8c-1754eff43cec" class="code"><code>In questo metodo l&#x27;array a può essere modificato.
+
+//@assignable a[*];
+//@ ensures (* a is a permutation of the original value of a*)
+//@ &amp;&amp; (* a is sorted by increasing values *)
+public static void sort (int[] a)</code></pre><p id="f7c743ef-d032-429d-947e-b9d505a16794" class="">Se un metodo non modifica nessuna variabile si scrive <code>aggignable \nothing</code>.</p><pre id="97424f52-1967-4727-9b22-f8b4513277aa" class="code"><code>In questo metodo nessuna variabile viene modificata.
+
+//@ assignable \nothing;
+//@ ensures (*x is in a*) &amp;&amp; x==a[\result]
+//@ || (* x is not in a *) &amp;&amp; \result ==-1;
+public static int search (int[ ] a, int x)</code></pre><p id="854ab220-f07d-443b-b95e-c552c99c759e" class="">Se la clausola <code>assignable</code> viene omessa, tutte le variabili coinvolte nel metodo possono essere modificate.</p><p id="7b46f90c-aed9-42e5-9a8d-182226353dca" class="">
+</p><h3 id="af63781a-2f24-4ef8-b0d4-f73f795ebbf9" class="block-color-red">Eccezioni</h3><p id="d4b3964a-68d1-4577-972c-11f033dfa912" class="">Si utilizza la clausola <code>signals</code> per segnalare delle eccezioni che possono essere lanciate dal metodo.</p><pre id="c1a5e00d-2ebc-446d-8493-a220bd6d0b77" class="code"><code>//@ assignable \nothing;
+//@ ensures x == a[\result];
+//@ signals (NotFoundException e) (* x is not present in a *);
+public static int searchs(int x, int [] a) throws NotFoundException</code></pre><p id="acb2bed8-1e09-41e0-8f6a-ec7239a04ec3" class="">Significato:</p><ul id="971378cf-82c1-44a0-a9c0-9ce6cb620670" class="bulleted-list"><li style="list-style-type:disc">se la postcondizione è verificata, il metodo ritorna il valore calcolato</li></ul><ul id="71d5b6d8-a049-42e0-a800-a10e13a2f9e4" class="bulleted-list"><li style="list-style-type:disc">se la clausola signals è verificata, il metodo lancia l’eccezione specificata da <code>signals</code>.</li></ul><p id="8a60b2e5-ff3c-482d-bfab-52529f73a12b" class="">Per ogni eccezione che può essere lanciata dal metodo, è necessario scrivere una clausola <code>signals</code>.</p><p id="85eac14d-76d0-4785-84f8-51acb3cf2a3f" class="">
+</p><h3 id="45ddcb52-19d7-4f30-b0d9-5ea652b90bee" class="block-color-red">Precondizioni o eccezioni?</h3><p id="a9462211-ca68-43fd-b5b1-54d4aba1ed34" class="">Una procedura è parziale se possiede una precondizione non vuota: la precondizione fa sì che il metodo segua il comportamento specificato solo per un insieme ristretto di valori del dominio che la variabile può assumere.</p><p id="0be725bc-e7f3-4920-9d00-93b48d9692f7" class="">Questo rende il metodo unsafe, poiché per valori che non rispettano le precondizioni, accettiamo qualsiasi comportamento da parte del metodo chiamata: questa è una cosa pericolosa per il programma.</p><p id="84d4fd90-861f-4418-827d-3ed512a7b6a3" class="">Una procedura dovrebbe essere pertanto totale (non parziale).</p><p id="bd9027e3-f70d-4ada-9a73-055e389a6653" class="">Quando si ha a che fare con dei metodi pubblici di classi pubbliche, non specifichiamo la clausola <code>requires</code>, ma lanciamo un’eccezione ogni volta che la precondizione del metodo viene violata. Così facendo evitiamo comportamenti potenzialmente distruttivi per il programma.</p><pre id="4b3473dd-c3d4-4c15-bc03-1263408c869d" class="code"><code>Versione da EVITARE:
+//@ requires x != null;
+//@ ensures a[\result].equals(x);
+//@ signals (NotFoundException e) (*x is not in a *);
+public static int search(String x, String[] a) throws NotFoundException
+
+Versione da SEGUIRE:
+//@ ensures x != null &amp;&amp; a[\result].equals(x);
+//@ signals (NotFoundException e) (*x is not in a *)
+//@ signals (NullPointerException e) x == null;
+public static int searchs(String x, String[] a) throws NullPointerException, NotFoundException</code></pre><p id="91d0d79f-1580-4746-aab8-5a68e475e0a3" class="">
+</p><h3 id="e9e41101-620d-48d1-bf7e-73b57054baaf" class="block-color-red">Quantificatori</h3><p id="0c192a2a-cb0e-4b74-be8e-73bb6c93823e" class="">Per parlare degli elementi delle collezioni è possibile usare i seguenti metodi:</p><ul id="78f622ce-2409-425c-9b44-d0f0d099e381" class="bulleted-list"><li style="list-style-type:disc"><code>equals</code></li></ul><ul id="0b448118-1092-4f5e-9d83-dd87d92af979" class="bulleted-list"><li style="list-style-type:disc"><code>contains</code></li></ul><ul id="56777d70-5726-4103-a654-a38090ec4b52" class="bulleted-list"><li style="list-style-type:disc"><code>containsAll</code></li></ul><ul id="561a454f-45ac-4c45-bc4c-8a5349e2aaf8" class="bulleted-list"><li style="list-style-type:disc"><code>get</code></li></ul><ul id="404038c0-1eb4-4da4-8fda-63db573e506c" class="bulleted-list"><li style="list-style-type:disc"><code>sublist(&lt;initial_position&gt;, &lt;final_position&gt;)</code></li></ul><ul id="6caa74a6-c65b-4c48-b450-8ed4c039ed14" class="bulleted-list"><li style="list-style-type:disc"><code>size</code></li></ul><pre id="a0b6137a-c353-4269-a32b-bc48f4f55cfc" class="code"><code>//@ ensures a.containsAll(\old(a.sublist(0,a.size())) &amp;&amp;
+//@ \old(a.sublist(0,a.size()). containsAll(a)
+//@ &amp;&amp; (* to sorted by increasing values*);
+public static void sort (ArrayList&lt;Integer&gt; a)</code></pre><p id="6e68a00e-f32c-4a6b-83a6-8dd56a4683cd" class=""><strong><strong><strong><strong><strong><strong><strong>Forall:</strong></strong></strong></strong></strong></strong></strong> quantificatore universale. La sintassi è <code>(\forall &lt;variable&gt;; &lt;range&gt;; &lt;condition&gt;)</code>, la semantica è<em><em><em><em><em><em><em><em><em><em><em><em><em><em> “per tutti i valori che soddisfano range, condizione deve essere true”</em></em></em></em></em></em></em></em></em></em></em></em></em></em>.</p><pre id="b4305401-77d1-4dd3-94fa-b53c583420c9" class="code"><code>(\forall int i; 0&lt;=i &amp;&amp; i&lt; a.length-1; a[i]&lt;=a[i+1])</code></pre><p id="d677fde5-fde5-4160-82bc-bc140dac81ea" class=""><strong><strong><strong><strong><strong><strong><strong>Exists:</strong></strong></strong></strong></strong></strong></strong> quantificatore esistenziale.</p><pre id="917b4d09-e342-4e75-be7c-69b4dd2ed526" class="code"><code>(\exists int i; 0&lt;=i &amp;&amp; i&lt; a.length;a[i] == x)</code></pre><p id="0226056f-1126-4968-b302-de94f08eae93" class=""><strong><strong><strong><strong><strong><strong><strong>Num_of:</strong></strong></strong></strong></strong></strong></strong> la sintassi è <code>(\num_of int i; P(i); Q(i))</code> e ci ritorna il numero di i che rendono vere P(i) e Q(i).</p><pre id="ae22f548-8ffa-4036-8350-825e23d009b5" class="code"><code>(\numof int i; 0&lt;=i&amp;&amp; i&lt; a.length; a[i]&gt;0)</code></pre><p id="e2262269-5ea6-4ff7-9778-be7fd47b4c7a" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Altre operazioni:</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><pre id="78ccd89f-3bcf-475e-8c4d-8288d788896b" class="code"><code>(\sum int i; 0 &lt;= i &amp;&amp; i &lt; 5; i+1)    // == 1 + 2 + 3 + 4+5
+(\product int i; 0 &lt; i &amp;&amp; i &lt; 5; i*i) // == 1 * 4 * 9 * 16
+(\max int i; 0 &lt;= i &amp;&amp; i &lt; 5; i*i)    // == 16
+(\min int i; 0 &lt;= i &amp;&amp; i &lt; 5; i-1)    // == -1</code></pre><p id="aebc0ebe-1dfa-407c-896a-fd7d1791c074" class="">
+</p><p id="2199a736-214d-471d-b5fd-ee33e7c1e967" class="">
+</p></div></article></body></html>

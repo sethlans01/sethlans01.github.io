@@ -1,0 +1,726 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>14. Liste e collezioni</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1e68582d-e735-4595-abdb-9ded3f3f0b5f" class="page sans"><header><h1 class="page-title">14. Liste e collezioni</h1></header><div class="page-body"><p id="7ff9e038-e9c6-4b4b-8241-56baf68f3199" class="">Le liste sono un tipo di dato che rappresenta una lista dinamica.</p><p id="bff2ddef-fa4a-4708-915f-9188f548488a" class="">Ci sono varie implementazioni: <code>ArrayList, LinkedList</code>...</p><p id="31b6fb81-6353-4767-9fd9-5b04b10854c2" class="">A partite da Java 5 sono parametriche, cioè hanno bisogno di un tipo di dato associato ad esse: <code>List&lt;Integer&gt;, List&lt;String&gt;</code>...</p><p id="8a3fb637-41f9-46db-95ab-78b55d972212" class="">
+</p><h3 id="31847656-2e45-422c-8a13-e0dca296896d" class="block-color-red">Esempio di Lista</h3><pre id="8aa88e11-7d5d-42fa-be0b-f08fa8664af4" class="code"><code>import java.util.ArrayList;
+List&lt;Person&gt; team = new ArrayList&lt;Person&gt;();
+
+team.add(new Person(&quot;Bob&quot;));</code></pre><p id="c61c2e9a-cbe6-41b4-b930-d822b364d53f" class="">
+</p><h3 id="1bdffa23-c7ad-4b9d-9721-db9bc10c8233" class="block-color-red">Metodi comuni</h3><p id="3fdeb63b-6f33-485f-b539-ebf4d143f950" class="">I metodi <code>add(index, object)</code> e <code>remove(index)</code> aggiungono o rimuovono un elemento alla posizione specificata, modificando la lunghezza della lista.</p><p id="c8f8cb20-7509-48d2-9d65-0b246eded6e2" class="">I metodi <code>get(index)</code> e <code>set(index, object)</code> permettono di accedere agli elementi in una posizione specifica (gli indici iniziano da 0).</p><p id="d3f6a172-675f-44b6-92a2-5b0c589c3e46" class="">Il metodo <code>set</code> sostituisce l’oggetto presente alla posizione <code>index</code> con quello specificato da <code>object</code>. Tuttavia, questo metodo non va usato se alla posizione specificata da <code>index</code> non è presente alcun oggetto!</p><p id="c7335645-965b-4357-a3d3-cd87d48139b0" class="">
+</p><h3 id="d4a37c5d-d0c2-491a-9897-0c98c6fc5970" class="block-color-red">Sottotipi</h3><p id="9fd55272-37fb-4f28-8166-81e83af0beb5" class="">Data la classe A e la sua subclasse B, allora la collezione Gen&lt;B&gt; non è sottoclasse di Gen&lt;A&gt;.</p><p id="5f99441e-60d2-4b72-b83a-f23979873f77" class="">Ad esempio, List&lt;String&gt; non è sottotipo di List&lt;Object&gt;.</p><p id="56751c5f-17a0-4bd9-9290-0a95a90c6ab3" class="">
+</p><h3 id="357d3d36-f63a-4de0-93c3-9f3786175398" class="block-color-red">Collezioni</h3><p id="fb9692aa-8281-4e63-a9a5-04c0707266df" class="">In generale, le liste sono un particolare tipo di collezione.</p><p id="11a14f21-d1da-48fb-8f31-dd2d8a39270e" class="">C’è una gerarchia tra le varie strutture dati in Java.</p><div id="cff9a505-815a-49dc-a25d-53bca788fc9e" class="column-list"><div id="1b22d57c-32fb-4b61-9b6f-1f102ff0d248" style="width:50%" class="column"><figure id="6475e5cb-f2a9-4460-90b2-629d8d62e9ff" class="image" style="text-align:left"><a href="collezioni.png"><img style="width:528px" src="collezioni.png"/></a></figure></div><div id="baba83fa-a0e2-4c3a-b2b2-d7a1536d3a22" style="width:50%" class="column"><figure id="ffdfe8b7-29d5-4abe-9286-f775a53d58d0" class="image" style="text-align:right"><a href="mappe.png"><img style="width:528px" src="mappe.png"/></a></figure><p id="e2bd149d-9d14-49fd-b063-980abea12d5a" class="">
+</p></div></div><p id="ada36262-0166-4fe7-8024-3144106c1db9" class="">
+</p><h3 id="e3328498-0d4f-4782-81c8-54f25390ae9b" class="block-color-red">Metodi delle collezioni</h3><pre id="b8c904d8-426b-429c-a2a9-ecedb0a35d96" class="code"><code>int size();
+
+boolean isEmpty();
+
+boolean contains(Object element);
+
+boolean add(E element);// Opzionale
+
+boolean remove(Object element);// Opzionale
+
+Iterator iterator();
+
+boolean containsAll(Collection&lt;?&gt; c); //Collection&lt;?&gt; shortcut per Collection&lt;? extends Object&gt;
+
+boolean addAll(Collection&lt;? extends E&gt; c);// Opzionale
+
+boolean removeAll(Collection&lt;?&gt; c);// Opzionale
+
+boolean retainAll(Collection&lt;?&gt; c);// Opzionale
+
+void clear();// Opzionale</code></pre><p id="f4970c4f-b4f2-4057-bb54-2666ea0c06f4" class="">
+</p><h3 id="9da9c725-841d-4d40-b9de-ab4dbdd46172" class="block-color-red">Set</h3><p id="2f337823-0faa-49e1-b9c9-5d02964189f8" class="">Un <em><em><em>Set</em></em></em> rappresenta un insieme di oggetti privo di elementi duplicati. In generale, non conserve un ordinamento, tranne nel caso in cui si usi un <em><em>SortedSet</em></em>.</p><p id="e2c862e8-3bc6-456c-8ec4-e4c3f2f28461" class="">Alcune sue implementazioni sono <em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>HashSet, TreeSet, LinkedHashSet.</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></p><p id="0976e899-e890-4627-ac21-0641c6d7d402" class="">
+</p><h3 id="85a40c25-70b0-4173-ab49-34019aa632e1" class="block-color-red">List</h3><p id="929ff295-3927-4a7a-9b57-8946cf4980fd" class="">Una <em><em><em><em>List</em></em></em></em> rappresenta una sequenza di oggetti che può contenere duplicati.</p><p id="1bde342b-1e96-45d3-8a0d-2630403fb7b3" class="">Alcune implementazioni sono <em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>ArrayList, LinkedList, Vector.</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></p><p id="d3d3ef5f-ab57-40d2-aef4-c2969f861d68" class="">Le operazioni basilari delle liste sono:</p><pre id="d4226f2d-422f-4bfb-bf99-b31db8cd9fa5" class="code"><code>1. E get(int index);
+2. E set(int index, E element);
+3. boolean add(E element);
+4. void add(int index, E element);
+5. E remove(int index);
+6. boolean addAll(int index, Collection&lt;?extendsE&gt; c);
+
+7. int indexOf(Object o);
+8. int lastIndexOf(Object o);
+
+9. ListIterator&lt;E&gt; listIterator();
+10. ListIterator&lt;E&gt; listIterator(int index);</code></pre><p id="9e355aef-69e5-4501-b892-4e57271a5bfe" class="">
+</p><h3 id="a1c796f3-6816-495f-9dc5-26382bd7864a" class="block-color-red">Queue</h3><p id="8308ccfc-e635-4dd0-843e-d97924a6d18d" class="">Una <em><em><em><em><em>Queue</em></em></em></em></em> rappresenta una coda di oggetti che può contenere duplicati. Una sua implementazione è <em><em><em><em><em><em><em><em><em><em>LinkedList</em></em></em></em></em></em></em></em></em></em>.</p><p id="b8e50818-6466-4147-a71b-53cdc9c6868d" class="">Il sottotipo <em><em><em><em><em>Deque</em></em></em></em></em> rappresenta una cosa con entrambi gli estremi manipolabili (double ended queue).</p><p id="e151ed4e-a91c-44e6-8e85-fc9fac1e2df6" class="">Le operazioni sono:</p><ul id="4b9cea13-02c2-4bde-8e7f-1b74724bd465" class="bulleted-list"><li style="list-style-type:disc">Inserimento —&gt; <code>add(e)</code>, <code>offer(e)</code></li></ul><ul id="56bb1f2f-1049-40cd-971d-5095ef05960c" class="bulleted-list"><li style="list-style-type:disc">Rimozione —&gt; <code>remove()</code>, <code>poll()</code></li></ul><ul id="b11e255f-8dc0-47a4-a885-034df6ea54bb" class="bulleted-list"><li style="list-style-type:disc">Esaminare —&gt; <code>element()</code>, <code>peek()</code></li></ul><p id="2b3e115d-db6b-4d04-a44f-8eb96ce46883" class="">La prima lancia un’eccezione, la seconda ritorna un valore speciale in caso di errore.</p><p id="1d21f212-c2f5-47a5-9b4c-4e51ec2f4185" class="">
+</p><h3 id="29890eec-3f19-42fb-a462-712f7cb242f2" class="block-color-red">Map</h3><p id="e6fdf441-7b7d-40cd-a622-ff54c01228be" class="">Una <em><em><em>Map</em></em></em> rappresenta un’associazione di valori a delle chiavi: non ammette duplicati, ma ammette valori nulli.</p><p id="48a2e75f-ded3-4674-a706-d2b453fd4f0d" class="">Alcune sue implementazioni sono <em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>HashMap, TreeMap, LinkedHashMap</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em>.</p><p id="dcf1a19f-c21f-4f66-8cb3-eaf539513930" class="">Le operazioni basilari sono:</p><pre id="b2f02d2e-e54d-4a55-aa3d-494105256b0e" class="code"><code>1. V put(K key, V value);
+2. V get(Object key);
+3. V remove(Object key);
+4. boolean containsKey(Object key);
+5. boolean containsValue(Object value);
+6. int size();
+7. boolean isEmpty();
+
+8. Set&lt;K&gt; keySet();
+9. Collection&lt;V&gt; values();
+10. Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet();</code></pre><p id="58b7fb51-eb13-48b9-8a51-d573514e523b" class="">
+</p><h3 id="256afe74-fb58-49f8-8db8-e649be272d28" class="block-color-red">HashTable</h3><p id="b8bc2504-2698-4147-a6a1-7f591c9a2ba8" class="">Una <em><em><em><em>HashTable </em></em></em></em>è un&#x27;implementazione di una Map: non ammette valori nulli ed è sincronizzata.</p><p id="5b4d264a-1f2a-4cdc-81ab-3b879a5d7b02" class="">
+</p><p id="ebab49d1-66dd-4d93-b1d1-b25e0a1417a4" class="">
+</p></div></article></body></html>

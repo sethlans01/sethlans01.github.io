@@ -1,0 +1,718 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1. Il linguaggio Java</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="59589e0b-e9c0-4656-a36d-e181c84c09de" class="page sans"><header><h1 class="page-title">1. Il linguaggio Java</h1></header><div class="page-body"><h3 id="859b15f1-7789-4284-a5e8-c50ea7006516" class="block-color-red"><strong>Programmazione orientata ad oggetti</strong></h3><p id="89984268-8289-428e-be7a-801678cd26e7" class="">Per realizzare delle applicazioni vengono assegnati compiti specifici e parti da realizzare ai vari programmatori.</p><p id="e6ec2700-720d-4704-b43c-ce91d096f104" class=""><em>Ex.</em> In seguito, Alberto è in carica della struttura dati, mentre Bruno è in carica delle operazioni eseguite dall’utente finale.</p><pre id="6a7b5132-ecb2-4d44-8658-65e09268f955" class="code"><code>// Codice di Alberto
+typedef struct{
+	int day;
+	int month;
+	int year;
+} Date;
+
+void printDate(Date d) {
+	printf(&quot;%d&quot;, d.day);
+	if (d.month == 1)
+		printf(&quot;Gen&quot;);
+	else if //...
+	printf(&quot;%d&quot;, d.year);
+}
+
+// Codice di Bruno
+Date data;
+// ...
+data.day = 14;
+data.month = 3;
+data.year = 1908;
+// ...
+if (data.day == 27)
+	payWages();</code></pre><p id="1325e310-9056-43aa-8519-7c4679b0f615" class="">Alberto decide in seguito di cambiare la rappresentazione della variabile <em>mese</em> nella struttura dati in <code>char month[4]</code>. Il codice di Bruno deve essere quindi cambiato, affinché funzioni di nuovo.</p><p id="a2f26aa6-64b4-4bf2-aee3-5fd06c5170cb" class="">Da qui si deduce che ogni volta che Alberto cambia la struttura dati, tocca modificare opportunamente il codice di Bruno, aprendo la possibilità ad errori, spreco di tempo e risorse.</p><p id="f7a029cc-e6a1-4379-98ea-74df8dcef8fb" class="">Il problema può essere risolto facendo in modo che Bruno non possa più accedere direttamente alla struttura dati: ad esempio Bruno non potrà più scrivere <code>d.month = 12</code>.</p><p id="59261743-19f3-4fea-af31-afdde857e7a6" class="">Però a questo punto serve qualcosa che permetta a Bruno di accedere alla struttura dati, anche se non direttamente… Alberto dovrà mettere a disposizione di Bruno delle funzioni base che permettono di eseguire le varie operazioni di cui Bruno ha bisogno sulla struttura dati.</p><p id="c7e63ab0-390a-40ed-a7ea-d0390f8ecb8d" class="">Se Alberto decide di cambiare di nuovo il suo codice, deve cambiare le operazioni che le varie funzioni fornite a Bruno eseguono, ma deve lasciare il prototipo intatto.</p><p id="4541f659-9ca9-4f15-acbc-b464d85905a6" class="">Abbiamo incapsulato la struttura dati: ogni cambiamento alla struttura dati rimane confinato nella struttura stessa, cosicché i cambiamenti sono più facili, veloci e meno costosi.</p><p id="632b5b3d-d131-4edf-b93b-4f4e04a4e38a" class="">
+</p><h3 id="2b683213-b579-4663-9617-87d524d343e8" class="block-color-red"><strong>Abstract Data Type</strong></h3><p id="1fde118f-17c3-4b28-8ac1-c419e12a700f" class="">È un’astrazione fatta su dati, che non classifica i dati secondo la loro rappresentazione (<em>implementazione</em>), ma in base al loro comportamento atteso (<em>specifica</em>).</p><p id="3da3ca4a-1151-46ed-b380-eaafebd6dd57" class="">Il comportamento dei dati è espresso in termini di un insieme di operazioni applicabili a quel dato specifico (<em>interfaccia</em>).</p><p id="14b2d0fe-3d75-4f0b-aa98-9eb1a4fe3661" class="">Un ADT incapsula tutte le operazioni che manipolano la struttura:</p><ul id="e6295fb0-3015-4db1-a724-759145d0957b" class="bulleted-list"><li style="list-style-type:disc">Esporta il type name e l’interfaccia</li></ul><ul id="2f357c1d-5990-42f8-865d-cc548b4b9403" class="bulleted-list"><li style="list-style-type:disc">Nasconde la struttura del tipo e l’implementazione delle operazioni</li></ul><p id="a1a9730f-bd70-4a5d-a163-cd597f25c43a" class="">Le operazioni dell’interfaccia sono le uniche che possono essere usate per creare, modificare ed accedere agli oggetti.</p><p id="dbc16b3a-fada-45f3-9fda-03abeee41416" class="">
+</p><h3 id="730c2e63-50d5-473a-80ae-15aafbb095b2" class="block-color-red"><strong>Il linguaggio Java</strong></h3><p id="428dd8b4-1e67-47d1-8c20-41c2e0d52972" class="">Dato che il linguaggio C non ha una definizione diretta degli strumenti necessari ad operare con gli ADT,</p><p id="0c791a21-c539-427c-9ebe-82504c379821" class="">useremo il linguaggio Java.</p><p id="3c6f27ca-135a-44c5-a418-01b7f7b2fc42" class=""><em>Caratteristiche del Java</em></p><ul id="3e59af7e-2960-418f-bd92-e65d9165c29c" class="bulleted-list"><li style="list-style-type:disc">Orientato ad Oggetti</li></ul><ul id="201df7c9-993c-4460-83b1-d6230e14079d" class="bulleted-list"><li style="list-style-type:disc">Platform-Independent</li></ul><ul id="19b52667-eacf-4511-8790-4f30fd453da6" class="bulleted-list"><li style="list-style-type:disc">Supporto alla distribuzione</li></ul><ul id="bbc5cf3a-31d7-4369-aec0-5dd5023e7e68" class="bulleted-list"><li style="list-style-type:disc">Sicuro: il codice viene eseguito in una sandbox</li></ul><p id="7119d1ec-b078-4cf9-83fe-6957c32dbbdc" class="">
+</p><h3 id="0dae1163-eaa3-4994-bb59-d43438f92ad3" class="block-color-red">Struttura di un programma Java</h3><p id="1d40b50b-792f-4855-9a72-a81da8dc0df3" class="">Un programma Java è organizzato in un insieme di classi: ogni classe corrisponde ad una dichiarazione di tipo.</p><p id="5b2d301d-0b6b-41e0-a34b-ad2ef6e9f97c" class="">Una classe contiene la dichiarazione di variabili, dette attributi, e funzioni, dette metodi:</p><ul id="7b16ebce-c6f8-418b-acf1-3b85337c59da" class="bulleted-list"><li style="list-style-type:disc">I valori degli attributi caratterizzano istanze individuali (<em>oggetti</em>) di una classe</li></ul><ul id="68564d81-cd73-440f-8bf0-078fee66c9b1" class="bulleted-list"><li style="list-style-type:disc">I metodi sono usati per manipolare le istanze e sono simili alle funzioni del C</li></ul><p id="ea88440f-0689-4b0a-ab8b-4ac4507f7f70" class="">Il programma principale consiste in una classe chiamata <strong>main</strong>.</p><p id="60d408d7-a9a7-4529-bc84-e25d35f0f921" class=""><em>Hello World</em></p><pre id="809b5e7d-5d58-477b-8128-1840c16173b5" class="code"><code>public class HelloWorld() {
+	public static void Main(String args[]) {
+		System.out.println(&quot;Hello World&quot;);
+	}
+}</code></pre><p id="76cddb6a-5386-46f9-ab3c-63a12123d96a" class=""><em>Esempio di classe in Java</em></p><pre id="c0c9fe32-538c-42ab-a030-5ff06bb305d7" class="code"><code>public class Date{
+	int day;
+	int month;
+	int year;
+
+	// returns the day
+	public int readDay(){...}
+	//...
+}</code></pre><p id="f4b34025-3a8a-46b6-9663-8ba076cc25f6" class="">I dati e le funzioni sono incapsulati.</p><p id="41c6f055-9f77-48cf-8073-260a22e02627" class="">Gli attributi di una classe possono anche essere chiamati come <em>variabili di istanza</em>.</p><p id="bc8bb21f-7e59-40e8-82da-73d477043bf7" class="">I metodi definiscono il comportamento di un oggetto appartenente ad una classe: sono procedure che appartengono agli oggetti e hanno un parametro implicito che indica l’oggetto al quale appartengono (<code>this</code>).</p><p id="e7685dc8-78b7-4c0c-bf0f-6c1bb06c0f03" class="">
+</p><h3 id="6ebe838d-b137-494a-ae54-7466c2e01646" class="block-color-red">Oggetti</h3><p id="d0ece6b5-36a0-4f42-b86c-6c8ad8bc2556" class="">Tutti gli oggetti di una stessa classe hanno la stessa struttura: il numero e il tipo degli attributi è lo stesso.</p><p id="285f529d-446d-4356-bb8f-7b7f8ce2b747" class="">Ogni oggetto, in ogni istante dell’esecuzione di un programma, è caratterizzato da uno stato, che è determinato dagli attributi dell’oggetto.</p><p id="9bc2d9f1-98ba-485c-bc40-1cd04fe02d37" class="">
+</p><h3 id="89293540-1027-4c87-a7f4-3f94eaf55496" class="block-color-red">Accesso agli attributi e ai metodi</h3><p id="92b2b821-bb7f-4492-8bb4-ba3d67b44a7f" class="">Avviene con la “notazione punto”:</p><p id="c6ce068e-5c92-4ca3-843c-4f9d3787ef75" class=""><em>Ex.</em></p><pre id="03c9be14-9c5a-4020-8e7e-37c60458b0d2" class="code"><code>Date d;
+int x;
+// Codice che inizializza d
+x = d.readDay();</code></pre><p id="7e79bec9-9904-438d-8469-8481d3f85944" class="">
+</p><h3 id="a783ff36-7c34-4126-8ccf-c1fae7b78ce3" class="block-color-red">Cambiamento di stato</h3><p id="aba8324a-408f-4f66-babf-09ed61bd591e" class="">Lo stato degli oggetti può cambiare con l’invocazione di metodi che li modificano.</p><p id="49cc4498-e887-44e9-b84f-fa8c903265de" class="">Nella scrittura di un metodo non è necessario usare la notazione punto per riferirsi ad un attributo di un oggetto definito dalla classe, ma si può citarlo direttamente.</p><p id="d7523407-5c01-45fe-bbb5-a3cad3a258d1" class="">Ci sono alcuni casi nei quali non è possibile cambiare lo stato di un oggetto, che viene definito immutabile.</p><h3 id="ebd487d6-3ab8-4b6c-936d-c36212f1d3a9" class="block-color-red"><strong>Variabili e tipi di dato</strong></h3><p id="1e772400-22e0-43e9-b228-9b2f18bd02a4" class=""><em>Tipi di dato primitivi</em></p><ul id="83523ecd-17a2-41d2-b1fa-8df7e563f4d9" class="bulleted-list"><li style="list-style-type:disc">Byte: 8 bits</li></ul><ul id="90b0f00a-d48a-4ce3-aca4-758e8dc14ea9" class="bulleted-list"><li style="list-style-type:disc">Short: 16 bits</li></ul><ul id="a7455618-081d-4267-b252-8356efaed8e3" class="bulleted-list"><li style="list-style-type:disc">Int: 32 bits</li></ul><ul id="3c4da686-fb80-4b08-b057-a6680906f9d8" class="bulleted-list"><li style="list-style-type:disc">Long: 64 bits</li></ul><ul id="1729e4fc-3e09-45e9-aa38-e02d213b22f9" class="bulleted-list"><li style="list-style-type:disc">Float: 32 bits</li></ul><ul id="b5334dea-0974-4385-99d7-de9565db8fe1" class="bulleted-list"><li style="list-style-type:disc">Double: 64 bits</li></ul><ul id="33ca2f4c-c4b2-4571-af10-bb77d526ffaa" class="bulleted-list"><li style="list-style-type:disc">Boolean: true, false</li></ul><ul id="a20d6198-fae3-4844-ad57-7e9b62727476" class="bulleted-list"><li style="list-style-type:disc">Char: 16 bits, Unicode</li></ul><p id="ff48b8d8-d3e8-4960-a2dc-4cc51e09f4ca" class=""><em>Valori di default</em></p><figure id="92a17414-62f6-441b-882a-d6e06b472041" class="image"><a href="default.png"><img style="width:526px" src="default.png"/></a></figure><p id="e5d36b76-9435-4b39-9ccc-82d461ee2cba" class="">
+</p><h3 id="6fdbf70c-ae51-47ea-b7d7-2b92f4bc4c05" class="block-color-red">Tipi referenziati</h3><p id="9ad9aeed-038e-4a91-acdb-4a7c2191a8a5" class="">Le variabili di tipo primitivo <em>(int, char, bool)</em> contengono direttamente il valore. Tutti gli altri tipi di variabili (array, enumerazioni, classi ed interfacce) contengono riferimenti al valore: ogni variabile dichiarata da una classe contiene un riferimento ad un oggetto, che consiste in un indirizzo di memoria.</p><p id="31dd88af-91ab-41c4-95ae-2ea66ee83bc7" class="">Il valore dell’indirizzo di memoria contenuto nella variabile non è direttamente accessibile al programmatore e non è utile.</p><p id="6d55217c-3306-4cf0-a0f2-ac013470d47f" class="">Un oggetto è immagazzinato in un’appropriata area di memoria e ogni variabile di tipo oggetto contiene l’indirizzo alla prima cella dell’oggetto in memoria.</p><p id="db900dbf-7347-40ff-80b2-9618371b01d5" class="">Le variabili consentono l’accesso agli oggetti, sono allocate sulla stack e vengono deallocate una volta che il metodo termina, mentre gli oggetti sono allocati sullo heap.</p><p id="8752540b-ea4e-4f76-ab69-6d8572a9d0e2" class="">
+</p><p id="d6d355ee-3a3c-490c-a8c6-effb07f57cbb" class=""><em>Dichiarazione ed inizializzazione</em></p><p id="8b31bac0-6182-46e8-93ae-f367c920cc47" class="">La dichiarazione di una variabile di tipo referenziato non alloca in memoria lo spazio per rappresentare l’oggetto, ma solo quello per riferirsi ad esso.</p><p id="b7dd3648-1485-4ad3-9ffe-7380faa35939" class="">Una volta dichiarata, viene automaticamente inizializzata con il valore <strong>null</strong>.</p><p id="c64b7eff-7ac1-421c-9f56-d57a62cc1833" class="">
+</p><h3 id="dc9d95ae-d841-46d8-80a3-e6a4e9072bac" class="block-color-red">New</h3><p id="d096d9fc-7114-40cc-b63e-65b6c2441cff" class="">La costruzione di un oggetto viene eseguita dinamicamente attraverso l’operatore new.</p><p id="9868820f-381f-4c81-a1a8-020f97a6988b" class=""><em>Ex.</em> <code>Date d = new Date();</code></p><p id="bde3ec66-fc79-4338-a870-3a946e4b40db" class="">Effetti di new:</p><ul id="a25f3930-8022-4524-9362-d17cf5c0ef7a" class="bulleted-list"><li style="list-style-type:disc">Costruisce un nuovo oggetto di tipo <code>Date</code></li></ul><ul id="194df3de-5b23-4cff-9f14-1678cc9208d1" class="bulleted-list"><li style="list-style-type:disc">Ritorna il riferimento al nuovo oggetto appena creato<ul id="ee9488f8-1ab9-4563-a40c-d8d3dc1de34b" class="bulleted-list"><li style="list-style-type:circle">Questo riferimento viene messo nella variabile <code>d</code></li></ul></li></ul><ul id="2589c31f-9f7e-4bca-baf7-238a660026e4" class="bulleted-list"><li style="list-style-type:disc"><code>Date()</code> è un metodo particolare chiamato costruttore<ul id="8a8f0cc2-162f-41c8-9542-f51437e0b691" class="bulleted-list"><li style="list-style-type:circle">Ha lo stesso nome della classe ed è riconosciuto come metodo perché ci sono le parentesi tonde</li></ul><p id="5ebda8c4-fe68-428a-8da8-e815a7eeaac3" class="">
+</p></li></ul><h3 id="c1e74f10-eab9-4ed7-a513-c69d31fce519" class="block-color-red">Dichiarazione e creazione</h3><p id="5a8fd114-3a58-41cc-8fbc-c713821d8865" class=""><code>Date data;</code></p><p id="04e8e323-d2fc-42c0-a799-6a63cd60ae77" class=""><code>data = new Date();</code></p><p id="25b82886-a983-4de2-bb9a-1ac37a5e853c" class=""><code>data = new Date();</code></p><p id="918eace9-d1b9-4873-9126-de76117411ed" class="">Facendo così il riferimento al primo oggetto è perso: l’oggetto non è più raggiungibile in alcun modo.</p><p id="96a5521e-1356-4cfb-8f12-1dfbe83bba9c" class="">Esso verrà distrutto dal garbage collector.</p><p id="4f49a785-f29a-4e25-a05e-bd568e240a5d" class="">
+</p><h3 id="fa088173-e699-4cf0-bc24-a3c607490aa1" class="block-color-red">Creazione e distruzione di oggetti</h3><p id="caf6d7a6-20f4-4707-8389-14c8e3aa8f4f" class="">Se la sua implementazione è privata, l’unico modo di inizializzare un oggetto è specificare uno o più metodi speciali, chiamati costruttori.</p><p id="50d4bdea-f995-44bd-85e7-0d2c825f6593" class="">La creazione di un oggetto con il token <strong>new</strong> coinvolge sempre l’invocazione di un costruttore.</p><p id="22ef1bd1-b4b3-4135-b6af-c1e6f00431ea" class="">Il costruttore fa due operazioni base: alloca la memoria necessaria per contenere l’oggetto e inizializza lo spazio allocato con dei valori particolari.</p><p id="515691bd-d763-4485-ac68-61aaa416a8e8" class="">A differenza del C, non è necessario deallocare gli oggetti, che vengono automaticamente distrutti una volta che il garbage collector capisce che non vengono più usati da nessuno.</p></div></article></body></html>
