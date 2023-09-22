@@ -1,0 +1,688 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1. Requirements Engineering</title>
+    <link rel="icon" type="image/x-icon" href="/images/logofinal1.png">
+    <style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="912e3837-9d38-4e7c-9634-54c98bf4a8dd" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">1️⃣</span></div><h1 class="page-title">Requirements Engineering</h1><p class="page-description"></p></header><div class="page-body"><p id="51584b4c-fa72-4603-97cb-126481930c45" class="">The primary measure of <span style="border-bottom:0.05em solid"><strong>success</strong></span> of a software system is the degree to which it meets the <span style="border-bottom:0.05em solid"><strong>purpose</strong></span> for which it was intended.</p><p id="7f30ab1e-7b98-4c1b-a607-7da128e03e8a" class="">Software systems requirements engineering (RE) is the process of discovering that purpose and <span style="border-bottom:0.05em solid"><strong>documenting</strong></span> these in a form that is amenable to analysis, communication, and subsequent implementation.</p><p id="d6604187-1dc7-4df2-b010-ba767f59512e" class="">Requirements are typically expressed from the system’s point of view.</p><p id="6d9ff994-4410-4139-b4d4-99091e807301" class="">
+</p><p id="d3439ed8-036d-412a-bdb5-9f7dc53110ff" class=""><em>Examples of requirements:</em></p><p id="3caab065-4002-446c-8b11-ffc8ae928707" class="">The system shall allow users to reserve taxis.</p><p id="c95a19a8-52e0-4732-a724-baf8dc869b64" class="">The system should be implemented in Java.</p><p id="684c89e0-76a1-4e41-b1e9-e67a3a5e8a2c" class="">
+</p><h3 id="43740777-7ddb-4597-994f-9295850a3851" class="block-color-red">Types of requirements</h3><ul id="57a94897-2dec-41c5-aab7-665116118fcb" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow"><strong>Functional </strong></mark><mark class="highlight-yellow">requirements: </mark><ul id="84237d46-ff0c-44de-8422-8da340a59bda" class="bulleted-list"><li style="list-style-type:circle"><span style="border-bottom:0.05em solid"><strong>Describe the interactions</strong></span> between the system and its environment.</li></ul><ul id="e1284e94-71e1-47d1-8ce8-01803289da0d" class="bulleted-list"><li style="list-style-type:circle">Independent from implementation.</li></ul><ul id="ed0a289a-4d9d-4cb6-8c58-163fed59a8d2" class="bulleted-list"><li style="list-style-type:circle">These are the <span style="border-bottom:0.05em solid"><strong>main goals</strong></span> the software to be has to fulfill.</li></ul><ul id="8f8f154f-3598-419d-a30a-865319f27d04" class="bulleted-list"><li style="list-style-type:circle"><em>Examples:</em><ul id="02565dbd-cd1d-460f-938a-25abfb0e59fb" class="bulleted-list"><li style="list-style-type:square">&quot;A word processor user should be able to search for strings in the text&quot;</li></ul><ul id="2b634432-baa6-4fd6-8c1f-5bc6abc0b056" class="bulleted-list"><li style="list-style-type:square">&quot;The system shall allow users to reserve taxis&quot;</li></ul></li></ul></li></ul><ul id="dc2950df-363b-4577-90c4-9331df9164b4" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow"><strong>Non-functional </strong></mark><mark class="highlight-yellow">requirements:</mark><ul id="76102fe7-34ad-42e6-a3bc-a8fc01c24fca" class="bulleted-list"><li style="list-style-type:circle">User-visible aspects of the system <span style="border-bottom:0.05em solid"><strong>not directly related to functional behavior.</strong></span></li></ul><ul id="a7fa4f48-ccc9-43b1-a573-692868e13eb1" class="bulleted-list"><li style="list-style-type:circle">Constraints on how functionality has to be provided to the end user.</li></ul><ul id="09cf2dce-9d57-4280-ab74-0e18a06a96f0" class="bulleted-list"><li style="list-style-type:circle">Have a strong impact on the structure of the system to be.</li></ul><ul id="8bf41482-50c1-4f21-bb18-02cc3b2cb9d9" class="bulleted-list"><li style="list-style-type:circle"><em>Examples:</em><ul id="b28950b1-f7cb-438b-8385-e9bcf9d61820" class="bulleted-list"><li style="list-style-type:square">&quot;The response time must be less than 1 second&quot;</li></ul><ul id="eb5331fa-57e0-49fe-85eb-973e237da40e" class="bulleted-list"><li style="list-style-type:square">&quot;The server must be available 24 hours a day&quot;</li></ul><figure id="42541126-33a5-4890-90e0-cfde4855ab25" class="image"><a href="1.png"><img style="width:864px" src="1.png"/></a></figure></li></ul></li></ul><ul id="663a0dea-abff-47a4-be0e-070ecf32e31e" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow"><strong>Constraints </strong></mark><mark class="highlight-yellow">(“pseudo requirements”):</mark><ul id="4423a61f-e1e8-4433-b38c-4c7c05780b5b" class="bulleted-list"><li style="list-style-type:circle"><span style="border-bottom:0.05em solid"><strong>Imposed by the client or the environment</strong></span> in which the system operates.</li></ul><ul id="e0fc50fa-2c73-45d6-88e8-46eb1bbbc8f6" class="bulleted-list"><li style="list-style-type:circle"><em>Examples:</em><ul id="16b212f6-a86c-4212-99d2-4f649d0f21fa" class="bulleted-list"><li style="list-style-type:square">&quot;The implementation language must be Java&quot;</li></ul><ul id="bf281c3b-bca8-42b6-a5f0-5ebbd462b502" class="bulleted-list"><li style="list-style-type:square">&quot;The credit card payment system must be able to be dynamically invoked by other systems relying on it&quot;</li></ul><p id="13f75352-69f5-4a0f-a8eb-dc2d0d06b4cc" class="">
+</p></li></ul></li></ul><p id="63f695a1-d031-4074-8fdd-380aa0192ed7" class=""><em>Example of bad requirements:</em></p><ul id="ae6c9e20-ac5f-4f29-823e-d21166f05c66" class="bulleted-list"><li style="list-style-type:disc">Two requirements instead of one in the same “sentence”: if one of the requirements is satisfied and the other not, is the general requirement satisfied?</li></ul><p id="e47a53b1-06e4-41cf-ab28-a4ea3b223470" class="">
+</p><h3 id="fe696f92-1b20-46aa-9df3-f79f1314589e" class="block-color-red">The World and the Machine</h3><p id="8ddc18e7-c93b-411e-ac4a-5fd9e0ea7627" class="">Terminology:</p><ul id="ea0bf3fd-9b4b-4c6f-a85b-19727f5d92d9" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><strong>The machine</strong></span> = the portion of system to be developed.<ul id="31a9a360-bba2-48c1-88e9-a19a9cf4dec4" class="bulleted-list"><li style="list-style-type:circle">typically, software-to-be + hardware</li></ul></li></ul><ul id="5a16c6de-04d1-43b7-917b-6ada99f6a6cb" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><strong>The world</strong></span> (a.k.a. the environment) = the portion of the real-world affected by the machine</li></ul><p id="82470e37-f874-4250-9427-a00a1351243d" class="">The purpose of the machine is always in the world.</p><p id="d62800b8-6194-4ed1-8a38-1f021d3e104c" class="">
+</p><div id="9d91869a-4985-4188-b2c6-7fb172701cc3" class="column-list"><div id="c6d66adc-bd1c-4f65-8b69-54ff01555baf" style="width:50%" class="column"><p id="26bed6c9-20f1-4588-9b0e-1a3e57d54043" class="">Requirements engineering is concerned with <span style="border-bottom:0.05em solid"><strong>phenomena</strong></span> occurring in the <span style="border-bottom:0.05em solid"><strong>world</strong></span>.</p><p id="7ab92608-9837-43c2-91c5-d951dadd0df4" class="">For an ambulance dispatching system:</p><ul id="8f493d5c-f565-49d4-9bd6-29f0b26e9eee" class="bulleted-list"><li style="list-style-type:disc">the occurrences of incidents</li></ul><ul id="96a346ab-7a5c-42df-a40c-f6cc330101cc" class="bulleted-list"><li style="list-style-type:disc">the report of incidents by public calls</li></ul><ul id="a939758e-9208-4afb-91af-c41d50cced99" class="bulleted-list"><li style="list-style-type:disc">the encodings of calls&#x27; details into the dispatching software</li></ul><ul id="38693aaa-1246-4d14-a152-dca4cd979f8d" class="bulleted-list"><li style="list-style-type:disc">the allocation of an ambulance</li></ul><ul id="feefb5b6-2b53-4297-94f4-9c95c672d313" class="bulleted-list"><li style="list-style-type:disc">the arrival of an ambulance at the incident location</li></ul></div><div id="a7f4c8df-bfa3-4cfa-ad79-bb3ead2c93d9" style="width:50%" class="column"><figure id="90bb517b-ff0f-4672-bd5c-db3bfd165a8e" class="image"><a href="2.png"><img style="width:480px" src="2.png"/></a></figure></div></div><p id="1d22d136-9a32-46be-8b37-c9a793afac16" class="">As opposed to phenomena occurring inside the machine:</p><ul id="219292f2-7fdd-4a49-900e-50c3adff12a9" class="bulleted-list"><li style="list-style-type:disc">the creation of a new object of class <code>Incident</code></li></ul><ul id="b6ac24ed-c8dd-423d-ad18-0061f3cddd02" class="bulleted-list"><li style="list-style-type:disc">the update of a database entry</li></ul><p id="73ab22e4-c0a1-4e23-92b4-39e25e5ec99a" class="">Requirement models are models of the world!</p><p id="8f8e087d-88f2-47fa-94f9-119d3748764d" class="">
+</p><h3 id="38fefdc6-25e8-44c4-9ed6-01021a31d95c" class="block-color-red"><strong>Goals, domain assumptions, requirements
+</strong></h3><p id="eaf06b9f-e561-45f5-b260-e02bc6b4397a" class=""><span style="border-bottom:0.05em solid"><strong>Goals</strong></span><strong> </strong>are <span style="border-bottom:0.05em solid"><strong>prescriptive assertions</strong></span><strong> </strong>formulated in terms of world phenomena (not necessarily shared). <em>(What we want to achieve)</em></p><p id="6b816bc5-91cb-4d36-b1ac-2bf86e3ad714" class=""><span style="border-bottom:0.05em solid"><strong>Domain properties</strong></span>/assumptions are <span style="border-bottom:0.05em solid"><strong>descriptive assertions assumed to hold </strong></span>in the world. <em>(We have no control on them)</em></p><p id="e8ba75fe-e413-4733-b559-4444e0f43d94" class=""><span style="border-bottom:0.05em solid"><strong>Requirements</strong></span><strong> </strong>are <span style="border-bottom:0.05em solid"><strong>prescriptive assertions</strong></span><strong> </strong>formulated in terms of <span style="border-bottom:0.05em solid"><strong>shared</strong></span><strong> </strong>phenomena.</p><figure id="b6d67c71-9aca-470e-809e-d25ecfa4bac2" class="image"><a href="3.png"><img style="width:768px" src="3.png"/></a></figure><p id="e98dde76-1ea8-40b7-9757-f8098743d47b" class="">
+</p><p id="30a16199-1fb6-4983-95e4-0cc767f99a36" class=""><em><em><em><em><em><em><em><em>Example:</em></em></em></em></em></em></em></em></p><p id="203dab2b-1692-4e30-a783-e3917e4c11e8" class=""><strong>Goal:</strong></p><ul id="b8fa4dda-f526-455e-becd-ec4364f4ddcb" class="bulleted-list"><li style="list-style-type:disc">&quot;For every urgent call reporting an incident, an ambulance should arrive at the incident scene within 14 minutes&quot;</li></ul><p id="2ab7fc09-0e08-4d0d-9426-619f29eb2577" class=""><strong>Domain assumptions</strong>:</p><ul id="6a4322f2-47b0-4c89-96f8-ab0d5950f4f5" class="bulleted-list"><li style="list-style-type:disc">&quot;For every urgent call, details about the incident are correctly encoded&quot;</li></ul><ul id="93265152-a9d1-44e3-ac3a-5870f995dae5" class="bulleted-list"><li style="list-style-type:disc">&quot;When an ambulance is mobilized, it will reach the incident location in the shortest possible time&quot;</li></ul><ul id="d809af7e-5277-441b-a918-51e1437fceb0" class="bulleted-list"><li style="list-style-type:disc">&quot;Accurate ambulances’ locations are known by GPS&quot;</li></ul><ul id="762bd638-ea4f-40da-85b7-c9005d71fd8d" class="bulleted-list"><li style="list-style-type:disc">&quot;Ambulance crews correctly signal ambulance availability through mobile data terminals on board of ambulances&quot;</li></ul><p id="e7b2ce07-2c9a-402b-bd70-c1803687f5f7" class=""><strong>Requirement:</strong></p><ul id="a53d1175-8319-461b-9757-962847159c06" class="bulleted-list"><li style="list-style-type:disc">&quot;When a call reporting a new incident is encoded, the Automated Dispatching Software should mobilize the nearest available ambulance according to information available from the ambulances’ GPS and mobile data terminals&quot;.</li></ul><p id="70abef38-9507-4a93-8dca-64322ede663f" class="">
+</p><p id="93fe7cf7-1215-48fe-8dd3-c5e9e55b229a" class="">The requirements R are complete if:</p><ol type="1" id="3a482cb1-b859-46bd-b34e-c45c122bcf97" class="numbered-list" start="1"><li>R ensure satisfaction of goals G in the context of domain properties D<ol type="a" id="b50786ad-4089-4cc7-8d3d-3f4d9481f9c2" class="numbered-list" start="1"><li><strong>R and D ⊨ G</strong></li></ol><ol type="a" id="9787366c-16df-48c3-b624-a533ad9aa52c" class="numbered-list" start="2"><li>Analogy with program correctness: a Program P running on a particular Computer C is correct if it satisfies the Requirements R<ol type="i" id="28d430a0-957e-494b-b727-ec9df5c6ee5b" class="numbered-list" start="1"><li><strong>P and C ⊨ R</strong></li></ol></li></ol></li></ol><ol type="1" id="b31da5d4-0fc9-45e0-9ec7-696442625599" class="numbered-list" start="2"><li>G adequately capture all the stakeholders’ needs</li></ol><ol type="1" id="d9fdedab-e3b0-47c9-9d5a-78c85c22fbd8" class="numbered-list" start="3"><li>D represent valid properties/assumptions about the world</li></ol><p id="cf77c8be-8bbb-42b5-9414-39438b9152ce" class="">
+</p><figure id="755f179e-ddd8-4c99-9bce-36d7065ec96d" class="link-to-page"><a href="1-1%20Elicitation%20of%20Requirements.html"><span class="icon">🎿</span>1.1 Elicitation of Requirements</a></figure><figure id="bdfeb7c8-299a-4113-b1b4-8fb3f0cf512b" class="link-to-page"><a href="1-2%20Modeling%20Requirements.html"><span class="icon">⛸️</span>1.2 Modeling Requirements</a></figure></div></article></body></html>
