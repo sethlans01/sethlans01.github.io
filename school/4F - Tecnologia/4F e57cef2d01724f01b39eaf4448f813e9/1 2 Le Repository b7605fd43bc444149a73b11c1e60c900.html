@@ -1,0 +1,704 @@
+<html><head><link rel="icon" type="image/x-icon" href="../../../images/logofinal1.png"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1.2 Le Repository</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b7605fd4-3bc4-4414-9a73-b11c1e60c900" class="page sans"><header><h1 class="page-title">1.2 Le Repository</h1><p class="page-description"></p></header><div class="page-body"><h1 id="7f1ace94-7eb8-4812-8d96-42d5cbc55729" class=""><mark class="highlight-teal">Creare una repository</mark></h1><p id="7e6c7a8c-8a15-40fd-8250-8a68c27a2949" class="">In genere si crea un repository Git in due modi:</p><ol type="1" id="d5331cff-9a2c-42aa-a263-1ad64ebbf751" class="numbered-list" start="1"><li>Si può prendere una directory locale che non è attualmente sotto VCS e trasformarla in un repository Git.</li></ol><ol type="1" id="37e63404-87d2-47a1-bdbe-0216f832def5" class="numbered-list" start="2"><li>Si può clonare un repository Git esistente da un altro luogo.</li></ol><p id="5206ad76-86fe-42f9-9da8-2997e89a5343" class="">In entrambi i casi, si ottiene un repository Git sulla macchina locale, pronta per il lavoro.</p><h2 id="94a78c11-4bd0-49ca-973e-8c1462057025" class=""><mark class="highlight-blue">Inizializzare un repository in una directory esistente</mark></h2><p id="aa1ed2be-1a92-45df-8b39-777b6e6c0a88" class="">Se si dispone di una directory di progetto che attualmente non è sotto controllo di versione e si vuole iniziare a controllarla con Git, occorre innanzitutto andare nella directory del progetto.</p><p id="1949349f-758b-4983-94d5-1b84ea339428" class="">Se non l&#x27;avete mai fatto, l&#x27;aspetto è un po&#x27; diverso a seconda del sistema in uso:</p><pre id="e374246e-5d60-4b5f-a71a-e1c51875d18a" class="code"><code>cd /c/user/my_project //Dipende dalla directory in cui volete creare il repository</code></pre><p id="9cdd2e64-3825-4b70-a769-d4bfdfab614e" class="">
+</p><p id="04ea0b6e-bb38-45c6-865f-ec2aa14e8afd" class="">O potete farlo via interfaccia grafica.</p><figure id="75f9a557-f31c-44cd-bfa0-af9f0b919341" class="image"><a href="1%202%20Le%20Repository%20b7605fd43bc444149a73b11c1e60c900/Untitled.png"><img style="width:1466px" src="1%202%20Le%20Repository%20b7605fd43bc444149a73b11c1e60c900/Untitled.png"/></a></figure><p id="b1b1c024-a490-4652-b275-a6cda8f7f422" class="">
+</p><p id="f65e8dfe-f501-4e86-9e8c-c207f2935e30" class="">Questo crea una nuova sottodirectory denominata .git che contiene tutti i file della repository necessari - uno scheletro del repository Git.</p><p id="e8b6e3eb-005e-40f2-aa97-9e42e9ad4ab9" class="">A questo punto, nulla del progetto è ancora tracciato.</p><p id="adf45880-c293-44b3-96a0-27294885390f" class="">Se si vuole iniziare a controllare la versione di file esistenti (invece di una directory vuota), si dovrebbe iniziare a tracciare quei file e fare un commit iniziale.</p><p id="d74317b6-1f92-44bf-8abc-4b7b00f7c256" class="">È possibile farlo con i seguenti comandi:</p><pre id="521ac44d-9192-4224-b811-fb9415d782fc" class="code"><code>git add *.html
+// Questo comando aggiunge nella staging area tutti i file .html della cartella
+
+git commit -m &#x27;versione iniziale del progetto&#x27;
+// Questo comando esegue il commit, con il messaggio specificato tra i due apici</code></pre><p id="2a361074-8218-483c-bb11-a918f3b3f9b6" class="">
+</p><h2 id="8a14e8bf-70a9-478d-8bf2-814f6fdafb49" class=""><mark class="highlight-blue">Clonare una repository esistente</mark></h2><p id="919fa014-ab4f-4278-8bfb-1d77375aa1dd" class="">Se si vuole ottenere una copia di un repository Git esistente, per esempio un progetto a cui si vuole contribuire, il comando necessario è <code>git clone</code>.</p><p id="410e72c0-a955-4503-8fa2-914a2c4641c9" class="">Si clona una repository con <code>git clone &lt;url&gt;</code>. Per esempio, se si vuole clonare la libreria linkabile Git chiamata libgit2, si può fare così:</p><pre id="346705a7-7ddb-4ca1-a722-7915db8fa8a4" class="code"><code>git clone https://github.com/libgit2/libgit2</code></pre><p id="90bfc467-8740-4d40-bb3e-9b466e8ac514" class="">Questo crea una directory chiamata libgit2, inizializza una directory .git all&#x27;interno di essa, estrae tutti i dati per quella repository e crea una copia funzionante dell&#x27;ultima versione. </p><p id="796002d2-baf5-4de8-ae8c-164731c1e287" class="">Se si entra nella nuova cartella libgit2 appena creata, si vedranno i file del progetto, pronti per essere lavorati o utilizzati.</p><p id="3e205f4f-0624-458a-8092-09238553be02" class="">
+Se si vuole clonare il repository in una directory con un nome diverso da libgit2, si può specificare il nome della nuova directory come argomento aggiuntivo:</p><pre id="d98d7120-4e7a-47c6-bb8c-110d1d3f3fe4" class="code"><code>git clone https://github.com/libgit2/libgit2 mylibgit</code></pre><p id="4e3e7c10-7462-4a5b-8d81-2ede30da9168" class="">
+</p><hr id="ffda9108-4e59-44ad-8505-56b5eb8b3d0b"/><h2 id="67bcab5f-190b-4778-b525-acbd21cb4b1a" class=""><mark class="highlight-blue">Modifiche alle repository</mark></h2><figure id="f1744997-a11c-4ae7-8276-8dbbbfd16eaa" class="image"><a href="https://lh7-us.googleusercontent.com/U36-aE0cSjjGMcoCPLxiqTme0Pbma38GDN1_OGMod3YK0NFU29iuJ32LSbYen7wBjAFgdC5XDuxK1_t2fLzStnmymn2ktff7ZmsJiXMtGXBMcTSgITio-zVnsfS9gpgYxBoRtfzvRnXzAbsciDJW"><img style="width:388px" src="https://lh7-us.googleusercontent.com/U36-aE0cSjjGMcoCPLxiqTme0Pbma38GDN1_OGMod3YK0NFU29iuJ32LSbYen7wBjAFgdC5XDuxK1_t2fLzStnmymn2ktff7ZmsJiXMtGXBMcTSgITio-zVnsfS9gpgYxBoRtfzvRnXzAbsciDJW"/></a></figure><p id="82bb9db6-ed04-4bb9-a79c-f7588015a391" class="">Ricordate che ogni file nella vostra directory di lavoro può trovarsi in uno dei due stati: tracciato o non tracciato.</p><p id="62b4e26a-dbe4-46a9-9012-ddec6eeaf2a5" class="">I file tracciati sono quelli presenti nell&#x27;ultimo snapshot; possono essere non modificati, modificati o staged.</p><p id="8bd17a17-ec5e-421b-95f1-c6e6500f0fc5" class="">In breve, <strong>i file tracciati sono i file di cui Git è a conoscenza.</strong></p><p id="1ef4e4d6-7145-4545-b717-519fc8a973a7" class="">I file non tracciati sono tutto il resto: qualsiasi file nella vostra directory che non era nell&#x27;ultimo snapshot e non è nella staging area.</p><p id="6e0cfbe7-39c9-4aa5-804c-655fbf6c4f40" class="">
+</p><p id="00621ef5-db66-4d98-a4e7-f3f3c11e01f9" class="">Quando si clona per la prima volta un repository, tutti i file saranno non modificati, perché Git li ha appena controllati e voi non avete modificato nulla.</p><p id="04f24249-7d0d-4a5e-8361-325a0e3e310e" class="">Quando si modificano i file, Git li vede come modificati, perché sono stati modificati dall&#x27;ultimo commit.</p><p id="f9ff6f14-6103-4681-94c1-4e70a820df57" class="">Mentre si lavora, si mettono nella staging area questi file modificati e poi si esegue il commit di tutte le modifiche messe in staging area, e il ciclo si ripete.</p><p id="9b4daa6d-3c40-41e3-9b46-3696f30e9f04" class="">
+</p><h2 id="09af5a9c-e2fc-4003-a55d-b119db69b322" class=""><mark class="highlight-blue">Tracciare nuovi file</mark></h2><p id="9734e240-c1f0-4844-92a5-d7ea6b9f5504" class="">Per iniziare a tenere traccia di un file si usa il comando <code>git add</code>.</p><pre id="d13ed1ae-5b71-4fd8-ba9a-0a6058425005" class="code"><code>git add index.html
+// Con questo comando, lo stato di index.html passa da untracked a tracked.</code></pre><p id="100dbdd8-bbdd-4271-9a10-f611ebff6044" class="">Questo comando vuole come argomento un path o verso un file o verso una cartella: se si passa come argomento il path di una cartella, verranno aggiunti automaticamente nella staging area tutti i file di quella cartella.</p><hr id="7a93f234-0909-46a2-bae0-bbe062bf2365"/><p id="ba294be0-d618-4be9-9727-bf8f3f8c8460" class="">Se usate il comando <code>git status</code> di nuovo, potete vedere che il file <em>index.html</em> è ora tracciato e nella staging area.</p><pre id="3bb44455-2e7a-4bf9-9514-2af3a4c7f639" class="code"><code>$ git status
+
+
+On branch master
+Your branch is up-to-date with &#x27;origin/master&#x27;.
+Changes to be committed:
+   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+     new file: index.html</code></pre><hr id="3ac0ae36-286b-4452-b24a-84a881d7690a"/><p id="ca20a80f-77b2-427c-8133-e58e11016ee6" class="">Si può capire che <em>index.html</em> è staged, dato che si trova nella sezione <em><span style="border-bottom:0.05em solid">”Changes to be committed”</span></em>.</p><p id="e571c063-5045-47f7-82dc-8598d73f8bcf" class="">Se eseguite un commit, la versione del file che verrà messa nello snapshot è quella che è stata aggiunta quando avete usato il comando <code>git add</code>.</p><figure id="174273b2-7529-469f-b0dc-b415a038d43b" class="image"><a href="https://lh7-us.googleusercontent.com/mFNCXOvuhf7oAu3JBpVc3kBVDQVdXboBlVniuPaTOd7NYjZkrQJ6gGF-223yRGYhMdyBegeOC0Lfg19MjIt8N1736n5_OArFllJbrhaRrcQGIzLHB-KGdWP_XtdUvdTZpmgxQNNYONCDOOR4lIuX"><img style="width:700px" src="https://lh7-us.googleusercontent.com/mFNCXOvuhf7oAu3JBpVc3kBVDQVdXboBlVniuPaTOd7NYjZkrQJ6gGF-223yRGYhMdyBegeOC0Lfg19MjIt8N1736n5_OArFllJbrhaRrcQGIzLHB-KGdWP_XtdUvdTZpmgxQNNYONCDOOR4lIuX"/></a></figure><figure id="216c9864-6f7c-4c9d-8c4a-1f95d8992e7b" class="image"><a href="https://lh7-us.googleusercontent.com/ZTQI6kpn1ffqFUyWFL_8b-u3TrzL5Vcz4QkZ_qyv-Tbt3anzg02pZVjNNADTqwGaUWhqgpiSM3dGT-qCBa1CvEUHa4L63D3u3SNd9M4bJF61uBnbjQeQJK1eOmEacAupM9gxLtb936jkYJzueepK"><img style="width:355px" src="https://lh7-us.googleusercontent.com/ZTQI6kpn1ffqFUyWFL_8b-u3TrzL5Vcz4QkZ_qyv-Tbt3anzg02pZVjNNADTqwGaUWhqgpiSM3dGT-qCBa1CvEUHa4L63D3u3SNd9M4bJF61uBnbjQeQJK1eOmEacAupM9gxLtb936jkYJzueepK"/></a></figure><p id="f62d5748-a60d-46fe-ae39-97cffd92345f" class="">
+</p><h2 id="e4c9adfb-a3ca-48ef-882b-6b11c03980d5" class=""><mark class="highlight-blue">Fare un commit</mark></h2><p id="a38ff800-3fac-4dc6-b5c5-b839cbd28f94" class="">Ora che la staging area è impostata nel modo desiderato, è possibile eseguire il commit delle modifiche.</p><p id="cdb9cece-998b-4550-9a7e-9832bcd615b4" class="">Ricordate che tutti i file unstaged, cioè tutti i file creati o modificati su cui non è stato eseguito <code>git add</code> da quando sono stati modificati, non verranno inseriti in questo commit.</p><p id="ca0465c4-a397-402c-b8a3-8b74dad5fa28" class="">Il modo più semplice per fare il commit è digitare:</p><pre id="4827e969-2661-4132-baab-eb317cb1755c" class="code"><code>git commit</code></pre><hr id="c1f42217-db37-4960-8c52-902bb1bc032d"/><h2 id="54e8eccf-928a-4e88-9869-656a42d8e342" class=""><mark class="highlight-blue">Saltare la Staging Area</mark></h2><p id="89066f4d-308c-4a77-a264-141a3d7a8a58" class="">Se volete saltare la staging area, basta aggiungere il flag <code>-a</code> al comando di commit: così facendo Git aggiungerà in automatico alla staging area tutti i file che, prima del commit, erano tracked.</p><pre id="51dfb435-fbc7-431e-bc8a-df36556169b0" class="code"><code>$ git commit -a -m &#x27;added new benchmarks&#x27;</code></pre><hr id="2d4f341c-3875-473b-b0b7-d3524299b908"/><p id="e6a61d4d-1adb-45c3-960c-5eff68d6ffbd" class="">Il comando <code>-m ‘nuovo commento’</code> permette di inserire un commento senza aprire un editor.</p><h2 id="fe688a34-5084-407c-b3cd-ac956810345f" class=""><mark class="highlight-blue">Rimuovere Files</mark></h2><p id="892bb12b-59d0-4d20-b864-2c715ec4e179" class="">Per rimuovere un file da Git, bisogna rimuoverlo dalla staging area e poi fare un commit.</p><p id="2936df06-4686-4ac1-bff9-907245d516a5" class="">Il comando <code>git rm</code> rimuove il file dalla staging area e dalla directory.</p><p id="859159e4-472e-4bd3-9163-28b2608563ff" class="">Attenzione: dopo aver fatto <code>git rm</code> è necessario eseguire un commit per rendere effettiva l’eliminazione!!</p><pre id="9644d4ea-316c-4fc0-9822-436acb942912" class="code"><code>git rm index.html
+git commit -m &quot;Rimosso index.html&quot;</code></pre><hr id="15e86a68-094a-4ebd-bce3-9b9d36e74c42"/><p id="26103695-0de3-4397-bce1-18692e6fdee8" class="">Se avete modificato un file e lo avete già aggiunto alla staging area, ma (per qualche motivo) volete rimuoverlo da lì, basta aggiungere il flag <code>-f</code> al comando di rimozione.</p><pre id="a34f3b72-5fbe-4e14-9a8d-8619447eeb95" class="code"><code>/* IERI */
+// Modifico il file index.html
+git add index.html               // Lo aggiungo alla staging area
+
+/* OGGI */
+// Voglio rimuovere il file dalla staging area
+git rm -f index.html</code></pre><h2 id="64ca5d54-0090-4d6a-9755-9d94a885871e" class=""><mark class="highlight-blue">Vedere la Commit History</mark></h2><p id="95aba376-16d3-4cb6-8d80-6bbe9e7ed34e" class="">Se volete vedere la storia dei commit eseguiti fino ad ora, usate il seguente comando:</p><pre id="02e9ff0b-4348-400c-b86f-a90f57af23c7" class="code"><code>git log</code></pre><hr id="d5302035-6446-4c6f-afa9-d3a835a48720"/><figure id="5cea99d8-0c5d-4099-81b3-3d1a743770b4" class="image"><a href="1%202%20Le%20Repository%20b7605fd43bc444149a73b11c1e60c900/Untitled%201.png"><img style="width:336px" src="1%202%20Le%20Repository%20b7605fd43bc444149a73b11c1e60c900/Untitled%201.png"/></a></figure><p id="aa7afce8-eeb1-4314-a492-098f56dd6138" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
