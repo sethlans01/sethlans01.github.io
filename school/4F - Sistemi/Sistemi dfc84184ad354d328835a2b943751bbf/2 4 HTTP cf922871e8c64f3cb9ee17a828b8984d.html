@@ -1,0 +1,692 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>2.4 HTTP</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cf922871-e8c6-4f3c-b9ee-17a828b8984d" class="page sans"><header><h1 class="page-title">2.4 HTTP</h1><p class="page-description"></p></header><div class="page-body"><p id="bc326ead-d7ad-4992-95f7-d9248ea7a75c" class="">HTTP (HyperText Transfer Protocol) regola lo scambio di messaggi tra client e server web.</p><p id="e12c1105-adca-4f88-bb83-c9e746f42196" class="">
+</p><h2 id="90629ef9-7762-4b4e-aeaf-9df4518c78b9" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Versioni di HTTP</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="9ed8329c-08c5-4ef5-8463-39156411a729" class="">La prima versione HTTP/1.0 aveva un po’ di limitazioni:</p><ul id="68508676-d3da-41b8-bac8-47802a5735fb" class="bulleted-list"><li style="list-style-type:disc">mancanza di meccanismi di sicurezza, poiché non erano previste autenticazione e crittografia dei dati </li></ul><ul id="ec64833e-a1ab-4323-a396-895a59435cdd" class="bulleted-list"><li style="list-style-type:disc">non era possibile ospitare più siti web sullo stesso server</li></ul><ul id="8f65f621-b0a7-404b-abc8-cc52a55584f3" class="bulleted-list"><li style="list-style-type:disc">per ogni richiesta era necessario creare una connessione separata con il server</li></ul><p id="7fd3bc37-cac3-4be3-9935-5687c97c86b6" class="">HTTP/1.1 permette di usare la stessa connessione per fare operazioni multiple.</p><p id="9cf76c9d-47e7-4222-8db0-2f4f5608ab24" class="">HTTP/2 utilizza ulteriori misure di sicurezza a livello di trasporto, utilizzando TLS (Transport Layer Security).</p><p id="3ac2f30d-ec39-4ac0-906a-015950b4cc90" class="">HTTP/3 utilizza il protocollo UDP invece del protocollo TCP.</p><p id="5ea0c52c-1dba-46db-902d-8f0180514207" class="">
+</p><h2 id="ffaf4609-8fc0-4d74-803c-5a2d3359bb69" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Come funziona HTTP</mark></mark></mark></mark></mark></mark></h2><p id="63255c8d-5534-4023-a5fd-febf85199378" class="">Ogni pagina web ha un suo indirizzo simbolico, detto URL (Uniform Resource Locator), come <a href="https://www.leagueoflegends.com/it-it/news/game-updates/patch-13-21-notes/">https://www.leagueoflegends.com/it-it/news/game-updates/patch-13-21-notes/</a>.</p><p id="58fac3a6-453f-48dd-9b39-28c9d4fb9f93" class="">Per tradurre un URL nel corrispondente indirizzo IP, si utilizza il DNS (Domain Name System).</p><p id="f083d1c8-4234-4fe2-bc6c-82033180c2c1" class="">
+</p><p id="ef70cbd1-c6aa-4bb9-b680-30d4e71f28e5" class="">Un URL è diviso in varie parti:</p><table id="cbc56580-2007-4f01-9892-539b22a207bf" class="simple-table"><tbody><tr id="a036d541-e76a-4f85-8a4d-408c7f3468fd"><td id="]Arx" class=""><em><strong>http://</strong></em></td><td id="=whC" class=""><em><strong>www.</strong></em></td><td id="uQkE" class=""><em><strong>leagueoflegends.com</strong></em></td><td id="~&gt;yI" class=""><em><strong>/it-it/news/game-updates/patch-13-21-notes/</strong></em></td></tr><tr id="804d68ba-b356-4729-a01d-3c128c9a09df"><td id="]Arx" class="">Indica al browser quale protocollo deve essere usato</td><td id="=whC" class="">identifica il nome di una specifica macchina (il web server)</td><td id="uQkE" class="">rappresenta l’entità di dominio del sito web</td><td id="~&gt;yI" class="">identifica il path del file che deve essere mostrato. Se non viene specificato alcun file, il browser carica la pagina web di default presente sul server.</td></tr></tbody></table><p id="0e55819e-fe00-4709-a0a9-c75282a78de9" class="">HTTP è un protocollo stateless, cioè non tiene traccia della connessione appena instaurata, rendendo così possibile saltare velocemente da un web server ad un altro, attraverso i link ipertestuali.</p><p id="5e858d43-6556-46fe-b743-63bae55fc774" class="">Ad ogni richiesta di un web client, HTTP effettua una nuova connessione al server, che viene chiusa al termine del trasferimento dell’oggetto richiesto.</p><p id="59f37c13-d307-4446-85b9-524d37d533f8" class="">Il protocollo HTTP lavora sulla porta 80.</p><p id="3b2a5876-275c-4351-8d61-c0b507441421" class="">
+</p><p id="b65a6376-6656-4446-a09d-bd1781be9e4e" class="">Poiché HTTP è un protocollo stateless, ci serve un modo per memorizzare i dati di un utente che effettua più richieste di fila allo stesso server: ad esempio, è importante trovare un modo per salvare i dati di login di. un utente.</p><p id="815aba30-dcdc-434d-8103-8b47f84063e7" class="">Per questo motivo si utilizzano i cookie, che sono piccoli blocchi di dati memorizzati nel browser e che permettono di:</p><ul id="52a764bb-38b5-4aea-bf4f-6dc01cb7f3ff" class="bulleted-list"><li style="list-style-type:disc">implementare metodi di autenticazione</li></ul><ul id="fb23d388-7d3f-466e-930f-8b447620cc84" class="bulleted-list"><li style="list-style-type:disc">memorizzare dati utili di una sessione di navigazione</li></ul><ul id="c79b51d7-a5e3-4d99-9233-e8b1c674725b" class="bulleted-list"><li style="list-style-type:disc">tracciare la navigazione dell’utente, per fini statistici o pubblicitari</li></ul><p id="36212831-633b-47ca-add9-a5bfbdd117dc" class="">
+</p><h2 id="eb07edcf-c7fe-47cb-901b-88d4a3853c3d" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Metodi e messaggi di HTTP</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="8a99ba1d-5978-4f57-813b-e09af75e502d" class="">L’acquisizione di una risorsa da parte di un client può essere schematizzata in 4 fasi:</p><ol type="1" id="5bb038ec-0289-455e-9cb0-8b18590535fb" class="numbered-list" start="1"><li><span style="border-bottom:0.05em solid"><strong>Connessione</strong></span>: il client crea una connessione TCP/IP con il server, usando il suo nome di dominio o il suo indirizzo IP e il numero di porta.<ol type="a" id="a476813d-baac-40a7-a4a0-beb1fce45370" class="numbered-list" start="1"><li>Se il numero di porta non viene specificato, viene usata la porta di default 80</li></ol></li></ol><ol type="1" id="c0be1dca-25bf-4ace-8a91-07c263461a68" class="numbered-list" start="2"><li><span style="border-bottom:0.05em solid"><strong>Richiesta</strong></span>: il client richiede la risorsa desiderata</li></ol><ol type="1" id="b7f42395-d232-404d-b694-9978d6857de1" class="numbered-list" start="3"><li><span style="border-bottom:0.05em solid"><strong>Risposta</strong></span>: il server invia una risposta al client, che può contenere i dati richiesti oppure un messaggio di errore</li></ol><ol type="1" id="ff92d342-a081-451c-a26a-7db712244959" class="numbered-list" start="4"><li><span style="border-bottom:0.05em solid"><strong>Disconnessione</strong></span>: il server, dopo aver inviato la sua risposta, si disconnette dal client.</li></ol><p id="fc351aac-c97a-4288-9ed8-de6fe18a2428" class="">
+</p><p id="35753894-cecb-4943-8e41-094a5c0e7f87" class="">HTTP mette a disposizione del client dei metodi, che sono comandi che il client manda al server.</p><p id="4e1d9635-3a91-41b0-845e-5e5b0d8b5e47" class="">I metodi a disposizione sono i seguenti:</p><ul id="4bb7fafe-4de7-457e-8f10-1fe008ddcb7b" class="bulleted-list"><li style="list-style-type:disc">GET: il client richiede una risorsa al server</li></ul><ul id="f26cbdca-239c-4a83-8946-49685c50b6e8" class="bulleted-list"><li style="list-style-type:disc">POST: il client invia informazioni o dati al server</li></ul><ul id="8bcf3b66-3696-487e-8414-35916721ebc6" class="bulleted-list"><li style="list-style-type:disc">HEAD: il client richiede al server solo l’header, senza la risorsa. Si usa per la diagnostica.</li></ul><ul id="df0045f0-df6e-4b17-9de7-18da0b5207b6" class="bulleted-list"><li style="list-style-type:disc">PUT: richiede l’upload di un file al server</li></ul><ul id="26146212-3599-4c44-884b-d50842a87b94" class="bulleted-list"><li style="list-style-type:disc">DELETE: richiede la cancellazione di un file dal server</li></ul><ul id="0ee88424-33f7-429d-b3fd-6204dd5b645f" class="bulleted-list"><li style="list-style-type:disc">OPTIONS: richiede l’elenco dei metodi permessi dal server</li></ul><ul id="d6bb9959-02f4-4397-8e12-0bb9573615ab" class="bulleted-list"><li style="list-style-type:disc">TRACE: traccia una richiesta, visualizzando come viene gestita dal server</li></ul><ul id="60063854-6792-49f0-814c-eb609fa7dfad" class="bulleted-list"><li style="list-style-type:disc">CONNECT: richiede una connessione mediante proxy</li></ul><p id="a833344a-58b4-4663-9999-2ddd067fe363" class="">
+</p><h2 id="a9232eb3-3f1d-489e-bd60-51b0cdfb647d" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Richieste HTTP</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="a18f41e4-ce74-4093-b433-635d03b48cb3" class="">Una richiesta HTTP è composta dalle seguenti 3 parti:</p><ol type="1" id="0497aaa4-d7ed-4647-af3b-a68e2e0363b8" class="numbered-list" start="1"><li>riga di richiesta (request line)</li></ol><ol type="1" id="5e0c9e52-9752-4d48-a122-0d1c3fc3572a" class="numbered-list" start="2"><li>sezione header (contiene informazioni aggiuntive)</li></ol><ol type="1" id="aee692c2-ce01-4ebf-ae7a-ce2f2a8766e2" class="numbered-list" start="3"><li>body (contenuto della richiesta)</li></ol><p id="be5df014-0ea6-443d-a638-77626500fa39" class="">
+</p><p id="dd9065a2-abc1-4422-b587-828b319d53aa" class="">La request line è composta da metodo, URI e versione del protocollo.</p><p id="e9f13a3b-d963-40b4-93a2-2bd0b37f8557" class="">Un URI (Uniform Resource Identifier) è un identificativo unico utilizzato per indicare una qualsiasi risorsa.</p><p id="77c3bf5a-2365-42b5-815b-7021a067c757" class="">Un esempio di request line è il seguente:</p><pre id="6a9b6e8b-524c-4f2a-9fc6-675070d9494d" class="code"><code>GET /info.html HTTP/1.1</code></pre><p id="6f8ce4dd-1f7b-43ba-988a-a884bfa5cdb1" class="">
+</p><p id="6859f86a-e397-4089-8eb1-2031df4253a3" class="">Gli header più comuni sono:</p><ul id="2d73c2f6-d1a8-47c8-98c4-bcdfc223e2e2" class="bulleted-list"><li style="list-style-type:disc">Host: nome del server a cui si riferisce l’URI</li></ul><ul id="e26ea135-f4c4-47b0-a63c-90471266735b" class="bulleted-list"><li style="list-style-type:disc">User-Agent: identificazione del tipo di client: browser, produttore, versione….</li></ul><p id="05e2aa47-8787-4835-8ecb-e00722187b06" class="">
+</p><p id="c4c6c2e2-7e7e-45c0-b636-0197e52cd7c9" class="">
+</p><h2 id="8170f802-37ed-4f56-ba9d-2fb4cb4a2379" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Risposte HTTP</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="dc0a2b11-25ce-4737-80de-9216cc7ebbf1" class="">Una risposta HTTP è composta dalle seguenti 3 parti:</p><ol type="1" id="ad87e44f-94ad-4255-b24d-748f3c453ec0" class="numbered-list" start="1"><li>Riga di stato: contiene un codice di risposta a 3 cifre in cui la prima cifra indica il tipo di stato<ul id="5fd87b5c-996d-4f88-816e-1893c6372bbd" class="bulleted-list"><li style="list-style-type:disc">1xx: Informational, messaggi informativi</li></ul><ul id="fb39300d-ea98-4bab-9545-64c2a4c3c975" class="bulleted-list"><li style="list-style-type:disc">2xx: Success, la richiesta è stata soddisfatta</li></ul><ul id="3be19e75-4e9d-4a15-bd21-6d430d886504" class="bulleted-list"><li style="list-style-type:disc">3xx: Redirection, la richiesta è considerata corretta, ma non c’è una risposta diretta. Viene indicato come ottenere la risposta</li></ul><ul id="d3189791-222b-4b00-8575-04f01bcb8b96" class="bulleted-list"><li style="list-style-type:disc">4xx: Client Error, la richiesta non può essere soddisfatta perché è sbagliata</li></ul><ul id="7c1da9ee-8636-4f21-83b1-783cd730d149" class="bulleted-list"><li style="list-style-type:disc">5xx: Server Error, la richiesta non può essere soddisfatta per un problema interno del server</li></ul></li></ol><ol type="1" id="4dd92ce6-43bc-466e-9ef0-21fe5ed619c0" class="numbered-list" start="2"><li>header: contiene informazioni aggiuntive.<ul id="876fd4bd-260c-4390-a3cf-110373c64c0a" class="bulleted-list"><li style="list-style-type:disc">Server: indica il tipo e la versione del server</li></ul><ul id="9062ed03-f19f-4334-90a7-0143fb16dec3" class="bulleted-list"><li style="list-style-type:disc">Content-Type: specifica il tipo di contenuto inviato il client</li></ul></li></ol><ol type="1" id="f4ef6b67-c974-4829-9304-0b9878addf37" class="numbered-list" start="3"><li>body: parte in cui si trova il contenuto della risposta.</li></ol><p id="f121cb80-4845-498a-a321-ac4b7e0422b4" class="">
+</p><p id="217f9b47-56a2-46ce-bd4f-4884fb93fd2a" class="">I codici di stato (status code) più comuni sono:</p><ul id="d8197ef1-fa31-4a7c-8ebe-d0caee0b80c3" class="bulleted-list"><li style="list-style-type:disc">200 OK: il server ha fornito il contenuto richiesto, che si trova nella sezione body</li></ul><ul id="8cca27be-838b-4f9e-8557-7248cc3c4032" class="bulleted-list"><li style="list-style-type:disc">400 Bad Request: il server non capisce la richiesta</li></ul><ul id="5ef2322d-e787-4d35-95e1-269e7af48c5b" class="bulleted-list"><li style="list-style-type:disc">403 Forbidden: non si possiede il livello adeguato di permessi per poter accedere alla risorsa richiesta</li></ul><ul id="934da7ed-3785-49a5-8aca-e90ddf4e144f" class="bulleted-list"><li style="list-style-type:disc">404 Not Found: il client ha richiesto una risorsa che non esiste sul server</li></ul><ul id="8126b54d-aace-4f38-a8b9-14cf8a6ce2a4" class="bulleted-list"><li style="list-style-type:disc">500 Internal Server Error: il server non riesce a rispondere alla richiesta, a causa di un problema interno</li></ul><ul id="0cca9c79-b034-4d66-a2c3-70a5dc420d5f" class="bulleted-list"><li style="list-style-type:disc">505 HTTP Version Not Supported: la versione di HTTP usata nella richiesta non è supportata dal server</li></ul><p id="67b4d6ce-555f-4a3f-b46f-d07b394e9bfb" class="">
+</p><h2 id="46bcf0c1-a31b-4b46-be34-9b19860af341" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Proxy HTTP</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="16acd727-ea99-4576-b1e3-c5640fdc2b1f" class="">Un proxy è un programma che si interpone tra client e server, facendo da tramite.</p><p id="56876472-c7ba-459a-bf8e-6309357aeed6" class="">Il client si collega al proxy, invece che al server, e gli invia le richieste.</p><p id="7abd1ee3-b3b1-4a6b-9b36-edc15212aae5" class="">Il proxy, a sua volta, si collega al server, gli inoltra le richieste ricevute dai client e inoltra ai client le risposte ricevute dal server.</p><p id="adb6c08c-a34f-4c89-a340-f2f2c4e7d639" class="">
+</p><p id="14352e90-be2e-457d-8e6c-cfc1a1397083" class="">Un proxy si usa per vari motivi:</p><ul id="33be4599-619f-4135-a990-86a0428880b4" class="bulleted-list"><li style="list-style-type:disc">Connettività: un server proxy può essere usato per permettere ad una rete privata di accedere direttamente ad Internet con un unico computer, invece di connettersi con tutti i computer in maniera diretta.</li></ul><ul id="2b0b4a53-c38f-4734-bbc0-adc38a58bfce" class="bulleted-list"><li style="list-style-type:disc">Privacy: è possibile mascherare il vero indirizzo IP del client, in modo che il server remoto non conosca l’indirizzo di chi ha effettuato la richiesta.</li></ul><ul id="aafa5048-f9bd-466e-ad85-d1dba3e618a0" class="bulleted-list"><li style="list-style-type:disc">Caching: un server proxy può immagazzinare per un po’ di tempo i risultati delle richieste dei client e se un altro client effettua le stesse richieste, può rispondere senza contattare il server originale.</li></ul><ul id="ede78b12-9f51-47df-b2a8-17e04979291c" class="bulleted-list"><li style="list-style-type:disc">Monitoraggio e amministrazione: è possibile monitorare e filtrare le richieste effettuate dai vari client connessi al proxy.</li></ul><p id="ecb9d4ed-4099-4d01-be5c-57db79e65df2" class="">
+</p><p id="8f3abc98-2826-4983-8fcc-38750be2cccd" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
