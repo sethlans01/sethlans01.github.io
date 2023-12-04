@@ -1,0 +1,696 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>3.1 Porte, socket e servizi</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d8b7462d-93b5-4f03-9e4e-1c84f0a13cfa" class="page sans"><header><h1 class="page-title">3.1 Porte, socket e servizi</h1><p class="page-description"></p></header><div class="page-body"><p id="661eccb7-99e2-4232-ba1d-5f5ab4b923f6" class="">I protocolli del livello di Rete svolgono la funzione di far attraversare la rete al pacchetto per poi consegnarlo al sistema di destinazione; a questo punto il loro compito è finito: l&#x27;header del datagram IP non contiene alcuna informazione utile all&#x27;host ricevente per individuare l&#x27;applicazione destinataria del messaggio.</p><p id="56b6472c-7304-4129-91b5-9e6707f346f2" class="">
+</p><p id="3564ceda-7b9d-41fa-a27d-d5009a059c6c" class="">Poiché su un host ci possono essere <strong>più applicazioni aperte contemporaneamente</strong>, che generano uno o più processi che effettuano richieste, si pone il problema per l&#x27;host destinatario di sapere a quale processo attivo (di sistema o utente) consegnare il pacchetto ricevuto.</p><p id="a2dab595-6106-467c-aa7e-5d623b2e27cd" class="">Non solo, uno stesso processo potrebbe gestire<strong> più funzionalità</strong>, ma una sola è quella destinataria del messaggio.</p><p id="f9c0a6d7-7b38-4b62-8084-4feb7f9648c9" class="">Le applicazioni finali devono allora poter essere <strong>individuate</strong> non in base al processo che le esegue, bensì alle <strong>funzioni</strong> che richiedono (client) o che svolgono (server).</p><p id="d61812ad-ae14-46b1-b863-5b185b2615aa" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2eabffc2-1b55-403c-87ba-4bdca57fc185"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Sulla base di questo approccio, il primo passo è stato stabilire che in ogni host siano definiti dei <strong>punti di accesso</strong>, chiamati <strong>porte</strong> (ports), che vengono <strong>associati al processo</strong> che sta svolgendo in quel momento la funzione richiesta e al protocollo utilizzato. Solo alla porta predisposta verranno consegnati i pacchetti che arrivano dalla rete.</div></figure><p id="69c53f92-f4ad-4e8b-afdd-2cfd615b8899" class="">
+</p><p id="76e32039-762e-44ce-83fe-f5919e9a1d5c" class="">Ogni porta viene <strong>identificata da un numero intero positivo</strong> codificato in 16 bit (range: 0 - 65.535).</p><p id="708c94c1-4c36-4888-864d-0092641e8777" class="">I numeri di porta sono assegnati a livello internazionale da IANA e suddivisi in tre gruppi:</p><ul id="81193617-aa1f-4013-8f59-6123e010f3bb" class="bulleted-list"><li style="list-style-type:disc">Well Known Ports (da 0 a 1.023);</li></ul><ul id="2dd500c7-65af-4f25-867e-445965592a81" class="bulleted-list"><li style="list-style-type:disc">Registered Ports (da 1.024 a 49.151);</li></ul><ul id="0b22c8ce-6246-44a9-a857-a7e21f8d69c1" class="bulleted-list"><li style="list-style-type:disc">Dynamic and/or Private Ports (da 49.152 a 65.535).</li></ul><p id="1ffe3090-da8c-497d-bf50-332d4368acb7" class="">
+</p><div id="9a3d930c-bc66-43ea-b715-f2f65a2b0d2f" class="column-list"><div id="4867cfd8-a576-4df6-8e27-261951307d2e" style="width:56.25%" class="column"><p id="5014184a-a773-4fdb-8f9f-d9aa9c5f7345" class="">L&#x27;host client e l&#x27;host server, oltre al reciproco indirizzo IP, devono conoscere i rispettivi numeri di porta utilizzati dall&#x27;applicazione che ha generato il processo relativo a una determinata funzione.</p><p id="c6a567b9-cf04-4f72-8294-682192ac1408" class="">Tali porte sono dette:</p><ul id="6b948646-7cf1-4c97-8da4-384858fddadb" class="bulleted-list"><li style="list-style-type:disc"><strong>source port</strong>: numero della porta presente sull&#x27;host client, sulla quale il processo client è in attesa di risposta dal server (è un&#x27;informazione utilizzata dal server);</li></ul><ul id="93d0d61d-01d5-451c-93cd-9ccf7f60b963" class="bulleted-list"><li style="list-style-type:disc"><strong>destination port</strong>: numero della porta su cui il processo server è in ascolto o su cui fornisce il servizio (è un&#x27;informazione utilizzata dal client).</li></ul><p id="89ab620d-f2e1-41ca-b28f-04a39c47067e" class="">
+</p><p id="2090333f-6482-473d-a421-735a09977faf" class="">Nella figura si mostra un esempio di utilizzo delle porte nel caso di un&#x27;applicazione di trasferimento file con FTP.</p></div><div id="116e6d45-3e60-4bea-8c6f-a7848e79224b" style="width:43.75%" class="column"><figure id="7d09ee4c-03c6-4445-84fe-d26fbc3ec6ca" class="image"><a href="3%201%20Porte,%20socket%20e%20servizi%20d8b7462d93b54f039e4e1c84f0a13cfa/Untitled.png"><img style="width:480px" src="3%201%20Porte,%20socket%20e%20servizi%20d8b7462d93b54f039e4e1c84f0a13cfa/Untitled.png"/></a></figure></div></div><p id="8f2c8f64-4080-4b72-8f56-6c7413d575a8" class="">
+</p><h2 id="8caa6c31-8dda-40c3-836d-c66a7a7c053d" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Le socket</mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="96f27b69-92d2-43b8-9bcd-ab00e3fe0038" class="">Come abbiamo detto le porte sono il primo passo per stabilire un canale bidirezionale univocamente individuabile tra processo client e processo server relativamente a una funzione.</p><div id="8cc17cd3-e556-4fd5-8100-a6cfbc96b074" class="column-list"><div id="d4e5cfc9-bf59-469a-b9aa-bb72dd8b3a0d" style="width:37.5%" class="column"><p id="211b4680-8b1a-473c-ad30-2dd1e918d4f2" class="">Un client che si rivolge a un server, in ascolto su una propria porta, dovrà innanzitutto fare una richiesta di connessione al servizio comunicando il proprio indirizzo IP e la porta su cui vuole ricevere la risposta.</p><p id="9402bf31-5a19-48d9-8ee2-6b679f771c96" class="">Il server, dopo un&#x27;eventuale fase di impostazione utile al trasferimento successivo delle informazioni, stabilirà la connessione comunicando a sua volta il proprio indirizzo IP e la porta su cui avverrà la comunicazione, diversa da quella su cui era in ascolto.</p><p id="646e12ca-154a-4c23-a790-ec3958b63276" class="">
+</p><p id="6759fa91-18ff-45dd-9ac8-e539da72968c" class="">
+</p></div><div id="fb715c7b-28ed-4697-985c-14fbf6e25f6c" style="width:62.5%" class="column"><figure id="af14a8b6-4897-4d02-8a64-b8f37c451e1f" class="image"><a href="3%201%20Porte,%20socket%20e%20servizi%20d8b7462d93b54f039e4e1c84f0a13cfa/Untitled%201.png"><img style="width:816px" src="3%201%20Porte,%20socket%20e%20servizi%20d8b7462d93b54f039e4e1c84f0a13cfa/Untitled%201.png"/></a></figure></div></div><p id="2f86b2a8-adde-43b9-aa03-2bb27f0889c2" class="">Un pacchetto che viaggia nella rete deve quindi contenere <strong>4 informazioni fondamentali:</strong></p><p id="dc3dd4ec-3cd8-4cab-ace3-02841bd01c3b" class=""><code>(Client IP address, Server IP address, Client Port number, Server Port number)</code></p><p id="ae87f39d-5288-412b-8af6-7c594609f357" class="">Specificando anche il protocollo per la comunicazione si riesce a descrivere univocamente la connessione con una quintupla detta <strong>Association</strong>:</p><p id="df7b0ec2-4bc3-4dbd-b818-43893175f469" class=""><code>(protocollo, ind. logico locale, porta locale, ind. logico remoto, porta remota)</code></p><p id="d21b95a4-c939-4f4b-9389-44c28a99dbb4" class=""><em>esempio: (TCP, 200.18.6.12, 3000, 58.163.138.10, 4000)</em></p><p id="5661ffd9-96e5-4ab0-9281-11fd4d2915d2" class="">
+</p><p id="c3654bab-3ae3-4267-9670-60c63228b626" class="">La quintupla viene in realtà costituita a partire da due elementi simmetrici, un&#x27;associazione locale e una remota:</p><ul id="0573336d-e9fb-4892-bdce-cf3e9c87251d" class="bulleted-list"><li style="list-style-type:disc">protocollo, ind. logico locale, porta locale (TCP, 200.18.6.12,3000);</li></ul><ul id="66a17424-906c-440b-9928-b2ae0cd7c5a4" class="bulleted-list"><li style="list-style-type:disc">protocollo, ind. logico remoto, porta remota (TCP, 58.163.138.10,4000).</li></ul><p id="2a66da15-ded4-4acc-980f-72b086313f4b" class=""><strong>Ciascuna di queste parti è una socket su un host diverso.</strong></p><p id="b4f8613e-caf9-4acd-b7de-e7f95fd7cd4e" class="">A ogni processo che richiede o risponde a una comunicazione in rete viene assegnata una socket, che ha il compito di interfacciare l&#x27;applicazione client che ha generato il processo (di richiesta) con l&#x27;applicazione server che fornisce il servizio (in risposta).</p><p id="e930c097-bb71-436b-8e98-74be4178372e" class="">
+</p><p id="fe410361-f997-4a03-ad98-dd7432573710" class="">Agli inizi degli anni Ottanta, I&#x27;ARPA con l&#x27;Università di Berkeley creò un&#x27;interfaccia per far comunicare applicazioni che girano su macchine UNIX connesse in rete.
+Fu deciso anche di adoperare il sistema di chiamate a funzioni esistente in UNIX e di aggiungere un nuovo sistema di chiamate con apposite <strong>primitive</strong> per supportare le funzioni TCP/IP (TABELLA 1).</p><table id="2917c80b-2cc6-4a77-af9d-547cd7521db9" class="simple-table"><tbody><tr id="3b0590db-cd4a-4ee9-abec-e8a0f9ed0959"><td id="B@p}" class="" style="width:369.0023600260417px"><em><strong>PRIMITIVA</strong></em></td><td id="c`xg" class="" style="width:369.0023600260417px"><em><strong>DESCRIZIONE</strong></em></td><td id="&gt;JEi" class="" style="width:369.0023600260417px"><em><strong>APPLICAZIONE CHE
+LA USA</strong></em></td></tr><tr id="55a8c940-776c-443a-b51a-462499b9e95a"><td id="B@p}" class="" style="width:369.0023600260417px">SOCKET</td><td id="c`xg" class="" style="width:369.0023600260417px">Crea un nuovo punto di comunicazione (end point).
+I parametri specificano il formato degli indirizzi, il tipo di servizio (per esempio: reliable byte stream)
+e il protocollo (per esempio: TCP). Restituisce un descrittore del file da usare nelle chiamate successive, in modo analogo a quanto fatto da una normale Open di un file.</td><td id="&gt;JEi" class="" style="width:369.0023600260417px">SERVER CLIENT</td></tr><tr id="223ef4eb-6db3-4338-8339-5a1f4444d513"><td id="B@p}" class="" style="width:369.0023600260417px">BIND</td><td id="c`xg" class="" style="width:369.0023600260417px">Associa (bind) un indirizzo locale alle socket, così da consentire ai client remoti di connettersi.</td><td id="&gt;JEi" class="" style="width:369.0023600260417px">SERVER</td></tr><tr id="4fb2ea79-6868-41d6-9880-24998ba71b06"><td id="B@p}" class="" style="width:369.0023600260417px">LISTEN</td><td id="c`xg" class="" style="width:369.0023600260417px">Alloca spazio per accodare le chiamate entranti nel caso in cui più client cerchino di connettersi al server contemporaneamente. Listen non è bloccante.</td><td id="&gt;JEi" class="" style="width:369.0023600260417px">SERVER</td></tr><tr id="2fb2329e-3e27-441d-94a8-d7edc8495985"><td id="B@p}" class="" style="width:369.0023600260417px">ACCEPT</td><td id="c`xg" class="" style="width:369.0023600260417px">Blocca il server finché non riceve da un client una
+Connect Request. Il TCP crea una nuova socket con le stesse caratteristiche di quello usato con la LISTEN e viene restituito il relativo descrittore di file.
+A questo punto il server crea un nuovo processo (tramite fork) o un thread per gestire la connessione sulla nuova socket e ritorna in attesa di una nuova richiesta di connessione sulla socket originaria
+inviando una primitiva ACCEPT.</td><td id="&gt;JEi" class="" style="width:369.0023600260417px">SERVER</td></tr><tr id="cdab3fcf-b659-4e86-8199-18733002d264"><td id="B@p}" class="" style="width:369.0023600260417px">CONNECT</td><td id="c`xg" class="" style="width:369.0023600260417px">Questa primitiva è usata dal client dopo che ha creato una socket. Essa blocca il client e attiva il processo che gestisce l&#x27;instaurazione della connessione con il server. Quando questa è avvenuta (a seguito della ricezione della primitiva di conferma dal server), il processo client è sbloccato e la connessione è attiva.</td><td id="&gt;JEi" class="" style="width:369.0023600260417px">CLIENT</td></tr><tr id="0fa6e73d-cf3b-4917-bf72-495f77b09ef1"><td id="B@p}" class="" style="width:369.0023600260417px">SEND
+RECEIVE</td><td id="c`xg" class="" style="width:369.0023600260417px">Invia i dati sulla connessione tra client e server.
+Blocca l&#x27;applicazione (client o server) in attesa di ricevere i dati dalla connessione.</td><td id="&gt;JEi" class="" style="width:369.0023600260417px">SERVER, CLIENT SERVER, CLIENT</td></tr><tr id="246c6f87-f067-47b6-9a4f-78b43eea2a81"><td id="B@p}" class="" style="width:369.0023600260417px">CLOSE</td><td id="c`xg" class="" style="width:369.0023600260417px">Rilascio simmetrico della connessione: sia l&#x27;applicazione client che quella server devono chiudere la connessione.</td><td id="&gt;JEi" class="" style="width:369.0023600260417px">SERVER, CLIENT</td></tr></tbody></table><h2 id="96ff6358-d1de-48af-9e29-da097ab766fb" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">I servizi</mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="2bdef625-2735-4856-8467-3cbee9656701" class="">I protocolli implementati a livello Transport svolgono funzioni simili a quelli del livello Data Link, per esempio si occupano del controllo degli errori, della sequenza corretta dei dati, del controllo di flusso, ecc.</p><p id="25f88571-ed16-4ef5-baff-1c8d3b83a46d" class="">La differenza fondamentale tra i due tipi di protocollo è lo scenario di rete in cui operano: a livello Data Link la connessione tra il router che invia il pacchetto a un altro router è diretta, infatti i due router comunicano attraverso un canale fisico di trasmissione; a livello Transport invece la connessione avviene attraverso l&#x27;intera rete, si tratta di un canale logico di trasmissione che unisce il computer host mittente con il computer host destinatario.</p><div id="65d9239c-e106-4a39-aaee-cf6ec386ba47" class="column-list"><div id="e131f328-dd61-410c-bf79-412c19ca6b5b" style="width:50%" class="column"><p id="0354dac1-5978-40e9-aeea-d97b8ae36107" class="">Per questo motivo si dice che il livello Transport si occupa della comunicazione end-to-end, dove i due estremi della connessione sono le socket predisposte sui due host.</p><p id="5b623fbb-ef93-4fc5-be88-5cae6ba0f2ea" class="">
+</p><p id="6a4ca372-27f2-4c5e-95ed-9c4e5c61c03e" class="">Il livello Transport svolge quindi una funzione &quot;cuscinetto&quot; tra il livello Application e i livelli inferiori, che si occupano della trasmissione in rete dei dati. In questo modo le applicazioni non necessitano di conoscere i dettagli operativi e organizzativi della rete che utilizzano, non interessa loro sapere il tipo di computer di destinazione, il percorso che faranno i dati, quanto è grande la rete che utilizzano o quale mezzo trasmissivo verrà usato. </p></div><div id="cf262fb9-399c-49e2-95fd-99995dace083" style="width:50%" class="column"><figure id="c4ab82f2-cbf1-4a5b-b2b9-cf0c02f740eb" class="image"><a href="3%201%20Porte,%20socket%20e%20servizi%20d8b7462d93b54f039e4e1c84f0a13cfa/Untitled%202.png"><img style="width:432px" src="3%201%20Porte,%20socket%20e%20servizi%20d8b7462d93b54f039e4e1c84f0a13cfa/Untitled%202.png"/></a></figure></div></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
