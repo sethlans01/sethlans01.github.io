@@ -1,0 +1,681 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4.1 Il protocollo IP</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d0375b6e-9fc4-43d0-b091-ad411cb6b6de" class="page sans"><header><h1 class="page-title">4.1 Il protocollo IP</h1><p class="page-description"></p></header><div class="page-body"><h3 id="2ddcde77-73e8-44c9-8d0d-fc30e173bb9b" class=""><mark class="highlight-blue">Le funzioni svolte a livello Network</mark></h3><p id="7a4e0428-ca02-4ad8-919b-6bf2ee13ef4b" class="">Nello stack TCP/IP il <strong>Network Layer</strong> ha il ruolo di trasferire i pacchetti da un host mittente a un host destinatario, usufruendo dei servizi offerti dal sottostante livello.</p><p id="11b60d00-175a-47f1-b919-db1383e76d33" class="">Per realizzare questa funzione, svolge due compiti fondamentali:</p><ul id="9a32fa59-2c51-47e2-964a-2e833e732698" class="bulleted-list"><li style="list-style-type:disc"><strong>forwarding</strong>: è l&#x27;attività di <strong>inoltro dei dati</strong> nella rete, svolta all&#x27;interno del router quando riceve un pacchetto da una linea (input link) e deve selezionare la linea su cui trasmetterlo (output link) per inoltrarlo al prossimo router;</li></ul><ul id="943089d3-b7f4-47bd-ae1a-50f7b9df09a2" class="bulleted-list"><li style="list-style-type:disc"><strong>routing</strong>: il livello Network <strong>determina il percorso</strong> (route) che seguono i pacchetti nella rete, passando da un router all&#x27;altro, usando alcuni algoritmi detti algoritmi di routing. Il routing permette anche la localizzazione degli instradamenti alternativi da usare in caso di guasti nella rete.</li></ul><p id="2e363362-0f22-4b22-af08-3064d8660617" class="">
+</p><blockquote id="a237050c-dba5-47c3-aa6e-a1926e888fe3" class="">Spesso quando si parla di reti si fa riferimento al caso reale di un veicolo che parte da un punto, percorre più strade e arriva a destinazione. Il processo di forwarding si attiva quando, per esempio, il veicolo arriva a uno svincolo autostradale e viene instradato su un&#x27;altra strada che gli consente di continuare il viaggio verso la destinazione.<br/>Prima di partire, l&#x27;automobilista pianifica il tragitto, consulta le mappe stradali e sceglie il percorso da seguire, che risulterà formato da un insieme di segmenti di strada, connessi tramite gli svincoli. Il routing è simile a questo processo di pianificazione del viaggio.<br/></blockquote><p id="634680a6-e733-4a2c-851f-522b46de3ace" class="">
+</p><p id="c53cd8f0-c2c1-4caf-bc5c-5fd40997aa66" class="">Per meglio affrontare la realizzazione di questi due importanti compiti, nelle moderne reti SDN (Software-Defined Network) il Network Layer è strutturato in due sottolivelli:</p><ul id="8271483f-5944-4e5a-a975-ce20b20b4550" class="bulleted-list"><li style="list-style-type:disc"><strong>Data Plane</strong> (il piano dei dati): qui si trovano le funzioni di forwarding, svolte dal singolo router;</li></ul><ul id="184fa9ab-7984-4b4e-91cd-2d3be182205a" class="bulleted-list"><li style="list-style-type:disc"><strong>Control Plane</strong> (il piano del controllo): implementa le funzioni di routing, stabilendo il percorso che deve seguire un pacchetto nella rete. Ha quindi un ruolo di coordinamento delle azioni di routing attuate nella rete tramite gli algoritmi e i protocolli di routing.</li></ul><p id="04fdee36-7814-4077-8c10-974a175501ac" class="">
+</p><p id="ec1a483f-bce3-4a63-bc1b-fc46f47041b4" class="">Il Network Layer può offrire sia servizi connessi (connection-oriented) sia servizi non connessi (connectionless). </p><p id="72286006-9547-4c74-a078-53cee068f0d2" class="">I primi sono solitamente implementati tramite circuiti virtuali e si ritrovano nelle reti di estrazione telefonica e ATM.</p><p id="a536a446-001c-4a0b-9acc-55121e40fd52" class="">I secondi sono offerti dalle reti TCP/IP, come Internet, che sono attualmente le reti più diffuse.</p><hr id="2527e823-8fd7-4a3a-bfd6-127f5b1284c9"/><p id="f6518633-02fe-48be-a8bb-e644cb721b2a" class="">Il Network Layer è il primo strato dello stack TCP/IP in grado di garantire una connettività a livello WAN; deve quindi poter identificare univocamente ogni host della rete mediante un identificativo apposito.</p><p id="8ffb3cec-049a-445f-a600-47418a19bdb4" class="">Un protocollo di livello Network deve conoscere la topologia della rete, scegliere di volta in volta il cammino migliore, gestendo le problematiche derivanti dalla presenza di più reti realizzate con tecnologie diverse a livello Physical.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="fceb8498-cbee-472c-9a16-7fb29281faf2"><div style="font-size:1.5em"><span class="icon">➡️</span></div><div style="width:100%">Il principale protocollo del livello Network nelle reti TCP/IP è Internet Protocol (IP), usato per trasferire i dati nella rete WAN. Sempre in questo livello sono stati specificati anche alcuni protocolli di controllo come ARP, RARP, ICMP, i protocolli di routing e altri ancora.</div></figure><p id="3289c793-1e0b-4397-979c-dc44ae0f3b42" class="">
+</p><h2 id="4b202da4-9a21-424d-bf72-3ea9812e8d4e" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Il protocollo IP</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="8584f7fb-2541-41d2-986e-8388d6c8eb69" class="">Il protocollo IP, nelle versioni 4 e 6 si occupa dell&#x27;indirizzamento, della suddivisione in pacchetti e del trasferimento dei dati che arrivano dal Transport Layer.<br/>IP è <br/><strong>connectionless</strong>, dunque consente a due host di scambiarsi PDU, denominate <strong>IP datagram</strong>, senza stabilire una connessione. La consegna non è garantita a questo livello, ma, se richiesta dall&#x27;applicazione, se ne occupa il protocollo TCP a livello Transport.</p><p id="54097e70-2ecb-4c93-b61a-9cbb24c296d4" class="">Il protocollo IP aggiunge ai dati (payload) un header, della lunghezza minima di 20 byte, per formare il pacchetto (massimo 65.535 byte) da inoltrare al livello Physical. I campi più importanti dell&#x27;header sono rappresentati dagli indirizzi IP del mittente e del destinatario.<br/>Vediamone nel dettaglio la composizione nella seguente figura.<br/></p><figure id="fffc201c-9938-410f-afdb-2be80eacd215" class="image"><a href="4%201%20Il%20protocollo%20IP%20d0375b6e9fc443d0b091ad411cb6b6de/Untitled.png"><img style="width:720px" src="4%201%20Il%20protocollo%20IP%20d0375b6e9fc443d0b091ad411cb6b6de/Untitled.png"/></a></figure><p id="5bd1b1b1-f4d4-4118-bc3a-90b1b6271efc" class="">Il contenuto dei singoli campi è il seguente:</p><ul id="2dda0330-f3e9-42a6-bf99-5c94e2f729f7" class="bulleted-list"><li style="list-style-type:disc"><strong>Version</strong>: 4 bit che rappresentano la versione del protocollo IP (0100 = versione 4); se l&#x27;host destinatario non è in grado di gestire la versione del protocollo IP specificata, il pacchetto verrà scartato.</li></ul><ul id="bf16a44e-0b02-4124-912e-12b4646700a0" class="bulleted-list"><li style="list-style-type:disc"><strong>HLEN</strong> (Header LENgth): 4 bit che indicano la lunghezza dell&#x27;header IP espressa in word (gruppi di 32 bit). Tutti i campi dell&#x27;header sono di lunghezza fissa tranne Options e Padding, se questi non sono presenti, l&#x27;header è lungo 20 byte.</li></ul><ul id="3dfee3d9-df77-45bc-aa84-dc325b499c3e" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><strong>TOS</strong></span> (Type Of Service): 8 bit che servono a far capire all&#x27;IP come gestire il pacchetto. È costituito da 6 sottocampi:<br/><br/></li></ul><figure id="0ad812fb-8ead-475f-96bd-f53a8c454a55" class="image"><a href="4%201%20Il%20protocollo%20IP%20d0375b6e9fc443d0b091ad411cb6b6de/Untitled%201.png"><img style="width:720px" src="4%201%20Il%20protocollo%20IP%20d0375b6e9fc443d0b091ad411cb6b6de/Untitled%201.png"/></a></figure><ul id="140d2210-dca2-4c5d-bffe-26e361853a8e" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><strong>Precedence</strong></span>: 3 bit che indicano la priorità del pacchetto, da 0 (normale) a 7 (controllo di rete); più il numero è alto più il pacchetto è importante.<ul id="ab07ec05-a298-4f8b-9962-5ef0dcc8f046" class="bulleted-list"><li style="list-style-type:circle"><span style="border-bottom:0.05em solid"><strong>Delay</strong></span>: un bit che se impostato a 1 indica che si vuole un ritardo minimo.</li></ul><ul id="9e9e7f99-0dea-4dc3-993b-160135753fe0" class="bulleted-list"><li style="list-style-type:circle"><span style="border-bottom:0.05em solid"><strong>Throughput</strong></span>: un bit che se impostato a 1 indica che si vuole un throughput massimo.</li></ul><ul id="31d58ff3-d69c-4c0b-84b1-ab3cfc8589ce" class="bulleted-list"><li style="list-style-type:circle"><span style="border-bottom:0.05em solid"><strong>Reliability</strong></span>: un bit che se impostato a 1 indica che si vuole massima affidabilità.</li></ul><ul id="82426a12-32d5-4700-8375-f703db9cb41f" class="bulleted-list"><li style="list-style-type:circle"><span style="border-bottom:0.05em solid"><strong>Monetary</strong></span> Cost: un bit che se impostato a 1 indica che si vuole il percorso dal costo minimo.</li></ul><ul id="1611fd8e-f127-455b-ac40-46ba5f4c37e4" class="bulleted-list"><li style="list-style-type:circle"><span style="border-bottom:0.05em solid"><strong>Unused</strong></span>: 1 bit inutilizzato. Nella versione 4 di IP è fissato a 0.</li></ul></li></ul><ul id="ac185055-6810-4156-a49b-dbb361f5a4db" class="bulleted-list"><li style="list-style-type:disc"><strong>Total Length</strong>: 16 bit che contengono la lunghezza totale del datagram espressa in byte (header + payload) che potrà quindi essere al massimo:<br/><br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>16</mn></msup></mrow><annotation encoding="application/x-tex">2^{16}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">16</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> - 1 = 65.535 byte; di norma, però, un pacchetto IP è lungo 1.500 byte, così da poter essere trasportato interamente come payload nel frame Ethernet.</li></ul><ul id="7daa850a-eb43-46f5-ba67-ded38f7111a3" class="bulleted-list"><li style="list-style-type:disc"><strong>Identification</strong> (ID), <strong>Flags</strong> e <strong>Fragment</strong> <strong>Offset</strong> sono campi relativi alla funzione di frammentazione: a volte può essere necessario per un router dividere un datagram in pacchetti più piccoli, per consentirgli di attraversare una rete con caratteristiche diverse da quella di provenienza (Ethernet, Token Ring, Wi-Fi, ecc.).</li></ul><ul id="c7bf2385-3900-43cb-8363-4d6bdc9a9b35" class="bulleted-list"><li style="list-style-type:disc"><strong>ID</strong>: 16 bit che identificano univocamente i frammenti di un medesimo datagram; tutti i frammenti in cui è suddiviso un datagram avranno lo stesso ID.</li></ul><ul id="ac09ae1c-d36a-4c59-9ff9-5006ba4405fb" class="bulleted-list"><li style="list-style-type:disc"><strong>Flags</strong>: 3 bit per il controllo della frammentazione:<ul id="146bb289-ba1d-4e26-9dff-1d2608f15ca5" class="bulleted-list"><li style="list-style-type:circle">il primo bit è attualmente inutilizzato;</li></ul><ul id="18cc6144-ed7e-444a-9291-fe073db18fa5" class="bulleted-list"><li style="list-style-type:circle">il secondo bit è detto DF (Don&#x27;t Fragment): se impostato a 1 indica che il datagram non può essere frammentato;</li></ul><ul id="d43727e6-6c46-4948-88d3-cffcdc91c412" class="bulleted-list"><li style="list-style-type:circle">il terzo bit è detto MF (More Fragment): se impostato a 1 indica che il frammento è seguito da altri frammenti; solo l&#x27;ultimo frammento avrà quindi MF = 0.</li></ul></li></ul><ul id="1ea816dd-8398-4d0f-81b6-7066028b828e" class="bulleted-list"><li style="list-style-type:disc"><strong>Fragment</strong> <strong>Offset</strong>: 13 bit che indicano l&#x27;offset del frammento rispetto all&#x27;inizio del datagram, il valore indicato raggruppa 8 byte alla volta. L&#x27;offset è fissato dal router che esegue la frammentazione.<ul id="5dcf5e23-7bd0-45a7-83a8-21bec20fecaa" class="bulleted-list"><li style="list-style-type:circle">Nella figura viene esemplificato il contenuto dei campi ID, Flags e Fragment Offset nel caso di un datagram con payload di 1.500 byte suddiviso in 3 frammenti di dimensione 600 byte, 600 byte e 300 byte, rispettivamente.<ul id="982b01e7-99df-4c7f-a157-4c1e762c91ca" class="bulleted-list"><li style="list-style-type:square">Si noti l&#x27;offset indicato: il primo frammento ha dimensione 600 byte, quindi contiene i byte 0 - 599, il secondo i successivi byte 600 - 1.199 e il terzo 1.200 - 1.499. L&#x27;offset indicato nel secondo frammento è 600: 8 = 75, in quanto i byte sono raggruppati 8 alla volta. Analogamente, nell&#x27;ultimo frammento l&#x27;offset è 1.200 : 8 = 150.</li></ul></li></ul></li></ul><figure id="841acd46-fb88-4b76-aa48-656959f932e9" class="image"><a href="4%201%20Il%20protocollo%20IP%20d0375b6e9fc443d0b091ad411cb6b6de/Untitled%202.png"><img style="width:720px" src="4%201%20Il%20protocollo%20IP%20d0375b6e9fc443d0b091ad411cb6b6de/Untitled%202.png"/></a></figure><ul id="647a6b8c-23f4-44de-a5b5-0a57c5a943de" class="bulleted-list"><li style="list-style-type:disc"><strong>TTL</strong> (Time To Live): 8 bit inizializzati al numero massimo di passaggi da un router al successivo (hop) che il datagram può effettuare. Il suo scopo è di evitare che un pacchetto continui a circolare nella rete all&#x27;infinito. Il TTL è usato come un contatore, il cui valore viene decrementato di 1 ogni volta che il datagram attraversa un router e quando arriva a 0 viene scartato. Il TTL raccomandato per IPv4 è 64 (RFC 791 e RFC 1122).</li></ul><ul id="b199d1c2-ea10-4667-8e2b-a0de471d680a" class="bulleted-list"><li style="list-style-type:disc"><strong>Protocol</strong>: 8 bit usati per indicare quale protocollo di livello superiore è stato utilizzato per creare il payload. Ogni protocollo è identificato da un numero, detto Assigned Internet Protocol Numbers.<br/>Questo valore è usato solo nell&#x27;host di destinazione.<br/></li></ul><ul id="de78efb5-b614-4d51-a9a3-81f359acd93a" class="bulleted-list"><li style="list-style-type:disc"><strong>Header Checksum</strong>: 16 bit usati per il calcolo della checksum relativa al solo header, per rilevare eventuali bit errati nell&#x27;IP datagram ricevuto dal router. In ogni router attraversato viene ricalcolata essendosi modificato l&#x27;header per via del decremento del valore TTL</li></ul><ul id="aa6e2450-29f5-469d-a593-f267401b93a1" class="bulleted-list"><li style="list-style-type:disc"><strong>Source IP Address</strong>: 32 bit dell&#x27;indirizzo IP del mittente.</li></ul><ul id="55639a0b-15c9-449f-95b2-740fc0a71bb3" class="bulleted-list"><li style="list-style-type:disc"><strong>Destination IP Address</strong>: 32 bit dell&#x27;indirizzo IP del destinatario.</li></ul><ul id="03e413e2-2039-4142-9335-5bd786ded1cc" class="bulleted-list"><li style="list-style-type:disc"><strong>Options</strong>: ogni opzione è lunga 8 bit e un datagram può contenere più opzioni. Gli 8 bit di un&#x27;opzione sono suddivisi in 3 campi:<ul id="cabf8c1e-f8fc-42b0-a114-55ef6c4f139b" class="bulleted-list"><li style="list-style-type:circle"><strong>Copy Flag</strong>: 1 bit che impostato a 0 indica che, in caso di frammentazione, l&#x27;opzione va copiata solo sul primo frammento; se impostato a 1 invece va copiata su tutti i frammenti.</li></ul><ul id="78f989c7-518b-4c57-8f43-88b3cf24ea99" class="bulleted-list"><li style="list-style-type:circle"><strong>Option Class:</strong> 2 bit che impostati al valore 0 indicano che l&#x27;opzione è di controllo del datagram o della rete; impostati al valore 2 indicano che l&#x27;opzione serve per debug o misurazioni; i valori 1 e 3 sono riservati a usi futuri.</li></ul><ul id="575437d1-ab85-4e4a-8fca-b9cb715a025e" class="bulleted-list"><li style="list-style-type:circle"><strong>Option Number</strong>: 5 bit che identificano l&#x27;opzione nell&#x27;ambito della Option Class di appartenenza.<br/>Per esempio:<br/><ul id="9cc568fb-f743-4fc5-b601-7dee45e7d01f" class="bulleted-list"><li style="list-style-type:square">Option Class = 0 e Option Number = 0: fine delle opzioni;</li></ul><ul id="dcde5b32-898d-486e-9a1c-928add157c93" class="bulleted-list"><li style="list-style-type:square">Option Class = 0 e Option Number = 1: riempitivo in caso di nessuna opzione impostata;</li></ul><ul id="2d13de1d-635f-4906-9092-6ed1011f6b44" class="bulleted-list"><li style="list-style-type:square">Option Class = 0 e Option Number = 7: costringe i router ad aggiungere il proprio IP all&#x27;elenco delle opzioni; è usato quando si vuole tenere traccia dei percorsi (record route);</li></ul><ul id="116ff78b-557b-4a1d-97bb-07b593a18df8" class="bulleted-list"><li style="list-style-type:square">Option Class = 2 e Option Number = 4: costringe i router ad aggiungere un segnatempo (time stamp) in millisecondi per ricostruire il tempo impiegato da un pacchetto lungo una strada.</li></ul></li></ul></li></ul><ul id="35f62e81-f690-4db8-a7d0-524354ea868b" class="bulleted-list"><li style="list-style-type:disc"><strong>Padding</strong>: riempitivo con dati fittizi la cui dimensione dipende dal numero di opzioni presenti. È usato per rendere l&#x27;header di lunghezza multipla di 32 bit.</li></ul><p id="2529bfbf-c6c2-4b7b-a8a5-04ee048398a9" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

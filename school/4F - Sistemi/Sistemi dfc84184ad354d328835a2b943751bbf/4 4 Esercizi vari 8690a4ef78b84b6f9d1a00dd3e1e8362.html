@@ -1,0 +1,686 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4.4 Esercizi vari</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8690a4ef-78b8-4b6f-9d1a-00dd3e1e8362" class="page sans"><header><h1 class="page-title">4.4 Esercizi vari</h1><p class="page-description"></p></header><div class="page-body"><h3 id="df1665ce-0bf7-4f07-beea-52af72f19120" class=""><mark class="highlight-blue">1. Piano di indirizzamento in classe B</mark></h3><p id="81163c07-f1f7-48b1-8bbd-c4193a259ad8" class=""><mark class="highlight-red"><strong>→ PROBLEMA</strong></mark><br/>Si supponga di voler pianificare l&#x27;indirizzamento di una rete progettata per essere suddivisa in almeno 20 sottoreti in grado di contenere ciascuna almeno 80 host.<br/></p><p id="ee14f69f-9a09-442f-91e4-b8765e2f85f8" class=""><br/><br/><span style="border-bottom:0.05em solid"><mark class="highlight-orange">ANALISI DEL PROBLEMA</mark></span><br/>A prescindere dall&#x27;indirizzo IP pubblico acquistato, scegliamo di utilizzare un indirizzo IP privato in classe B e avere così 2 ottetti a disposizione per il subnetting, più che sufficienti per indirizzare le subnet e gli host previsti.<br/></p><p id="3073c781-5734-41a5-80e2-f70746603c61" class=""><br/>Avremo dunque:<br/></p><ul id="851ed851-ed75-44b1-a531-61d944b005df" class="bulleted-list"><li style="list-style-type:disc">indirizzo di rete = 172.16.0.0;</li></ul><ul id="a1475b49-0ac9-4c63-8984-3ce3c9aa6a10" class="bulleted-list"><li style="list-style-type:disc">indirizzo di broadcast per la rete = 172.16.255.255;</li></ul><ul id="1e75bb60-c227-4869-96b1-1c27a011b248" class="bulleted-list"><li style="list-style-type:disc">subnet mask di default = 255.255.0.0;</li></ul><ul id="f0f83771-5d3e-4b79-b2b6-62d521ad10c1" class="bulleted-list"><li style="list-style-type:disc">Ci serviranno 5 bit del terzo ottetto per indirizzare le subnet essendo | <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mn>20</mn></mrow><annotation encoding="application/x-tex">log_2{20}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord">20</span></span></span></span></span></span><span>﻿</span></span> | + 1 = 5, infatti <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">2^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> = 32, quindi restano ben 12 indirizzi di sottorete liberi per future espansioni della rete;</li></ul><ul id="1a015129-3751-45ef-a4bb-deca160b3115" class="bulleted-list"><li style="list-style-type:disc">la subnet mask varrà quindi 255.255.248.0 essendo il terzo ottetto uguale a 11111000;</li></ul><ul id="5e1e1309-1f3c-40ed-9bc4-0e3b66b0dccb" class="bulleted-list"><li style="list-style-type:disc">per gli host restano a disposizione 3 bit del terzo ottetto più tutto il quarto ottetto quindi 11 bit, da cui ben <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>11</mn></msup></mrow><annotation encoding="application/x-tex">2^{11}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">11</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> - 2 = 2.046 indirizzi di host per subnet.<br/><br/></li></ul><p id="5765b9d1-1726-4731-a285-8b13d028dd7b" class="">Dal momento che il 1° host della prima subnet (subnet 0) ha indirizzo 172.16.0.1, il 1° host della quinta subnet (subnet 4) ha indirizzo 172.16.32.1 mentre l&#x27;ultimo (il 2.046°) ha indirizzo 172.16.39.254. Il 12° host della subnet 7 ha indirizzo 172.16.56.12.</p><table id="8950ae4e-f6a5-4e7f-817d-f3cc9144684d" class="simple-table"><tbody><tr id="35ed948d-692d-45f5-8957-2f8d0f99f3dd"><td id="C[zj" class=""><strong>n. subnet</strong></td><td id="fR;R" class=""><strong>Indirizzo di subnet (terzo ottetto)</strong></td><td id="SwQ&gt;" class=""><strong>Indirizzo di broadcast (terzo ottetto)</strong></td><td id="\Ygb" class=""><strong>Range per gli indirizzi di host</strong></td></tr><tr id="61b79c41-8b84-450e-bd16-5851c6bc3828"><td id="C[zj" class="">0</td><td id="fR;R" class="">172.16.0.0 (00000 000)</td><td id="SwQ&gt;" class="">172.16.7.255 (00000 111)</td><td id="\Ygb" class="">da 172.16.0.1 a 172.16.7.254</td></tr><tr id="facb86a9-a4e0-4988-b913-0911e0af187e"><td id="C[zj" class="">1</td><td id="fR;R" class="">172.16.8.0 (00001 000)</td><td id="SwQ&gt;" class="">172.16.15.255 (00001 111)</td><td id="\Ygb" class="">da 172.16.8.1 a 172.16.15.254</td></tr><tr id="e443bd9e-1ac1-49e0-95d7-a8e80d59e050"><td id="C[zj" class="">2</td><td id="fR;R" class="">172.16.16.0 (00010 000)</td><td id="SwQ&gt;" class="">172.16.23.255 (00010 111)</td><td id="\Ygb" class="">da 172.16.16.1 a 172.16.23.254</td></tr><tr id="ae4c5dea-f1f2-41d9-962d-ff7b24399bf2"><td id="C[zj" class="">3</td><td id="fR;R" class="">172.16.24.0 (00011 000)</td><td id="SwQ&gt;" class="">172.16.31.255 (00011 111)</td><td id="\Ygb" class="">da 172.16.24.1 a 172.16.31.254</td></tr><tr id="2d675d41-e714-4311-a762-79f9ca8d5eeb"><td id="C[zj" class="">4</td><td id="fR;R" class="">172.16.32.0 (00100 000)</td><td id="SwQ&gt;" class="">172.16.39.255 (00100 111)</td><td id="\Ygb" class="">da 172.16.32.1 a 172.16.39.254</td></tr><tr id="b90ce24b-86b2-48c3-a01c-d677ed553b93"><td id="C[zj" class="">5</td><td id="fR;R" class="">172.16.40.0 (00101 000)</td><td id="SwQ&gt;" class="">172.16.47.255 (00101 111)</td><td id="\Ygb" class="">da 172.16.40.1 a 172.16.47.254</td></tr><tr id="dd9922aa-c013-4a05-a948-d2fd97147643"><td id="C[zj" class="">6</td><td id="fR;R" class="">172.16.48.0 (00110 000)</td><td id="SwQ&gt;" class="">172.16.55.255 (00110 111)</td><td id="\Ygb" class="">da 172.16.48.1 a 172.16.55.254</td></tr><tr id="c8e9286d-ac88-4378-8963-98f706af0b7c"><td id="C[zj" class="">7</td><td id="fR;R" class="">172.16.56.0 (00111 000)</td><td id="SwQ&gt;" class="">172.16.63.255 (00111 111)</td><td id="\Ygb" class="">da 172.16.56.1 a 172.16.63.254</td></tr><tr id="6d52ffc0-3f5a-4588-9407-02fe6f86f6e9"><td id="C[zj" class="">8</td><td id="fR;R" class="">172.16.64.0 (01000 000)</td><td id="SwQ&gt;" class="">172.16.71.255 (01000 111)</td><td id="\Ygb" class="">da 172.16.64.1 a 172.16.71.254</td></tr><tr id="6162ad36-ebd9-4808-a156-85c4d12403ab"><td id="C[zj" class="">9</td><td id="fR;R" class="">172.16.72.0 (01001 000)</td><td id="SwQ&gt;" class="">172.16.79.255 (01001 111)</td><td id="\Ygb" class="">da 172.16.72.1 a 172.16.79.254</td></tr><tr id="81af7ff6-c598-4db9-a314-f08f4fba807a"><td id="C[zj" class="">10</td><td id="fR;R" class="">172.16.80.0 (01010 000)</td><td id="SwQ&gt;" class="">172.16.87.255 (01010 111)</td><td id="\Ygb" class="">da 172.16.80.1 a 172.16.87.254</td></tr><tr id="5389ad73-44e8-4ff6-871d-5a185266efe0"><td id="C[zj" class="">11</td><td id="fR;R" class="">172.16.88.0 (01011 000)</td><td id="SwQ&gt;" class="">172.16.95.255 (01011 111)</td><td id="\Ygb" class="">da 172.16.88.1 a 172.16.95.254</td></tr><tr id="2153746a-6f69-49ae-bb37-e053309e1365"><td id="C[zj" class="">12</td><td id="fR;R" class="">172.16.96.0 (01100 000)</td><td id="SwQ&gt;" class="">172.16.103.255 (01100 111)</td><td id="\Ygb" class="">da 172.16.96.1 a 172.16.103.254</td></tr><tr id="220e8d02-29d2-413e-9a9b-07dc5da8ba77"><td id="C[zj" class="">13</td><td id="fR;R" class="">172.16.104.0 (01101 000)</td><td id="SwQ&gt;" class="">172.16.111.255 (01101 111)</td><td id="\Ygb" class="">da 172.16.104.1 a 172.16.111.254</td></tr><tr id="a5270e41-64ad-44ea-a531-141cf2271aeb"><td id="C[zj" class="">14</td><td id="fR;R" class="">172.16.112.0 (01110 000)</td><td id="SwQ&gt;" class="">172.16.119.255 (01110 111)</td><td id="\Ygb" class="">da 172.16.112.1 a 172.16.119.254</td></tr><tr id="db0773d9-715d-440a-b4f0-12f16fca1951"><td id="C[zj" class="">15</td><td id="fR;R" class="">172.16.120.0 (01111 000)</td><td id="SwQ&gt;" class="">172.16.127.255 (01111 111)</td><td id="\Ygb" class="">da 172.16.120.1 a 172.16.127.254</td></tr><tr id="d7e743ff-5fc5-4622-a2d8-9263c1877847"><td id="C[zj" class="">16</td><td id="fR;R" class="">172.16.128.0 (10000 000)</td><td id="SwQ&gt;" class="">172.16.135.255 (10000 111)</td><td id="\Ygb" class="">da 172.16.128.1 a 172.16.135.254</td></tr><tr id="3c7f8f31-7e0a-441c-a518-7d4027a83193"><td id="C[zj" class="">17</td><td id="fR;R" class="">172.16.136.0 (10001 000)</td><td id="SwQ&gt;" class="">172.16.143.255 (10001 111)</td><td id="\Ygb" class="">da 172.16.136.1 a 172.16.143.254</td></tr><tr id="23aada24-d962-4421-b7a0-a638001b4ac5"><td id="C[zj" class="">18</td><td id="fR;R" class="">172.16.144.0 (10010 000)</td><td id="SwQ&gt;" class="">172.16.151.255 (10010 111)</td><td id="\Ygb" class="">da 172.16.144.1 a 172.16.151.254</td></tr><tr id="464ea6b5-cc83-463f-a043-796ce68a9617"><td id="C[zj" class="">19</td><td id="fR;R" class="">172.16.152.0 (10011 000)</td><td id="SwQ&gt;" class="">172.16.159.255 (10011 111)</td><td id="\Ygb" class="">da 172.16.152.1 a 172.16.159.254</td></tr><tr id="b89c09fa-61b4-4c1a-a35f-03cfa106ecfe"><td id="C[zj" class="">20</td><td id="fR;R" class="">172.16.160.0 (10100 000</td><td id="SwQ&gt;" class="">172.16.167.255 (10100 111)</td><td id="\Ygb" class="">da 172.16.160.1 a 172.16.167.254</td></tr></tbody></table><p id="287a2d20-463c-4053-9e75-847654dc3c70" class="">
+</p><h3 id="d346350d-29ba-40d0-a418-93a880080749" class=""><mark class="highlight-blue">2. Rete con subnet</mark></h3><p id="9dc8d94b-e631-4b87-b3be-d097ca323fa3" class=""><mark class="highlight-red"><strong>→ PROBLEMA</strong></mark></p><p id="0bdea3da-e59e-4bb9-ae4d-8ca4317408c6" class="">Progettare una rete suddivisa in 3 sottoreti locali con le seguenti caratteristiche:</p><ul id="15796667-cba3-4c13-96aa-82789c04c1b1" class="bulleted-list"><li style="list-style-type:disc">15 PC client;</li></ul><ul id="03fc162e-79ed-4473-ac8a-39215420cece" class="bulleted-list"><li style="list-style-type:disc">3 computer server;</li></ul><ul id="ffed76e1-7d51-44d5-9662-e71523b52ae9" class="bulleted-list"><li style="list-style-type:disc">1 server e 5 client per ciascuna sottorete;</li></ul><ul id="d081172c-f9e9-4257-83ae-8b078f823b72" class="bulleted-list"><li style="list-style-type:disc">1 router per collegare tra loro le 3 sottoreti.</li></ul><p id="83d02552-5564-48b3-9e5f-2a50d51576b1" class="">Evidenziare gli apparati di rete e i mezzi trasmissivi utilizzati, assegnare tutti gli indirizzi IP necessari sapendo di avere a disposizione una rete in classe B con indirizzo 158.110.0.0 e di scegliere per comodità come subnet mask 255.255.255.0.</p><p id="08b306de-75ce-4b54-bc9a-34889b98031c" class="">
+</p><p id="cafa96b2-d6c1-4321-9249-bfe85b020153" class=""><span style="border-bottom:0.05em solid"><mark class="highlight-orange">ANALISI DEL PROBLEMA</mark></span></p><p id="bf1c458a-6e62-4500-8dc6-5d4553c4cc15" class="">Considerato lo scenario di rete proposto, oltre al router è necessario prevedere 3 switch per ciascuna sottorete a cui collegare i computer e l&#x27;interfaccia del router.</p><p id="f4564ead-9a85-4b39-b780-dce90420d1f4" class="">Ogni switch è dotato di porte Ethernet a 10/100 Mbps a cui collegare i PC client e a 1 Gbps a cui collegare il server e il router. I collegamenti usano cavi UTP cat. 5e.</p><p id="1974d79e-2cdf-4ac8-8025-9c06f7e4e8a0" class="">Il router ha 3 porte Ethernet a 1 Gbps, le rispettive interfacce sono configurate con un indirizzo IP diverso relativo a ciascuna delle 3 subnet create.</p><p id="d1747f0c-e7d9-4c5b-bee0-676669d6ecb5" class="">Alcune osservazioni per una buona pianificazione degli indirizzi IP:</p><ul id="deb6671c-393f-4c7a-ad22-c2fc127b1873" class="bulleted-list"><li style="list-style-type:disc">il terzo ottetto è stato interamente dedicato al subnetting per numerare le 3 reti con i valori 1, 2 e 3;</li></ul><ul id="c9ea6c0b-5266-430c-b432-6b66a4129451" class="bulleted-list"><li style="list-style-type:disc">alle 3 interfacce di rete del router (che funge da gateway per ciascuna rete) è stato assegnato l&#x27;ultimo indirizzo disponibile del range (quarto ottetto = 254, mentre il 255 è riservato al broadcast);</li></ul><ul id="106b29a5-a089-4b51-8ccd-f298bbc457d5" class="bulleted-list"><li style="list-style-type:disc">a ogni server è stato assegnato il primo indirizzo disponibile del range (quarto ottetto = 1);</li></ul><ul id="a93bc237-15c6-4746-af3d-ac8c9277831e" class="bulleted-list"><li style="list-style-type:disc">a ogni host è stato assegnato un IP statico crescente (quarto ottetto con valori da 2 а 6).</li></ul><p id="47adc58d-6ee9-4142-83ba-00c498439acd" class="">
+</p><p id="6147e941-26f3-4034-b07c-d05848188a4f" class=""><em><mark class="highlight-teal">→ SVOLGIMENTO</mark></em></p><p id="53d7567e-023f-4fa9-bca8-f5cd0322e642" class="">Il piano di indirizzamento della rete è mostrato nella seguente tabella:</p><table id="283726be-3fd0-4ba9-bd3f-e6b740b6ca96" class="simple-table"><tbody><tr id="b928eed6-11c2-4e3e-8c33-e8e8e19da9af"><td id="AdKA" class="">Rete</td><td id="lYDK" class="">Subnet mask</td><td id="nQr^" class="">Router</td><td id="WHuc" class="">Server</td><td id="yWsE" class="">Host</td><td id="]]?k" class="">Broadcast</td></tr><tr id="a49cd528-9790-4b4c-aa8f-eca31221274c"><td id="AdKA" class="">158.110.1.0</td><td id="lYDK" class="">255.255.255.0</td><td id="nQr^" class="">158.110.1.254</td><td id="WHuc" class="">158.110.1.1</td><td id="yWsE" class="">da 158.110.1.2<br/><br/>a 158.110.1.6</td><td id="]]?k" class="">158.110.1.255</td></tr><tr id="c33629a6-9907-4bcb-9133-1b7af9c964de"><td id="AdKA" class="">158.110.2.0</td><td id="lYDK" class="">255.255.255.0</td><td id="nQr^" class="">158.110.2.254</td><td id="WHuc" class="">158.110.2.1</td><td id="yWsE" class="">da 158.110.2.2<br/><br/>a 158.110.2.6</td><td id="]]?k" class="">158.110.2.255</td></tr><tr id="b290d69f-348a-449d-be9c-837f77c1f18d"><td id="AdKA" class="">158.110.3.0</td><td id="lYDK" class="">255.255.255.0</td><td id="nQr^" class="">158.110.3.254</td><td id="WHuc" class="">158.110.3.1</td><td id="yWsE" class="">da 158.110.3.2<br/><br/>a 158.110.3.6</td><td id="]]?k" class="">158.110.3.255</td></tr></tbody></table><p id="33e1eff2-dc9a-4426-82aa-42e79025fc90" class="">La figura mostra la progettazione della rete con apparati, computer e mezzi trasmissivi, più gli indirizzi IP assegnati alle varie schede di rete sulla base del piano di indirizzamento definito (per non appesantire il disegno non sono stati scritti gli indirizzi di tutti i PC).</p><figure id="929b0f3f-9899-4379-bbcc-94ca8cc31d99" class="image"><a href="4%204%20Esercizi%20vari%208690a4ef78b84b6f9d1a00dd3e1e8362/Untitled.png"><img style="width:624px" src="4%204%20Esercizi%20vari%208690a4ef78b84b6f9d1a00dd3e1e8362/Untitled.png"/></a></figure><p id="6024b404-18d4-461b-bb6a-6f580533f115" class="">
+</p><h3 id="d6592a71-6548-4582-8c71-cce16f315dc8" class=""><mark class="highlight-blue">3. Calcolo subnet e host</mark></h3><p id="5c3fc0fe-b3d0-4155-85c6-a40490c8526c" class=""><mark class="highlight-red"><strong>→ PROBLEMA</strong></mark></p><p id="e2857ae8-b829-412a-95be-dae35a90bd17" class="">Dato l&#x27;IP address 150.185.3.25 e la subnet mask 255.255.224.0, quante sottoreti sono state create e quanti indirizzi di host sono disponibili per ciascuna sottorete?</p><p id="9a2ff6be-3ca8-44bc-8f92-7d95a19c76cc" class="">
+</p><p id="b294ef18-9ced-4ccc-8f25-22048f66d594" class=""><mark class="highlight-orange"><span style="border-bottom:0.05em solid">ANALISI DEL PROBLEMA</span></mark></p><p id="4d576adc-8ffb-4c74-a712-8193c9e54c67" class="">L&#x27;indirizzo IP 150.185.3.25 è di classe B, quindi per creare le sottoreti si usano alcuni bit del 3° e 4° ottetto (HostID).</p><p id="41e46c2c-10c0-4dd4-87c3-0634a844260c" class="">È la subnet mask che rivela &quot;quanti&quot; di questi 16 bit sono stati usati per creare delle subnet: 255.255.224.0. Dal momento che il 4° ottetto è uguale a 0, esaminiamo il 3° ottetto:</p><p id="1e72a38e-27b9-4b88-b14d-f81c57ba249b" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><msub><mn>4</mn><mn>10</mn></msub><mo>=</mo><mn>1110000</mn><msub><mn>0</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">224_{10} = 11100000_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">22</span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">1110000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> → sono stati usati 3 bit</p><p id="5c7c2fea-2ac6-452d-bbbf-8ed483d8badb" class="">
+</p><p id="53860445-f6b2-4ccc-b863-e56e6bf45274" class=""><mark class="highlight-teal"><em>→ SVOLGIMENTO</em></mark></p><p id="b0a337aa-b140-42e5-9ef2-7fc2ade8549e" class="">Con 3 bit si possono avere 23 = 8 combinazioni di 1 e 0: 000, 001, 010, 011, 100, 101, 110, 111, quindi 8 subnet.</p><p id="7db500a8-c44e-4521-98f9-2e2eb11b0bd8" class="">La classe B ha l&#x27;HostlD di 16 bit, sottraendo i 3 bit usati per creare le subnet restano 13 bit per gli indirizzi di host.</p><p id="1f54ac99-9674-43cc-a1bb-bfdc0323e859" class="">Ora abbiamo tutti i dati utili per rispondere alle domande del problema:</p><ul id="05731672-e9d9-4bd5-9582-f6aa18676dcc" class="bulleted-list"><li style="list-style-type:disc">sono state create 8 subnet;</li></ul><ul id="ecfe06df-d55c-460f-967e-2dca5f41ac61" class="bulleted-list"><li style="list-style-type:disc">ciascuna subnet ha <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>13</mn></msup></mrow><annotation encoding="application/x-tex">2^{13}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">13</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> - 2 = 8190 indirizzi di host a disposizione.</li></ul><p id="677454fd-6485-42ea-91a4-dd4d55625002" class="">
+</p><h3 id="8e964d89-311e-443f-8c0b-e50bd70f733f" class=""><mark class="highlight-blue">4. Calcolo subnet e host</mark></h3><p id="554a29ea-917c-4327-be9c-5842866f00e9" class=""><mark class="highlight-red"><strong>→ PROBLEMA</strong></mark></p><p id="f2d4904e-b443-4c14-ad3c-d494232f4ed9" class="">Dato l&#x27;IP address 150.185.3.25 e la subnet mask 255.255.224.0, fornire:</p><ol type="1" id="7e2a366a-8170-4b52-8d6c-d7da5262a4c9" class="numbered-list" start="1"><li>l&#x27;indirizzo IP di un host appartenente alla stessa sottorete dell&#x27;host 150.185.3.25;</li></ol><ol type="1" id="8bf3a082-e36d-4f8f-940d-fadf937e2e8b" class="numbered-list" start="2"><li>l&#x27;indirizzo IP di un host appartenente alla stessa rete locale dell&#x27;host 150.185.3.25 ma non alla stessa sottorete.</li></ol><p id="a01b9337-035f-4505-802a-41c6f5f2e49b" class="">
+</p><p id="c00c9701-12f8-4263-acfa-bc1470feb70c" class=""><mark class="highlight-orange"><span style="border-bottom:0.05em solid">ANALISI DEL PROBLEMA</span></mark></p><p id="768eef91-f24c-4e20-ab6a-3365ecf8d392" class="">Nel precedente esercizio, abbiamo stabilito che nella rete 150.185.0.0 con subnet mask 255.255.224.0 sono state create 8 subnet. Nella tabella seguente sono indicati i rispettivi indirizzi:</p><table id="1d965bcb-3a7d-4b9b-b687-6628dda3c66c" class="simple-table"><tbody><tr id="d3030995-0c6c-4d5a-b951-40e16be72290"><td id="ivjm" class=""><strong>n. subnet</strong></td><td id="^e^j" class=""><strong>Indirizzo di subnet (terzo ottetto)</strong></td></tr><tr id="54718f9c-3237-4a08-b108-27d0101ea0a6"><td id="ivjm" class="">0</td><td id="^e^j" class="">150.185.0.0 (000 00000)</td></tr><tr id="b6bf67c4-120d-4172-b069-f9c527d2fe3e"><td id="ivjm" class="">1</td><td id="^e^j" class="">150.185.32.0 (001 00000)</td></tr><tr id="143d9e87-c0b6-4896-a3b3-0381de6b9849"><td id="ivjm" class="">2</td><td id="^e^j" class="">150.185.64.0 (010 00000)</td></tr><tr id="d7c291de-abfe-4c59-8346-6d0997cfe2ea"><td id="ivjm" class="">3</td><td id="^e^j" class="">150.185.96.0 (011 00000)</td></tr><tr id="f482e0f3-8cb6-4866-a62c-dccb5b660934"><td id="ivjm" class="">4</td><td id="^e^j" class="">150.185.128.0 (100 00000)</td></tr><tr id="3c5148bd-5648-4201-b843-92041552c11c"><td id="ivjm" class="">5</td><td id="^e^j" class="">150.185.160.0 (101 00000)</td></tr><tr id="ecc3dc9f-dfbd-4fac-80d2-9e2aef6b384e"><td id="ivjm" class="">6</td><td id="^e^j" class="">150.185.192.0 (110 00000)</td></tr><tr id="a7b79637-f5b1-4e68-adfe-b94a87355c07"><td id="ivjm" class="">7</td><td id="^e^j" class="">150.185.224.0 (111 00000)</td></tr></tbody></table><p id="1f0d239d-3342-46a6-9d5a-e1f26a74d050" class=""><mark class="highlight-teal"><em>→ SVOLGIMENTO</em></mark></p><p id="6eee5823-5e32-423f-9946-f5a68365e490" class="">Convertiamo in binario il 3° ottetto dell&#x27;indirizzo 150.185.3.25 per individuare a quale subnet appartiene:</p><p id="8e7051c5-616e-49ec-89b2-2f974f0531b0" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>3</mn><mn>10</mn></msub><mo>=</mo></mrow><annotation encoding="application/x-tex">3_{10}=</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></span><span>﻿</span></span> <mark class="highlight-red">000</mark><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0001</mn><msub><mn>1</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">00011_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">0001</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></p><p id="94f3bd58-fa65-4855-b18d-9bad7c414672" class="">I bit in rosso indicano che appartiene alla subnet 0.</p><p id="87256980-37f4-4754-b021-fa33d9b28896" class="">Ora abbiamo tutti i dati utili per rispondere alle domande del problema:</p><ol type="1" id="aa99ed1f-724b-4030-b02f-14e8988b4798" class="numbered-list" start="1"><li>150.185.10.100 è un indirizzo IP di un host sulla stessa subnet 0;</li></ol><ol type="1" id="0055db60-9a40-4d9c-9cb9-585778d739ca" class="numbered-list" start="2"><li>150.185.165.30 è un indirizzo IP di un host appartenente a una differente subnet, la subnet 5.</li></ol><p id="61dd6012-023a-4d23-b8fa-f4f572a08b6c" class="">
+</p><h3 id="4a2f35ba-8df5-4fd4-9ba8-8c2d0223c537" class=""><mark class="highlight-blue">4.4 Individuare la rete di appartenenza</mark></h3><p id="9e3b4cda-ffe3-4e01-bae8-e8bcb4f99e23" class=""><mark class="highlight-red"><strong>→ PROBLEMA</strong></mark><br/>Dato l&#x27;indirizzo IP 192.198.1.75 e la subnet mask 255.255.255.240, indicare a quale host appartiene e in quale subnet si trova.<br/></p><p id="81d3c1a2-b84a-4148-afd7-0e31c1694a46" class=""><br/><br/><mark class="highlight-orange"><span style="border-bottom:0.05em solid">ANALISI DEL PROBLEMA</span></mark><br/>È un indirizzo di classe C, l&#x27;HostlD è limitato agli 8 bit del 4° ottetto. Convertiamo dunque in binario il 4° ottetto della subnet mask:<br/><br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>24</mn><msub><mn>0</mn><mn>10</mn></msub><mo>=</mo><mn>1111000</mn><msub><mn>0</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">240_{10}=11110000_2 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">24</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">1111000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> → <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>4</mn></msup><mo>=</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">2^4=16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span></span><span>﻿</span></span> subnet</p><p id="84b9fff1-7b7b-4929-a714-0d74db88ac0e" class=""><br/><br/><mark class="highlight-teal"><em>→ SVOLGIMENTO</em></mark><br/>Convertiamo in binario il 4° ottetto dell&#x27;indirizzo: <br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><msub><mn>5</mn><mn>10</mn></msub><mo>=</mo><mn>0100101</mn><msub><mn>1</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">75_{10}=01001011_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">7</span><span class="mord"><span class="mord">5</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">0100101</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>.</p><p id="e5314d97-71bb-4b94-b063-f1359be3e60c" class="">Applichiamo la maschera (4 bit per subnet, 4 bit per host): 11110000.<br/>Otteniamo:<br/>Subnet: 0100 → <br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>4</mn><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">4_{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> → subnet 4<br/>Host: 1011 → <br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msub><mn>1</mn><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">11_{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">1</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> → 11° host<br/>L&#x27;indirizzo 192.198.1.75 è l&#x27;11° host della subnet 4.<br/></p><p id="cc5ae49a-2b3c-4d93-8e3d-9fc1c7f2d6d2" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

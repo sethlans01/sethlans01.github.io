@@ -1,0 +1,692 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4.3 IP Subnetting</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="038eabf1-0c72-499c-8a46-8a995c6365c3" class="page sans"><header><h1 class="page-title">4.3 IP Subnetting</h1><p class="page-description"></p></header><div class="page-body"><p id="97dbf02e-16f0-4509-a1c0-92da3b91f1e7" class="">Per ottimizzare il traffico in una rete risulta particolarmente utile suddividerla in una serie di sottoreti logiche, collegate tra loro da router interni alla rete stessa. Questa operazione di segmentazione della rete in sottoreti prende il nome di subnetting.<br/>Il subnetting si realizza &quot;sacrificando&quot; alcuni dei bit che le classi A, B e C dedicano agli host per definire un indirizzo di sottorete, SubnetID, come mostrato nella figura.<br/></p><figure id="0629906a-60f5-4ae2-b10e-42bf1025ddbf" class="image"><a href="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled.png"><img style="width:632px" src="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled.png"/></a></figure><p id="68ae1198-0d53-4f27-99ca-5166f3bb7aa4" class="">
+</p><p id="fe8bfded-0868-48ec-9dd5-a9edc83208f7" class="">Per segmentare una rete occorre, in fase di progettazione, stabilire quante subnet servono e, di conseguenza, quanti bit occorrono per indirizzarle univocamente. </p><p id="ee041933-727d-4292-a6ab-202e8f78d9fc" class="">Nel calcolo è necessario anche valutare il numero massimo di host previsto per ogni subnet e in base a ciò calibrare il quantitativo di bit da suddividere rispettivamente tra subnet e host.<br/>Il risultato di questa attività è il piano di indirizzamento della rete.<br/></p><p id="ffa7200d-6515-40b9-9e76-c57b7da68e1d" class=""><br/>È necessario evitare che nella parte subnet e in quella host vi siano contemporaneamente tutti 0 o tutti 1 perché diventerebbero indirizzi speciali, riservati rispettivamente alla rete e al broadcast. Questo problema si risolve eliminando dal piano<br/>di indirizzamento gli HostID con tutti i bit = 0 e con tutti i bit = 1.<br/></p><p id="b6147077-eeac-464c-8331-a96b7c9ebbd8" class=""><br/>Inoltre, l&#x27;amministratore di rete deve disporre di un indirizzo IP appartenente a una classe opportuna rispetto al numero di subnet da realizzare e al numero di host che devono essere inseriti in ciascuna subnet.<br/>Vediamo con un esempio come individuare il numero di bit necessari per creare le subnet e a quale classe deve appartenere l&#x27;indirizzo IP di rete.<br/></p><p id="1adfed46-9976-45ec-9f76-7e51d9cc230b" class="">
+</p><p id="b603b9e3-ed84-4209-9525-61efd4e91318" class=""><em><em><em><em><em><em><em>ESEMPIO</em></em></em></em></em></em></em></p><p id="11a3955f-d0f5-4fa6-b2f1-7140dbcbfccd" class="">Supponiamo di dover realizzare 50 subnet: dobbiamo usare una SubnetlD di 6 bit, essendo <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">2^{6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> = 64 maggiore di 50, mentre 5 bit non sarebbero bastati (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">2^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> = 32 minore di 50).</p><p id="2dac97b4-1679-40eb-9e93-88b688019916" class=""><br/>Se usassimo un indirizzo di classe C resterebbero solo 2 bit per gli indirizzi di host, infatti: <br/></p><p id="1aa677f9-81e2-4bc9-8ba0-6c07dcfde144" class="">classe C: 8 bit per HostID, ne usiamo 6 per SubnetlD, restano 8 - 6 = 2 bit per HostID</p><p id="79cf5ede-3a0e-4d16-ac2a-481983b11abe" class=""><br/><br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">2^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>-2 = 2 indirizzi di host per ciascuna subnet<br/><br/><strong>(si deve sottrarre 2 in quanto per gli host non si possono usare i due indirizzi riservati &quot;tutti 0&quot; e &quot;tutti 1&quot;).</strong></p><p id="97a86659-8042-48e6-bc5b-f3a589191453" class="">Quindi, un indirizzo IP in classe C, a parte situazioni molto particolari come il collegamento tra due router, non è adeguato in quanto il numero di host per subnet è troppo limitato e non offrirebbe la possibilità di inserire nuovi host in futuro.</p><p id="fb39639f-3ce0-46ea-b39c-738ff4f1600a" class=""><br/>Se, invece, scegliamo un indirizzo di classe B avremmo 10 bit per gli indirizzi di host:<br/>classe B: 16 bit per HostlD, ne usiamo 6 per SubnetID, restano 16 - 6 = 10 bit per HostID<br/><br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">2^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> - 2 = 1.022 indirizzi di host per ciascuna subnet</p><hr id="9479c774-0ba1-483d-ae2b-5b87b904b8ca"/><p id="943582ce-0861-4a97-9cc3-136a0ab97108" class="">
+</p><p id="6c4c48af-27a7-41d1-b8a3-02a18d8bd241" class="">È buona regola abbondare anche nel calcolo dei bit da dedicare alle subnet per garantire future creazioni di nuove subnet senza dover ripianificare tutti gli indirizzi.<br/>Se, per esempio, il progetto prevede 64 subnet è consigliabile usare 7 bit anziché i 6 bit che basterebbero senza resti.<br/><br/><em><mark class="highlight-yellow_background">Nota: negli esercizi che svolgeremo, per semplicità, non applicheremo queste considerazioni, ma useremo sempre il numero minimo di bit necessari per creare le subnet richieste.</mark></em></p><p id="296bedc0-0141-4f74-a06a-aa8b59cf7544" class=""><br/>In generale, posto N il numero di subnet richieste, si avrà che il numero X di bit necessari a indirizzarle univocamente è dato da:<br/></p><figure id="fb094ec2-4a93-473b-8096-0add05dea4d3" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>x</mi><mo>=</mo><mi mathvariant="normal">∣</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>N</mi><mi mathvariant="normal">∣</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x=|log_2N|+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span></div></figure><p id="e3f0a331-9866-4e03-b159-157f13bf6d89" class="">
+</p><h2 id="191742cf-5391-424c-875b-743c483dcf53" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Subnet mask</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="25b8132a-2a4c-4ef2-af9b-d877905ca0c2" class="">Abbiamo visto nella lezione precedente che per capire qual è l&#x27;indirizzo IP della rete a cui appartiene un host è sufficiente considerare i bit più significativi.</p><p id="85cb6537-08e1-4b9f-9232-a08603b292ef" class="">Per esempio:</p><ul id="0a703d54-bc59-4ac9-9a34-66b843a339fb" class="bulleted-list"><li style="list-style-type:disc">130.10.67.160 è un indirizzo di classe B, dal momento che i primi 2 bit sono &quot;1&quot; e &quot;0&quot; (130 = 10000010);</li></ul><ul id="083f1e99-4266-43f4-bbed-daf4edfaa948" class="bulleted-list"><li style="list-style-type:disc">sappiamo che un indirizzo di rete deve sempre avere HostID=0;</li></ul><ul id="a91f2c45-6306-4741-944a-331a24db5a26" class="bulleted-list"><li style="list-style-type:disc">quindi l&#x27;host con indirizzo 130.10.67.160 appartiene alla rete 130.10.0.0.</li></ul><p id="12f58e0b-a0e2-4759-9623-d08b4055cd9c" class="">
+</p><p id="fc622f52-997d-4e55-89e0-d7397d96c70a" class="">Con l&#x27;introduzione del subnetting non è più così semplice, infatti lo stesso indirizzo IP 130.10.67.160 potrebbe appartenere alla seconda subnet di una rete che è stata suddivisa in 4 subnet. In questo caso l&#x27;indirizzo di rete dell&#x27;host è 130.10.64.0 !</p><p id="7b9d648d-79ec-4a0b-8e9a-5b1ac0e8f555" class="">
+</p><p id="ceeb5dce-cdb5-4397-83ad-b99b67639ec7" class=""><mark class="highlight-red"><strong>→ PROBLEMA</strong></mark><br/>Dato l&#x27;indirizzo IP 130.10.67.160 determinare qual è il suo indirizzo di rete, sapendo che la rete è stata suddivisa in 4 subnet.<br/><br/><mark class="highlight-teal"><em>→ SVOLGIMENTO</em></mark><br/>L&#x27;indirizzo è di classe B, la rete di appartenenza è 130.10.0.0, senza subnetting.<br/>Per creare 4 sottoreti, dobbiamo usare alcuni bit dell&#x27;HostID: quanti? 4 = <br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">2^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> → 2 bit.</p><p id="d93fa07d-885d-4a5c-a4ba-79e6ec7c6dff" class="">Per calcolare gli indirizzi delle subnet, riprendiamo la tabella con la conversione in binario:</p><table id="044e561f-52f3-4595-a9b4-11debf533f90" class="simple-table"><tbody><tr id="c0a24986-7446-42a4-9b03-6a0e8b98d008"><td id="ZWO^" class="">1° ottetto</td><td id="ttlf" class="">2° ottetto</td><td id="ljJV" class="">3° ottetto</td><td id="[htH" class="">4° ottetto</td></tr><tr id="0e6584d7-97a3-4307-85e9-f2ccf08bb9dc"><td id="ZWO^" class="">130</td><td id="ttlf" class="">10</td><td id="ljJV" class="">67</td><td id="[htH" class="">160</td></tr><tr id="86b1f993-90e6-46e6-b2f7-9d04185b018b"><td id="ZWO^" class="">10000010</td><td id="ttlf" class="">00001010</td><td id="ljJV" class="">01000011</td><td id="[htH" class="">10100000</td></tr></tbody></table><p id="ddfcccd1-3581-4ab1-9329-291ccc809662" class="">e focalizziamoci sul terzo e quarto ottetto che rappresentano l&#x27;HostID:</p><figure id="4683f031-b18a-4811-b4bd-06a033b575ff" class="image"><a href="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%201.png"><img style="width:570px" src="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%201.png"/></a></figure><p id="559d344e-7dfe-4a33-8eee-962ed2149edb" class="">I 2 bit che si usano per le subnet sono quelli più significativi, da sinistra evidenziati in blu, mentre i restanti, evidenziati in rosso, sono quelli per l&#x27;indirizzo di host:</p><figure id="6adc8c78-9312-479c-ac12-a86dc49853f7" class="image"><a href="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%202.png"><img style="width:672px" src="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%202.png"/></a></figure><p id="5160a15e-7950-4c75-8186-3fc3820988a0" class="">Applichiamo il concetto che un indirizzo IP di rete ha tutti i bit dell&#x27;HostiD uguali a 0:</p><figure id="b9912f6c-2c33-403c-a09d-79e8743b1544" class="image"><a href="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%203.png"><img style="width:556px" src="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%203.png"/></a></figure><p id="f17c0da3-c9ba-4422-b6ec-8c1b85af7aeb" class="">e riconvertiamo in decimale i 2 ottetti: 01000000, = 64, 000000002 = 010</p><p id="5fe5c3cb-fac5-4390-a2ca-9b02e99488b4" class="">La risposta al problema è: 130.10.64.0 (indirizzo di rete dell&#x27;host 130.10.67.160).</p><hr id="fd034c2b-5f03-424d-966f-6e825ab2b4cf"/><p id="00ee2953-a48d-4551-8188-51a19b95c62c" class="">
+</p><p id="34793a34-7349-4583-a2a5-27387dab4e74" class="">Nell&#x27;esercizio è stato semplice calcolare l&#x27;indirizzo di rete perché avevamo un dato fondamentale: le 4 subnet.<br/>E’ quindi necessario inserire questo dato nella configurazione IP di un host, così lo potrà usare anche un router quando inoltra un pacchetto verso la rete di destinazione (il router non inoltra usando l&#x27;HostID).<br/><br/><mark class="highlight-blue_background">Si è quindi definita una nuova stringa da 32 bit (esattamente come gli indirizzi IP) che prende il nome di subnet mask e ha lo scopo di indicare quanti bit dell&#x27;indirizzo appartengono alla rete e quanti all&#x27;host.<br/>Nella subnet mask hanno valore 1 i bit in corrispondenza ai bit di rete e sottorete, mentre hanno valore 0 i bit dell&#x27;HostID.<br/></mark><br/>Riprendiamo l&#x27;esercizio precedente e calcoliamo la subnet mask.<br/></p><p id="628c2c43-a5b5-4da9-a4d2-b2669697d03b" class="">
+</p><p id="3a797d36-ebd2-4c9e-832c-ab75c4aaa795" class=""><strong><mark class="highlight-red">→ PROBLEMA</mark></strong><br/>Dato l&#x27;indirizzo IP 130.10.67.160, determinare la subnet mask sapendo che la rete è stata suddivisa in 4 subnet.<br/></p><p id="a6ba1aaa-6724-44ca-89ef-471ef49b2607" class=""><mark class="highlight-teal"><em>→ SVOLGIMENTO</em></mark><br/>Dai calcoli fatti in precedenza, è emerso che per realizzare le 4 subnet si devono usare 2 bit dell&#x27;HostlD. Questi bit si aggiungono ai 16 bit di rete (Classe B): in totale ci sono 18 bit per la rete (NetID + SubnetID) e 14 bit per l&#x27;HostID.<br/></p><p id="3deb1d7f-fe37-4917-9028-18e41fe5f535" class=""><br/>L&#x27;indirizzo di rete a cui appartiene l&#x27;host è 130.10.64.0<br/></p><p id="3f6037a8-57b4-4023-a42f-303635bac989" class=""><br/>Per calcolare la subnet mask occorre porre a 1 i bit in corrispondenza ai bit di rete dell&#x27;indirizzo e a 0 i bit corrispondenti all&#x27;HostlD. <br/></p><p id="cfc3daa2-a26f-42d7-83cc-a0603a4989e7" class="">Successivamente, si divide la stringa in 4 ottetti e si convertono in decimale.</p><p id="b0f0e608-cfa5-4c74-aa20-0876c345530b" class=""><br/><br/><span style="border-bottom:0.05em solid"><em>Risultato: la subnet mask è 255.255.192.0, come mostrato in figura.</em></span></p><figure id="ab3e0794-f038-4b6e-845a-b786a1d9b5c5" class="image"><a href="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%204.png"><img style="width:1116px" src="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%204.png"/></a></figure><hr id="d7919d21-8620-4f42-bca4-da0ba032210b"/><p id="8ebaa4fb-4661-4ed6-806e-b2f5efbc9bcb" class="">
+</p><p id="6e1c6859-e086-4e86-9498-7fa24c0fc8fa" class="">Di norma la subnet mask è la stessa per tutte le subnet della rete. In alcuni casi ci possono essere esigenze particolari che richiedono l&#x27;uso di subnet mask di lunghezza variabile.</p><p id="0ccedfa4-cf13-4ec4-941a-771ea6ac90ed" class="">Le subnet mask di default sono:</p><ul id="f3056556-0b14-48aa-9853-9dc5d39ddaf8" class="bulleted-list"><li style="list-style-type:disc"><strong>classe A:</strong> 255.0.0.0 (11111111.00000000.00000000.00000000)</li></ul><ul id="d405bc03-1a2f-4a68-a2e7-92225b6bea72" class="bulleted-list"><li style="list-style-type:disc"><strong>classe B:</strong> 255.255.0.0 (11111111.11111111.00000000.00000000)</li></ul><ul id="4b1fa320-6535-4c8b-9b41-57334e6d23c2" class="bulleted-list"><li style="list-style-type:disc"><strong>classe C:</strong> 255.255.255.0 (11111111.11111111.11111111.00000000)</li></ul><p id="7876baa4-6b3b-4d0d-b37f-de4dd7d216d3" class="">
+</p><p id="2e706ad1-3133-49a2-9530-cfd9cc0e41bd" class="">Il numero di valori che può assumere un ottetto della subnet mask è ben definito, dal momento che i bit a 1 devono essere consecutivi, come mostrato nella tabella seguente.</p><table id="923cfad3-5d73-44b5-8896-7affe7033679" class="simple-table"><tbody><tr id="ea18f995-2bb1-4c29-8caa-7c1ef4ef9256"><td id="cbmK" class=""><strong>Ottetto in binario</strong></td><td id="?@i^" class=""><strong>Valore decimale</strong></td></tr><tr id="8077a754-ec75-4f6a-a89c-38d92f64297a"><td id="cbmK" class="">00000000</td><td id="?@i^" class="">0</td></tr><tr id="c7af0553-c7c8-43da-8029-b3ec23ec35ba"><td id="cbmK" class="">10000000</td><td id="?@i^" class="">128</td></tr><tr id="5174d29f-622a-409e-a402-277e92d25c3b"><td id="cbmK" class="">11000000</td><td id="?@i^" class="">192</td></tr><tr id="36ad8034-60cb-4d27-a6d0-45b62e00f24f"><td id="cbmK" class="">11100000</td><td id="?@i^" class="">224</td></tr><tr id="3ff90ef6-fe6b-4595-b6cc-d4c8a092def4"><td id="cbmK" class="">11110000</td><td id="?@i^" class="">240</td></tr><tr id="b6a77600-a1f0-4aab-8a14-04cc4e90ba4e"><td id="cbmK" class="">11111000</td><td id="?@i^" class="">248</td></tr><tr id="03faff55-7070-4887-a7bf-e2fa252e1d25"><td id="cbmK" class="">11111100</td><td id="?@i^" class="">252</td></tr><tr id="5f5bafcd-393b-4909-a3f2-13ebd917d52a"><td id="cbmK" class="">11111110</td><td id="?@i^" class="">254</td></tr><tr id="d92c5d3b-603f-4a84-95ca-2c89a4b7ccfe"><td id="cbmK" class="">11111111</td><td id="?@i^" class="">255</td></tr></tbody></table><p id="0f4e5c63-f666-4afa-ac01-6abcdb33da19" class="">
+</p><p id="e98a5648-68af-4676-b382-1ba65c347b0b" class="">Esempio: una rete è costituita da 50 subnet, che richiedono 6 bit per essere indirizzate (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">2^6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> = 64).<br/>La subnet mask da usare cambia a seconda della classe di appartenenza della rete:<br/></p><ul id="8674c2c1-c535-4f1e-9a95-ef8f6f9d08ea" class="bulleted-list"><li style="list-style-type:disc">255.252.0.0 per la classe A (6 bit SubnetID, 18 bit HostID);</li></ul><ul id="2cbf5200-2c52-4850-bec4-d5b687b98436" class="bulleted-list"><li style="list-style-type:disc">255.255.252.0 per la classe B (6 bit SubnetID, 10 bit HostID);</li></ul><ul id="c10312a5-67c7-4255-aa0c-a351067ab2e9" class="bulleted-list"><li style="list-style-type:disc">255.255.255.252 per la classe C (6 bit SubnetID, 2 bit HostID).</li></ul><figure id="1511810e-6052-4af0-8d02-ae7951bb2e74" class="image"><a href="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%205.png"><img style="width:432px" src="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%205.png"/></a></figure><p id="8beb60b4-36d4-415d-95fe-8c4cdf9040ad" class="block-color-blue_background"><strong>I bit a 1 vanno scritti da sinistra verso destra (cioè dal bit più significativo al bit meno significativo) nel primo ottetto che non è dedicato alla rete.</strong></p><h2 id="976c83a8-de47-456e-b1fb-fc1d41f31463" class=""><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue"><mark class="highlight-blue">Processo di messa in AND</mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></mark></h2><p id="d53d924e-4e07-403b-aa21-524b88343613" class="">Il subnetting e le subnet mask svolgono un ruolo fondamentale nell&#x27;ottimizzare il traffico della rete evitando, per esempio, che datagram IP inviati da un host a un altro host, residente nella stessa sottorete, escano e rientrino per giungere a destinazione.</p><p id="6232d5d5-6b94-491c-b0ce-2708a6b30dff" class="">Si individuano, dunque, due tecniche di inoltro dei pacchetti nella rete:</p><ul id="2bc40333-6284-45d6-8fc5-542046d54b2b" class="bulleted-list"><li style="list-style-type:disc"><strong>forwarding diretto:</strong> host mittente e destinatario hanno lo stesso NetID (incluso il SubnetID), quindi la comunicazione avviene all&#x27;interno della stessa rete senza coinvolgere il router;</li></ul><ul id="b62aa81d-7770-4982-a26d-652a274510a4" class="bulleted-list"><li style="list-style-type:disc"><strong>forwarding indiretto:</strong> host mittente e destinatario hanno un diverso NetID (incluso il SubnetID), quindi sono su reti differenti, il pacchetto viene inviato al router che lo inoltrerà a un altro router e così via fino a destinazione.</li></ul><p id="6f8f64d7-8296-4917-862b-ab6e79f4147e" class="">Il meccanismo che permette di verificare se due host appartengono alla stessa rete (e sottorete) è detto processo di messa in AND (ANDing process) bit wise, cioè bit a bit.</p><p id="66536e4d-cb3c-4c24-a906-8e32da0b3d68" class="">
+</p><p id="8d66260a-346a-44d6-927f-21d03121974b" class="">Questo processo consiste nel fare:</p><ol type="1" id="5ad58bb3-75bf-4b02-a53b-30d65e0da8e4" class="numbered-list" start="1"><li>un&#x27;operazione di AND bit a bit tra l&#x27;indirizzo IP del mittente e la subnet mask del mittente ottenendo il NetID e il SubnetID del mittente e azzerando l&#x27;HostID;</li></ol><ol type="1" id="c40c83fb-b7cb-4954-aa23-2102828eff92" class="numbered-list" start="2"><li>un&#x27;operazione di AND bit a bit tra l&#x27;indirizzo IP del destinatario e la subnet mask del mittente ottenendo il NetID e il SubnetID e azzerando l&#x27;HostID;</li></ol><ol type="1" id="93282ebf-53e0-48aa-9ce1-3cf10b6c24fb" class="numbered-list" start="3"><li>il confronto tra i due risultati ottenuti:</li></ol><ul id="7f7a699b-6f27-47ed-afd9-6b058540b17c" class="bulleted-list"><li style="list-style-type:disc">se sono uguali mittente e destinatario sono nella stessa subnet (comunicazione diretta);</li></ul><ul id="0369ad6a-db20-404f-b941-13fe316af602" class="bulleted-list"><li style="list-style-type:disc">se sono diversi mittente e destinatario non sono nella stessa subnet (comunicazione attraverso il router).</li></ul><p id="d27705e9-5962-43d0-a704-342e842014f7" class="">
+</p><p id="f25bf659-3cb7-4ae4-81c8-72d74d7f11a5" class="">La funzione di messa in AND ha le seguenti proprietà:<br/>• se i due valori confrontati sono entrambi 1, il risultato è 1;<br/>• se uno dei due valori confrontati è 0, il risultato è 0.<br/></p><p id="90dfa68a-131e-449f-8e8f-08d3471a2a53" class="">
+</p><p id="4542870b-fbad-4b9f-9b45-e933d9a56e3a" class=""><mark class="highlight-blue_background"><em>ESEMPIO:</em></mark></p><p id="0eabf9fd-b8b7-4254-b3ad-383f5d1e51eb" class="">Supponiamo di avere 2 host in classe B e di aver utilizzato 8 bit per mascherare la subnet dell’host mittente:</p><table id="4884be0f-3ca9-4498-b6e5-4fc075da25c2" class="simple-table"><tbody><tr id="cb731cf8-f3c7-4d05-b784-a28058fdb5b7"><td id="TZJr" class="">host A (mittente): A = 150.167.3.0</td><td id="Gdmm" class="">host B (destinatario): IP = 150.169.5.2</td></tr><tr id="8b0a7ef1-cf6a-4da0-b1a9-2e05ca25d5d6"><td id="TZJr" class="">subnet mask (SM): 255.255.255.0</td><td id="Gdmm" class="">subnet mask (SM): 255.255.255.0</td></tr></tbody></table><figure id="662f4161-88e7-4ac6-9dee-4460e83a5892" class="image"><a href="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%206.png"><img style="width:816px" src="4%203%20IP%20Subnetting%20038eabf10c72499c8a468a995c6365c3/Untitled%206.png"/></a></figure><p id="7f7da84d-ee0f-4f9a-b862-d5e94bf11c36" class="">3) 1 risultati delle due messe in AND sono diversi, quindi i due host non si trovano nella stessa subnet. Dunque il pacchetto andrà inoltrato al di fuori della sottorete.</p><p id="7bc42ef0-047b-4e58-a927-7e3812bebe7e" class="">
+</p><h3 id="70b4effb-81a4-4105-8f9a-af49e38d30a4" class="block-color-blue">Slash Notation</h3><p id="bf3e3ac8-ec86-4baf-b163-815ad6ba29eb" class="">È possibile riassumere la coppia indirizzo IP e subnet mask mediante la slash notation in cui all&#x27;indirizzo IP viene fatto seguire il prefix length, un numero decimale che indica il numero di bit a 1 della maschera.</p><p id="cbec0043-83f7-401f-ab72-349abdd2c924" class=""><br/><br/><em>Per esempio: </em>150.169.3.2/24 indica che la maschera ha 24 bit a 1, e cioè vale 255.255.255.0.</p><p id="b08d7ab5-dd39-49c2-9989-d4dfcd91f6ba" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

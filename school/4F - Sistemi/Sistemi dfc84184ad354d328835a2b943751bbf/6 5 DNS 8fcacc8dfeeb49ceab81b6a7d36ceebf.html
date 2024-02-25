@@ -1,0 +1,687 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>6.5 DNS</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8fcacc8d-feeb-49ce-ab81-b6a7d36ceebf" class="page sans"><header><h1 class="page-title">6.5 DNS</h1><p class="page-description"></p></header><div class="page-body"><p id="b2a831b3-ff05-4089-8f56-02dba7d8630f" class="">L&#x27;applicazione DNS (Domain Name System) consente agli utenti della rete di usare dei nomi per identificare un computer con funzioni di server al posto del suo indirizzo IP.</p><p id="70e01fd6-c999-4a52-bd79-fab2a21a89ba" class="">Il DNS è formato da 3 componenti principali.</p><ul id="a2ca991e-9cc4-4d84-8198-790d2571ab50" class="bulleted-list"><li style="list-style-type:disc"><strong>Domain Name Space</strong>, specifica la struttura ad albero dei nomi di dominio.</li></ul><p id="a7f98744-c335-435d-8bb8-aa991e01137f" class="">Il Name Space risulta diviso in 3 tipi di domini:</p><ol type="1" id="e0b4dcf5-5754-4cf5-afe7-4a62593bea55" class="numbered-list" start="1"><li>domini radice: sono i domini di primo livello (Top Level Domain, TLD);</li></ol><ol type="1" id="5ad1ac11-3140-4e4e-a342-ec63d6f43207" class="numbered-list" start="2"><li>domini intermedi: sono domini che hanno a loro volta dei sottodomini;</li></ol><ol type="1" id="eeaf98f3-f976-40af-8566-f6637592eb6d" class="numbered-list" start="3"><li>domini foglia: sono domini privi di sottodomini e contengono solo host.</li></ol><ul id="cb2d461a-814f-454f-8198-09a43e33889d" class="bulleted-list"><li style="list-style-type:disc"><strong>Name Server: </strong>è un processo applicativo con il ruolo di server che contiene informazioni su alcune parti del Name Space chiamate zone. Il Name Server costituisce una authority per tali zone (viene detto authoritative Name Server). Un Name Server contiene anche i puntatori ad altri Name Server che possono essere usati per ricavare informazioni su altre zone. La zona dei TLD è detta root zone e i Name Server che ne rispondono sono i root Name Server. Questi conoscono anche gli indirizzi degli authoritative Name Server per ciascun dominio TLD.</li></ul><ul id="c1650e2a-51dc-4be5-be95-ff181e43abf2" class="bulleted-list"><li style="list-style-type:disc"><strong>Resolver</strong>, è un programma con il ruolo di client che ottiene informazioni dal Name Server.</li></ul><p id="f241cbec-e46e-4af5-9310-6e9fc59201fa" class="">
+</p><p id="b57d373f-9b7e-43c9-850f-a0656ae0958a" class="">Il sistema DNS è usato anche all&#x27;interno delle reti locali private per risolvere i nomi dei computer (hostname). Infatti, grazie al DNS, si possono associare alle macchine dei nomi facili da ricordare; i nomi possono rimanere gli stessi anche se cambia l&#x27;indirizzo IP; gli utenti possono connettersi ai server locali usando le stesse convenzioni usate su Internet (URL).</p><p id="378e0681-4dfd-49ea-823a-a6ea8b7ac54f" class="">
+</p><p id="53f915b6-4d50-4284-a14e-0f8af01031c9" class="">Per comporre il nome completo di un dominio si percorre il cammino dalla foglia (che rappresenta l&#x27;host) alla radice, rappresentata da un punto (.), separando le varie componenti con un punto.</p><p id="c61c0db0-1665-413e-ad32-91d9af7fb7c3" class="">
+</p><p id="08c7029a-4f8e-4eda-887f-89e1690da797" class=""><em>Per esempio</em>: www.ietf.org è il nome di dominio dell&#x27;host che offre il servizio web per l&#x27;organizzazione IETF (Internet Engineering Task Force). Infatti www è il nome del server web che si trova nel dominio ietf che a sua volta è contenuto nel dominio org il quale discende dal dominio radice.</p><p id="99c91c63-306d-4871-b268-10ca5abd4970" class="">Da notare che per il DNS i nomi &quot;www.ietf.org&quot; e &quot;www.ietf.org.&quot; sono uguali in quanto il punto finale (che indica il dominio radice) è implicito in ogni nome di dominio, quindi può essere omesso.</p><p id="bdcff4b2-34d9-403c-ade5-a722b8f1a2ed" class="">
+</p><p id="93f8fbe4-1cba-4b7a-9f4c-e7b83f5fb67e" class="">Valgono poi le seguenti regole:</p><ul id="3cbe59ed-df16-4057-991b-0aab32b98fb1" class="bulleted-list"><li style="list-style-type:disc">i nomi delle singole componenti del cammino completo non devono superare i 63 caratteri, inclusi i punti (sono preferibili i nomi facili da ricordare);</li></ul><ul id="d99fcf68-cde0-4617-9d9d-a66ab84c5370" class="bulleted-list"><li style="list-style-type:disc">un cammino completo non deve superare i 255 caratteri, quindi meglio limitare il numero di livelli usati (non più di 5) e scegliere dei nomi brevi, per non renderne troppo complessa l&#x27;amministrazione;</li></ul><ul id="fde1f227-0f37-4eb5-a2b6-d458a6b3dccd" class="bulleted-list"><li style="list-style-type:disc">i nomi sono case-unsensitive, quindi è indifferente scrivere it oppure .IT, perché entrambi individuano lo stesso dominio;</li></ul><ul id="54444fb2-e4fa-4eb2-84f5-3175f4d8623c" class="bulleted-list"><li style="list-style-type:disc">ogni dominio controlla i suoi sottodomini, quindi se si vuole creare un nuovo sottodominio è necessario il permesso del dominio padre, mentre non si deve chiedere alcun permesso ai livelli superiori dell&#x27;albero.</li></ul><p id="3595b7af-da84-4ac9-9a05-bff14acf62d5" class="">
+</p><h3 id="6a50f7b4-50ce-489b-94a3-76f13873f01d" class=""><mark class="highlight-blue">I Resource Record (RR)</mark></h3><p id="c25af71d-f4b4-49dc-a683-2557af611bb9" class="">Ogni dominio, o meglio, ogni zona mantiene le informazioni in strutture dette Resource Record (letteralmente: descrittore di risorsa).<br/>L&#x27;uso più frequente di queste strutture è per ottenere un indirizzo IP: dato il nome di un host, il DNS trova il Resource Record che mantiene l&#x27;associazione tra quel nome e l&#x27;indirizzo IP.<br/>In realtà, questi record, come si vedrà in seguito, possono contenere altri dati oltre all&#x27;indirizzo IP.<br/></p><figure id="a2553ca5-b397-4c05-888c-8e0cd3bb0304" class="image"><a href="6%205%20DNS%208fcacc8dfeeb49ceab81b6a7d36ceebf/Untitled.png"><img style="width:922px" src="6%205%20DNS%208fcacc8dfeeb49ceab81b6a7d36ceebf/Untitled.png"/></a></figure><p id="a2231e90-3083-4dff-8e63-03007c748e36" class="">La figuramostra il formato di un Resource Record in cui:</p><ul id="afa97e05-4609-4d87-a0fe-0148ffa979e0" class="bulleted-list"><li style="list-style-type:disc">Name (DN, Domain Name) è il nome del dominio a cui il record appartiene;</li></ul><ul id="80e26676-7f0d-4517-8224-50e61a44d945" class="bulleted-list"><li style="list-style-type:disc">Type identifica il tipo di informazione contenuta nel campo RData;</li></ul><ul id="ef792bf0-d05f-418b-9644-0d7cdfc91033" class="bulleted-list"><li style="list-style-type:disc">Class indica se le informazioni del record fanno riferimento a Internet o ad altro.<br/>La classe Internet è indicata con IN;<br/></li></ul><ul id="89ff1038-ebf6-437c-a2a0-bf4563e516d5" class="bulleted-list"><li style="list-style-type:disc">TTL (Time To Live) indica la stabilità del record; più il valore è alto, più il record è stabile e sarà memorizzato nella cache del DNS. Un valore zero indica che il RR non deve essere memorizzato nella cache (per esempio i RR SOA sono sempre distribuiti con TTL = 0);</li></ul><ul id="424da1ea-e93c-44e2-b014-ff22fed7b784" class="bulleted-list"><li style="list-style-type:disc">RDLength specifica la lunghezza in ottetti del campo RData;</li></ul><ul id="f9267083-7930-4def-808f-0ac699fe4aa5" class="bulleted-list"><li style="list-style-type:disc">RData è il valore restituito dal DNS, può contenere un numero, una stringa ASCI o un nome di dominio, dipende da quanto scritto nel campo Type.</li></ul><p id="68fd85a8-20c8-4115-85dd-2d8ed60dced6" class="">
+</p><p id="46a72c0e-84fd-47e3-91e6-1fa2a5cc2857" class="">Contenuto del campo Type (identifica il tipo di informazione contenuta nel campo RData):</p><ul id="d7211628-9df3-4edd-bff2-02e0549a6bc9" class="bulleted-list"><li style="list-style-type:disc">A (Address): indica che nel campo RData si trova l&#x27;indirizzo IPv4 dell&#x27;host, quindi un numero binario di 32 bit.<br/>Per esempio:<br/><br/>pingu.di.school.it. A IN 86400 198.45.30.165<br/><br/>indica che l&#x27;host con DN = pingu.di school. it. ha indirizzo IP 198.45.30.165 e questa informazione è stabile (TTL = 86.400 secondi è un valore alto).<br/></li></ul><ul id="8579445c-3612-4ffc-b831-cee9bd5dfe5e" class="bulleted-list"><li style="list-style-type:disc">AAAA: come A ma riferito a indirizzi IPv6; questo tipo è stato introdotto in seguito nell&#x27;RFC 1886.</li></ul><ul id="5fe7fce2-a466-449e-89e2-6885ea2208a2" class="bulleted-list"><li style="list-style-type:disc">CNAME (Canonical NAME): indica un nome di dominio e viene tipicamente usato per definire degli alias.<br/>Per esempio:<br/><br/>www.di.school.it. CNAME IN pingu.di.school.it.<br/><br/>definisce www.di.school.it. come un alias per l&#x27;host il cui nome canonico (cioè standard) è pingu.dischool.it. Quindi se in futuro l&#x27;host pingu verrà cambiato e il nome di dominio del nuovo web server sarà lix.di.school.it., si modificherà l&#x27;informazione nel Resource Record, ma non sarà necessario cambiare anche l&#x27;indirizzo web usato dagli utenti.<br/></li></ul><ul id="8b4d6593-20da-4b51-ae15-1c815016b47d" class="bulleted-list"><li style="list-style-type:disc">MX (Mail eXchange): specifica una lista di server di posta elettronica ai quali inviare le e-mail destinate a uno specifico nome di dominio; nel campo RData si troverà il nome del dominio che accetta la posta per conto del dominio indicato nel campo Name.<br/>Per esempio:<br/><br/>pingu.di.school.it. MX 1 IN istruzione.it.<br/></li></ul><ul id="f294b10c-e1bb-46a4-8619-c126be60d3dc" class="bulleted-list"><li style="list-style-type:disc">pingu.di.school.it. MX 2 IN education.it.<br/>Supponiamo che l&#x27;host pingu non sia inserito in Internet. Non può quindi ricevere la posta elettronica, e il Resource Record a lui associato indica che le e-mail destinate a pingu devono essere inviate ad altri domini che poi le ritrasmetteranno a pingu secondo gli accordi presi (per esempio via rete mobile). Nell&#x27;esempio, la posta viene inviata prima a istruzione.it. (il numero 1 indica la prima scelta) e nel caso questo server non sia in grado di riceverla, deve essere inviata a education.it. (numero 2).<br/></li></ul><ul id="c72a7a28-6605-4b1b-9de7-4f067e11fa17" class="bulleted-list"><li style="list-style-type:disc">NS (Name Server): è l&#x27;authoritative Name Server per il dominio specificato. I Name Server usano i Resource Record di tipo NS per trovarsi l&#x27;un l&#x27;altro.<br/>Per esempio:<br/><br/>di.school.it. NS IN name1.di.school.it.<br/><br/>indica che il dominio di.school.it. ha come Name Server namel.di.school.it.<br/></li></ul><p id="670eb40b-fead-4ffc-a7fe-dd735363213b" class="">Si deve avere un NS record per ogni Name Server (primario o secondario) di un dominio.</p><ul id="70a36b68-ef07-4559-92af-b53432f82d72" class="bulleted-list"><li style="list-style-type:disc">PTR (PoinTerR): è un puntatore a un&#x27;altra parte dello spazio dei nomi, ed è utilizzato soprattutto per associare un nome di dominio a un indirizzo IP nel dominio in-addr.arpa per la risoluzione inversa (trattata nelle pagine successive). Ci deve essere un solo PTR record per ciascun indirizzo IP.<br/>Per esempio: 165.30.45.198.in-addr.arpa. PTR IN pingu.di.school.it.<br/><br/>indica che l&#x27;indirizzo IP = 198.45.30.165 appartiene all&#x27;host: pingu.di.school.it.<br/></li></ul><ul id="b46610a5-f5b8-4ed1-bd79-f1b9905aba4e" class="bulleted-list"><li style="list-style-type:disc">TXT (TeXT): consente di associare un testo a un nome di dominio. Si possono avere più record TXT associati a un singolo Name.<br/>Per esempio:<br/><br/>pingu.di.school.it.<br/><br/>TXT IN &quot;Server Linux del Dipartimento di Informatica&quot;<br/><br/>TXT IN &quot;Amministratore: marcot@di.school.it&quot;<br/></li></ul><ul id="60e87b66-8c28-40a6-b1fe-b93557395494" class="bulleted-list"><li style="list-style-type:disc">SOA (Start Of Authority): fornisce il nome della fonte principale di informazioni sulla zona del Name Server. Esso contiene la versione attuale del database</li></ul><ul id="24f2bf6d-af27-47e1-a8b5-7a36859d45b9" class="bulleted-list"><li style="list-style-type:disc">DNS, l&#x27;indirizzo di posta elettronica dell&#x27;amministratore e altri parametri. Questo record deve essere obbligatoriamente presente nel livello più alto del dominio e deve essere unico per ogni Name Server (o, meglio, per ogni zona a cui appartiene il<br/>Name Server).<br/></li></ul><p id="43825444-ad14-40c5-a7ac-5f89dfb2f81e" class="">
+</p><h3 id="681a9f5f-ece6-46b6-b5ad-52603f293bdc" class=""><mark class="highlight-blue">Come funziona il DNS?</mark></h3><p id="75a3e490-93ec-4f16-82e0-03be5874cb9c" class="">L&#x27;albero gerarchico del DNS è implementato mediante una base di dati distribuita in cui sono memorizzati i Resource Record. Il fatto che sia distribuita garantisce il funzionamento continuo della rete: se tutte le informazioni fossero memorizzate su un unico server e questo si guastasse, si fermerebbe tutta la rete Internet.</p><p id="1f8c836c-3b9e-4340-b341-6125e027bcde" class="">Quindi la soluzione è stata di suddividere lo spazio dei nomi del DNS in zone disgiunte, ognuna con un Name Server principale (DNS primario) e dei Name Server secondari (DNS secondario) che attingono al principale per avere le informazioni.</p><p id="d561b8a1-d5bc-458e-be1c-29bc54372b26" class="">
+</p><p id="2bb6d70a-094d-49ce-995e-94f68526eceb" class="">I client che accedono ai Name Server sono i resolver: quando un&#x27;applicazione necessita di informazioni dal DNS usa questa libreria per effettuare le interrogazioni (query). Se il Resource Record è authoritative per la zona richiesta, il server DNS risponderà direttamente in quanto dispone dell&#x27;informazione, mentre in caso contrario effettuerà una ricerca all&#x27;interno dello spazio dei nomi per trovare i dati richiesti.</p><p id="13bd295a-cec5-4baa-a604-cdbc6ce31c04" class="">Questo processo si chiama risoluzione dei nomi.</p><p id="41213681-2426-4dec-a6ba-1a385234d7d0" class="">
+</p><p id="e3ec086a-15fa-441d-baf2-807b270cacb3" class="">Ci sono due tipi di query DNS:</p><ul id="9e648cde-95dc-4519-90a8-bfaa91ae4ec0" class="bulleted-list"><li style="list-style-type:disc"><strong>iterative</strong>: richiedono a un server DNS la miglior risposta che già conosce;</li></ul><ul id="67c8abb0-c57d-4426-81b1-7b26af7b8ef3" class="bulleted-list"><li style="list-style-type:disc"><strong>ricorsive</strong>: chiedono al server DNS di rispondere alla query in modo completo.</li></ul><p id="f3138ace-477b-49e9-b7e3-b8f300e6614c" class="">
+</p><p id="ffbaab74-4dae-4262-960b-a53b8e0dc760" class="">Di regola i resolver effettuano query ricorsive, lasciando così al Name Server il compito di risolvere il nome. I Name Server invece solitamente effettuano query iterative, seguendo via via i rimandi, finché non trovano la risposta.</p><p id="53b93ea9-a4d8-4265-b96f-476242b40aea" class="">Infatti un Name Server può inviare una query ricorsiva a un altro Name Server, ma spesso questi la rifiuta per evitare di essere sovraccaricato. Quando si verifica questa situazione, l&#x27;interrogazione diventa iterativa senza che l&#x27;utente finale se ne accorga.</p><p id="440f8cb3-2090-4b4a-bb05-18b20625d19a" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
